@@ -1,0 +1,15 @@
+# Dependencias y entorno
+node_modules/
+.env
+*.log
+
+# Imágenes de productos descargadas de APIs externas
+# (se regeneran con: cd backend && npm run seed:external)
+backend/public/img/ext/
+
+# Originales de diseño
+_originals/
+
+# Sistema
+.DS_Store
+Thumbs.db

@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary-fixed": "#351000", "inverse-primary": "#ffb1c3", "surface-variant": "#e5e1e4", "secondary-container": "#645efb", "inverse-surface": "#313032", "on-primary": "#ffffff", "on-tertiary-container": "#fffbff", "on-secondary": "#ffffff", "secondary-fixed-dim": "#c3c0ff", "primary": "#b60055", "outline": "#906e75", "surface-container-lowest": "#ffffff", "surface-container": "#f0edf0", "inverse-on-surface": "#f3f0f2", "tertiary-container": "#c45100", "background": "#fcf8fb", "on-error-container": "#93000a", "surface-container-low": "#f6f2f5", "primary-container": "#e4006c", "primary-fixed": "#ffd9e0", "surface-dim": "#dcd9dc", "on-primary-fixed": "#3f0019", "tertiary-fixed-dim": "#ffb693", "on-tertiary-fixed-variant": "#7a3000", "on-secondary-fixed": "#0f0069", "secondary": "#4b41e1", "on-background": "#1c1b1d", "on-primary-container": "#fffbff", "primary-fixed-dim": "#ffb1c3", "tertiary-fixed": "#ffdbcc", "on-primary-fixed-variant": "#8f0041", "outline-variant": "#e5bcc4", "on-secondary-container": "#fffbff", "on-error": "#ffffff", "tertiary": "#9c3f00", "surface-bright": "#fcf8fb", "on-surface": "#1c1b1d", "error-container": "#ffdad6", "secondary-fixed": "#e2dfff", "surface": "#fcf8fb", "on-tertiary": "#ffffff", "surface-container-high": "#eae7ea", "on-surface-variant": "#5c3f45", "surface-container-highest": "#e5e1e4", "surface-tint": "#bb0058", "on-secondary-fixed-variant": "#3323cc", "error": "#ba1a1a" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-sm": "0.75rem", "space-xl": "2rem", "space-lg": "1.5rem", "space-2xl": "3rem", "space-2xs": "0.25rem", "space-md": "1rem", "margin-mobile": "1.25rem", "space-3xl": "4rem", "space-xs": "0.5rem", "space-4xl": "6rem", "container-max": "80rem", "gutter-desktop": "1.5rem", "margin-desktop": "2.5rem", "gutter-mobile": "1rem" }, "fontFamily": { "headline-md": ["Plus Jakarta Sans"], "display-hero": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "display-hero-mobile": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "price-prominent": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"] }, "fontSize": { "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "display-hero-mobile": ["36px", { "lineHeight": "42px", "letterSpacing": "-0.025em", "fontWeight": "800" }], "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }], "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0em", "fontWeight": "400" }], "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }], "body-md": ["15px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }], "price-prominent": ["22px", { "lineHeight": "26px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased"><header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="bg-inverse-surface text-inverse-on-surface px-margin-mobile lg:px-margin-desktop py-space-2xs"><div class="max-w-container-max mx-auto flex items-center justify-between font-label-sm text-label-sm"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-sm text-primary-fixed">local_shipping</span><span>Envíos express gratis en compras mayores a $49.900 | Devoluciones sin costo</span></div><div class="flex items-center gap-space-sm"><span class="text-surface-variant/70 hidden sm:inline">Ambiente Activo:</span><div class="inline-flex items-center rounded-full bg-surface-container-highest/20 p-0.5"><a class="px-space-xs py-0.5 rounded-full text-on-primary font-label-sm text-label-sm bg-primary" data-path="catalogo-de-productos" href="#">Cliente</a><a class="px-space-xs py-0.5 rounded-full text-inverse-on-surface hover:text-on-primary transition-colors font-label-sm text-label-sm" data-path="pedidos-y-pos" href="#">POS Empleado</a><a class="px-space-xs py-0.5 rounded-full text-inverse-on-surface hover:text-on-primary transition-colors font-label-sm text-label-sm" data-path="panel-de-almacen-y-ventas" href="#">Admin</a></div></div></div></div><div class="h-20 max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><a class="flex items-center gap-space-xs" data-path="catalogo-de-productos" href="#"><img alt="VivaModa Brand Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPxRS6J4xFS_SLN7LrE6NaSwEtUeeDDODwVjtuyHhM7cR_-fQWzkQwdEnqHXfTt-1uhC3rd3uw6WttAbhH6FVTECUPUlN4Mr-9EWVNGWqAkgGtK8j2RqcWIXyXMddCUzjobWi6RCeCQjpQatwx_j2AfVTViqWjnf2-VG4MI0xQLV7as0hBcqyUln2i5XwRmdAn7zr-85fCQjVxwnyyUzEIySzdMb6gRwhm3AcNfqHvSaw-RoNtA8MgXg"/><span class="font-headline-sm text-headline-sm tracking-tight text-primary font-bold">VivaModa</span></a></div><div class="hidden md:flex flex-1 max-w-md mx-space-sm"><div class="relative w-full"><span class="material-symbols-outlined absolute left-space-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span><input class="w-full pl-10 pr-space-xl py-space-xs bg-surface-container-low rounded-full font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-all" placeholder="Buscar prendas, calzado, colecciones..." type="text"/><span class="material-symbols-outlined absolute right-space-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-lg cursor-pointer hover:text-primary transition-colors">qr_code_scanner</span></div></div><div class="flex items-center gap-space-sm lg:gap-space-md"><a class="p-space-xs rounded-full text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-all flex items-center justify-center relative" data-path="lista-de-deseos" href="#"><span class="material-symbols-outlined">favorite</span><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-primary"></span></a><a class="p-space-xs rounded-full text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-all flex items-center justify-center relative" data-path="carrito-de-compras" href="#"><span class="material-symbols-outlined">shopping_bag</span><span class="absolute -top-1 -right-1 bg-primary text-on-primary font-label-sm text-label-sm rounded-full w-5 h-5 flex items-center justify-center animate-pulse">3</span></a><div class="flex items-center gap-space-xs pl-space-xs"><a class="flex items-center gap-space-xs rounded-full hover:bg-surface-container-high p-1 transition-all" data-path="perfil-de-usuario" href="#"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSN0Fqry_Z1wSeYCZJNaCbGcGEINtMzPkgVh-F0xn2KnbLRx1YHCtskzoQ9ySI-1hMZ7f2jiS9BsonZ_vtmlWACoHEowu-YB5Y19GVNiP1PGV0mxl7DhWm_v15-7OAW_--umxU0TxszQzTcryqRPPhCQtXbrz2y7L-60gvIpXn-W55Xh0DH6MFBWOpB3XG6XQ-TqhUCKjPIioHPF3xq7h5MkYHgSd4RYancLpOJ7wOSnr5MyIrKt9Avw"/><div class="hidden xl:flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface leading-tight">Elena R.</span><span class="font-label-sm text-label-sm text-on-surface-variant">Socio Gold</span></div></a></div></div></div><div class="bg-surface-container-low/80 backdrop-blur-md"><div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop flex items-center justify-between overflow-x-auto"><nav class="flex items-center gap-space-xs py-space-2xs whitespace-nowrap" data-active-classes="bg-primary text-on-primary font-bold rounded-lg shadow-sm"><a class="px-space-sm py-1.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="catalogo-de-productos" href="#">Damas</a><a class="px-space-sm py-1.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="catalogo-caballeros" href="#">Caballeros</a><a class="px-space-sm py-1.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="catalogo-ninos" href="#">Niños</a><a class="px-space-sm py-1.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="novedades" href="#">Novedades</a><a class="px-space-sm py-1.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="ofertas-flash" href="#">Ofertas Flash</a><a aria-current="page" class="px-space-sm py-1.5 transition-colors bg-primary text-on-primary font-bold rounded-lg shadow-sm" data-path="detalle-de-producto" href="#">Detalle Look</a><a class="px-space-sm py-1.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="hub-agente-ia" href="#">Asesor IA</a><a class="px-space-sm py-1.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="tienda-virtual-realidad" href="#">Tienda VR</a></nav><div class="hidden lg:flex items-center gap-space-xs"><span class="inline-flex items-center px-space-xs py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-label-sm"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-ping"></span>Omnicanal 100% Sincronizado</span></div></div></div></header><main class="w-full pt-36 bg-background"><div class="flex flex-col w-full">
+<div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop w-full py-space-sm">
+<nav class="flex items-center gap-space-xs font-label-sm text-label-sm text-on-surface-variant overflow-x-auto whitespace-nowrap py-space-xs">
+<a class="hover:text-primary transition-colors" href="#">Inicio</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Damas</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Vestidos de Noche</a>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-on-surface font-semibold">Vestido Asimétrico Magenta Atelier</span>
+</nav>
+</div>
+<div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop w-full pb-space-3xl">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- Media Gallery Col -->
+<div class="lg:col-span-7 flex flex-col gap-space-md">
+<div class="flex flex-col-reverse md:flex-row gap-space-md items-start">
+<!-- Thumbnails -->
+<div class="flex md:flex-col gap-space-xs overflow-x-auto md:overflow-visible w-full md:w-24 shrink-0 pb-2 md:pb-0">
+<button class="thumb-btn relative rounded-xl overflow-hidden aspect-[3/4] w-20 md:w-full bg-surface-container shadow-sm focus:outline-none transition-all" id="thumb-0" onclick="changeMedia(0)">
+<img class="w-full h-full object-cover" data-alt="Close up portrait of a high fashion editorial model wearing an electric magenta asymmetrical dress with draped shoulder in a minimalist studio setting with architectural soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEGqBDxB57NK-ZMm228y1LAMqXkE5vjicGTetYp0sF2DfZg41et-KUcuFHqdGUxvRmrXXymtKPTZg4SfQ-jrcoPD-zWkL_CFshhwkf1zqlnQRHtZwncsP-lCngfOh3V7jporKVU75OdJ-iRYCxwcHbrRtnE2Ql4LscwnxPAN0VNwYVCRs4jYqWk4R_08iiKRYL1pe4H18jYxaqiOnDxlat53qtmAXIlKDyVRuBEeDeM01oY1F9i9GJ7A"/>
+<span class="thumb-indicator absolute inset-0 bg-primary/20 transition-opacity"></span>
+</button>
+<button class="thumb-btn relative rounded-xl overflow-hidden aspect-[3/4] w-20 md:w-full bg-surface-container shadow-sm focus:outline-none transition-all opacity-70 hover:opacity-100" id="thumb-1" onclick="changeMedia(1)">
+<img class="w-full h-full object-cover" data-alt="Full body shot of a tall model wearing an avant-garde magenta silk evening gown with high leg slit and sculptural neckline, runway light atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBni3RTUySt7RVohbbGsUPVh6XLZOWOTBZgaopQhhbU57oRpUAWuH9hgOH46YPBHCVkbZ4I5jAjIzjvPY8jhKH9EbJoANxo_lvvupvvrY-AdXnWmkNYCxbmya5CpZg1Sxuy7_JBpzKuLbUwIIZ96ChPyGbBAysw9EPfR3m4XuI8mp8MHtAuTi7k0kIkzNE-u501xtA8DlZgbBXK5FnpbPbz0TUGTMbeBBL35qRdu0n3bwYzPD4gjTc6gA"/>
+<span class="thumb-indicator absolute inset-0 bg-primary/20 opacity-0 transition-opacity"></span>
+</button>
+<button class="thumb-btn relative rounded-xl overflow-hidden aspect-[3/4] w-20 md:w-full bg-surface-container shadow-sm focus:outline-none transition-all opacity-70 hover:opacity-100" id="thumb-2" onclick="changeMedia(2)">
+<img class="w-full h-full object-cover" data-alt="Macro detail texture of premium crepe and micro-satin fabric in vibrant magenta fuchsia pink showing intricate hand stitching and delicate luxury fibers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9xXOIzv7nAj41z2X1o9iAguVOG5J2GXxZZhjMuXo-5dDoEwwcdnssT1SNQKaj-QrDjt-kxPQwEqh1z6nivDbRV1c2Cmcmt4WjxuDoyJPctCO7MWgawBo6pqYVA7-Za70HyKiMipUMyLs7KnXTGhqSdf43bnFQ93-dYnEEguZcuYd-_YVWsT_pjw5yj-djN6i6D-lNqAv8IqXtRb6vNHHTk0dQkfkmo3rfMdsuXWyIJAKZldkPUpvlHQ"/>
+<span class="thumb-indicator absolute inset-0 bg-primary/20 opacity-0 transition-opacity"></span>
+<span class="absolute bottom-1 right-1 bg-inverse-surface/80 text-inverse-on-surface rounded p-0.5 text-[10px] flex items-center">
+<span class="material-symbols-outlined text-[12px]">zoom_in</span>
+</span>
+</button>
+<button class="thumb-btn relative rounded-xl overflow-hidden aspect-[3/4] w-20 md:w-full bg-surface-container shadow-sm focus:outline-none transition-all opacity-70 hover:opacity-100 group" id="thumb-3" onclick="changeMedia(3)">
+<img class="w-full h-full object-cover" data-alt="Dynamic motion blur catwalk fashion show with runway model turning gracefully in a vibrant violet-magenta dress, luxury designer backstage ambiance" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEPwezxXBlO-1J-lNRyD2_9Rc-6ucUl0R7o6f2S-fVGGARh60VCZnIAs1xWhWcBW07SRXh2BN7ezBIHrtVG9yzHALKPf8gFvO-BEoj2aXHYPK34AIsIirwDkDM9RLYOidn8iG1YscNUXWqiSHZLjTqaxZulK7o5cGOA7N3JIaYT0x6wJxWbp7ItGibWRAkHEhv1FekGQJVhhqAAcgmvg6WjCoU_B3w8A5Hr0QqQH07Eomq9PYM4e-uFw"/>
+<div class="absolute inset-0 bg-inverse-surface/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xl">play_circle</span>
+</div>
+<span class="thumb-indicator absolute inset-0 bg-primary/20 opacity-0 transition-opacity"></span>
+</button>
+</div>
+<!-- Main Stage -->
+<div class="relative flex-1 w-full rounded-2xl overflow-hidden bg-surface-container shadow-md group">
+<div class="relative aspect-[3/4] w-full overflow-hidden bg-surface-container-low cursor-crosshair" id="main-view-container">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Editorial luxury front view of an asymmetric magenta evening dress on an elegant model, soft golden hour key light with vibrant vivid color contrast against soft neutral cyclorama" id="main-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRqhfvGUcrDvAD82T3GU8mFtqtd9qAFF5VoBTFQTe62iB2TMjBU8edmxNza4O68WDwWUdu1KxPArEYNgYGTQAWPRJ8Egs_Pdhr8cc5l4w48lzWI3pl2JBW-57r7If8wpZyWGmPleN6JFWJwAVzRbPhWTGUd13VqxsV5N1eC16WZka9IkPNhVC4wB6iq3jOP8d4qaoe8lV125Wph8PUL-8zeDw1VOMsOl8GmTEc4JFR78a4V9oDgSVojA"/>
+<!-- Floating Badges -->
+<div class="absolute top-space-md left-space-md flex flex-col gap-space-2xs items-start pointer-events-none">
+<span class="px-space-xs py-1 rounded-full bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-wider shadow-sm">
+                  Edición Limitada
+                </span>
+<span class="px-space-xs py-1 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-xs">auto_awesome</span> Tendencia Runway '24
+                </span>
+</div>
+<!-- Quick Texture Zoom & 360 overlay icons -->
+<div class="absolute bottom-space-md right-space-md flex gap-space-xs">
+<button class="p-space-xs rounded-xl bg-surface/90 backdrop-blur-md text-on-surface shadow-sm hover:text-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">360</span>
+</button>
+<button class="p-space-xs rounded-xl bg-surface/90 backdrop-blur-md text-on-surface shadow-sm hover:text-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">zoom_in</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Material Guarantees / Quality Highlights -->
+<div class="grid grid-cols-3 gap-space-xs p-space-sm rounded-xl bg-surface-container-low">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-xl">verified</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">100% Seda Crepe</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Confección milanesa</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-xl">local_shipping</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Envío 24-48h</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Sin costo nacional</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-xl">published_with_changes</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Devolución 30D</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Retiro a domicilio</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Purchasing & Details Col -->
+<div class="lg:col-span-5 flex flex-col gap-space-md">
+<!-- Header & Titles -->
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg uppercase tracking-widest text-primary font-bold">Atelier Privé Milano</span>
+<div class="flex items-center gap-1 bg-surface-container px-space-xs py-1 rounded-full">
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md text-on-surface font-bold">4.9</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">(148 reseñas)</span>
+</div>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface leading-tight">Vestido Asimétrico Magenta Atelier</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Diseño estructurado con caída envolvente, corte sesgado de alta costura y detalles de drapeado orgánico.</p>
+</div>
+<!-- Pricing & Stock -->
+<div class="p-space-md rounded-2xl bg-surface-container-low flex flex-col gap-space-2xs">
+<div class="flex items-baseline gap-space-sm">
+<span class="font-price-prominent text-price-prominent text-primary">$189.900</span>
+<span class="font-body-md text-body-md text-on-surface-variant line-through">$249.900</span>
+<span class="px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-bold">Ahorras 24%</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-label-md text-label-md text-emerald-800">Inventario Omnicanal: 7 unidades en tu centro de distribución más cercano</span>
+</div>
+</div>
+<!-- Color Selector -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface">Color Seleccionado:</span>
+<span class="font-label-md text-label-md text-primary font-bold" id="selected-color-name">Magenta Eléctrico</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="color-swatch relative w-10 h-10 rounded-full bg-[#b60055] shadow-sm flex items-center justify-center p-0.5 transition-transform scale-110" onclick="selectColor('Magenta Eléctrico', this)">
+<span class="w-full h-full rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-base">check</span>
+</span>
+</button>
+<button class="color-swatch relative w-10 h-10 rounded-full bg-[#4b41e1] shadow-sm flex items-center justify-center p-0.5 transition-transform hover:scale-105" onclick="selectColor('Azul Cobalto Imperial', this)">
+<span class="w-full h-full rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-base hidden">check</span>
+</span>
+</button>
+<button class="color-swatch relative w-10 h-10 rounded-full bg-[#1c1b1d] shadow-sm flex items-center justify-center p-0.5 transition-transform hover:scale-105" onclick="selectColor('Negro Ébano Satinado', this)">
+<span class="w-full h-full rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-base hidden">check</span>
+</span>
+</button>
+</div>
+</div>
+<!-- Size Selector -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface">Selecciona tu Talla:</span>
+<button class="font-label-sm text-label-sm text-secondary hover:text-primary flex items-center gap-1 transition-colors font-semibold" onclick="toggleSizeModal(true)">
+<span class="material-symbols-outlined text-sm">straighten</span> Guía Inteligente de Tallas
+            </button>
+</div>
+<div class="grid grid-cols-5 gap-space-xs" id="size-options">
+<button class="size-btn py-space-xs rounded-xl bg-surface-container font-label-lg text-label-lg text-on-surface hover:bg-surface-container-high transition-all" onclick="selectSize('XS', this)">XS</button>
+<button class="size-btn py-space-xs rounded-xl bg-primary text-on-primary font-label-lg text-label-lg font-bold shadow-md transition-all" onclick="selectSize('S', this)">S</button>
+<button class="size-btn py-space-xs rounded-xl bg-surface-container font-label-lg text-label-lg text-on-surface hover:bg-surface-container-high transition-all" onclick="selectSize('M', this)">M</button>
+<button class="size-btn py-space-xs rounded-xl bg-surface-container font-label-lg text-label-lg text-on-surface hover:bg-surface-container-high transition-all" onclick="selectSize('L', this)">L</button>
+<button class="size-btn py-space-xs rounded-xl bg-surface-container font-label-lg text-label-lg text-on-surface opacity-50 cursor-not-allowed line-through" onclick="selectSize('XL', this)" title="Agotado temporalmente">XL</button>
+</div>
+</div>
+<!-- Action CTAs -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<div class="flex gap-space-xs">
+<button class="flex-1 py-space-sm px-space-md rounded-xl bg-primary text-on-primary font-label-lg text-label-lg font-bold shadow-[0_10px_28px_-2px_rgba(255,0,122,0.35)] hover:scale-[1.02] active:scale-[0.99] transition-all flex items-center justify-center gap-2 group">
+<span class="material-symbols-outlined group-hover:rotate-12 transition-transform">shopping_bag</span>
+<span>Añadir al Carrito</span>
+</button>
+<button class="p-space-sm rounded-xl bg-surface-container-high text-on-surface-variant hover:text-primary hover:bg-primary-fixed transition-colors flex items-center justify-center" title="Guardar en Favoritos">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+<button class="w-full py-space-sm px-space-md rounded-xl bg-secondary text-on-secondary font-label-lg text-label-lg font-bold shadow-sm hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">bolt</span>
+<span>Comprar en 1 Clic Express</span>
+</button>
+</div>
+<!-- Integrated Stylist AI Teaser / Quick Badge -->
+<div class="p-space-sm rounded-2xl bg-gradient-to-r from-secondary/10 to-primary/10 flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-xl bg-secondary text-on-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-xl">psychology</span>
+</div>
+<div class="flex flex-col flex-1">
+<span class="font-label-md text-label-md text-on-surface font-bold">Asesoría de Estilismo Conectada</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Nuestra IA analizó 1,200 looks similares para este corte asimétrico.</span>
+</div>
+<a class="px-space-xs py-1 rounded-lg bg-surface-container-lowest font-label-sm text-label-sm text-primary font-bold shadow-sm hover:bg-primary hover:text-on-primary transition-colors" href="#ai-assistant-section">
+            Ver sugerencias
+          </a>
+</div>
+</div>
+</div>
+<!-- AI STYLIST SECTION & COMPLEMENTARY LOOKS -->
+<section class="mt-space-3xl rounded-3xl bg-surface-container-low p-space-md lg:p-space-xl shadow-sm" id="ai-assistant-section">
+<div class="flex flex-col lg:flex-row gap-space-xl">
+<!-- Left: AI Chat Contextualized -->
+<div class="lg:w-7/12 flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-secondary to-primary flex items-center justify-center text-on-primary shadow-sm">
+<span class="material-symbols-outlined text-xl">auto_awesome</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Stylist IA VivaModa</h3>
+<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-label-sm">En línea para esta prenda</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Pregúntale al agente cómo combinar, ajustar o lucir este vestido</span>
+</div>
+</div>
+</div>
+<!-- Chat Window -->
+<div class="flex flex-col h-80 rounded-2xl bg-surface-container-lowest p-space-md overflow-y-auto gap-space-sm shadow-inner" id="chat-messages">
+<!-- Bot message -->
+<div class="flex gap-space-xs items-start max-w-lg">
+<div class="w-7 h-7 rounded-full bg-secondary/15 text-secondary flex items-center justify-center shrink-0 mt-1">
+<span class="material-symbols-outlined text-sm">smart_toy</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="p-space-sm rounded-2xl rounded-tl-none bg-surface-container text-on-surface font-body-sm text-body-sm">
+                  ¡Hola! El <strong>Vestido Asimétrico Magenta Atelier</strong> es el protagonista de cualquier gala. Debido a su corte diagonal de hombro descubierto, te recomiendo balancear con accesorios minimalistas y pendientes largos en oro pulido o plata líquida. ¿Para qué ocasión estás pensando lucirlo?
+                </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">10:42 AM</span>
+</div>
+</div>
+<!-- Bot Advice Card inside Chat -->
+<div class="flex gap-space-xs items-start max-w-lg">
+<div class="w-7 h-7 rounded-full bg-secondary/15 text-secondary flex items-center justify-center shrink-0 mt-1">
+<span class="material-symbols-outlined text-sm">smart_toy</span>
+</div>
+<div class="flex flex-col gap-1 w-full">
+<div class="p-space-sm rounded-2xl rounded-tl-none bg-primary-fixed/30 text-on-surface font-body-sm text-body-sm flex flex-col gap-2">
+<div class="flex items-center gap-1 text-primary font-bold font-label-md text-label-md">
+<span class="material-symbols-outlined text-sm">style</span> Diagnóstico de Silueta:
+                  </div>
+<p>Favorece especialmente torsos medios y estiliza la estatura con tacón stiletto de más de 8.5 cm. ¿Te gustaría calcular tu talla perfecta según tu estatura?</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Query Suggestions -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1">
+<button class="px-space-xs py-1 rounded-full bg-surface-container hover:bg-surface-container-high font-label-sm text-label-sm text-on-surface whitespace-nowrap transition-colors flex items-center gap-1" onclick="sendQuickPrompt('¿Qué tipo de zapatos combinan mejor?')">
+<span class="material-symbols-outlined text-xs text-primary">arrow_back_ios_new</span> ¿Qué zapatos le van mejor?
+            </button>
+<button class="px-space-xs py-1 rounded-full bg-surface-container hover:bg-surface-container-high font-label-sm text-label-sm text-on-surface whitespace-nowrap transition-colors flex items-center gap-1" onclick="sendQuickPrompt('¿Cuál es mi talla para 1.68m y 60kg?')">
+<span class="material-symbols-outlined text-xs text-secondary">straighten</span> ¿Cuál es mi talla para 1.68m?
+            </button>
+<button class="px-space-xs py-1 rounded-full bg-surface-container hover:bg-surface-container-high font-label-sm text-label-sm text-on-surface whitespace-nowrap transition-colors flex items-center gap-1" onclick="sendQuickPrompt('¿Es adecuado para un evento formal de noche?')">
+<span class="material-symbols-outlined text-xs text-tertiary">nightlife</span> ¿Adecuado para boda de noche?
+            </button>
+</div>
+<!-- Input field for chat -->
+<div class="relative flex items-center">
+<input class="w-full px-space-md py-space-sm pr-28 rounded-xl bg-surface-container-lowest text-on-surface font-body-sm text-body-sm focus:outline-none shadow-sm" id="chat-input" onkeydown="if(event.key === 'Enter') handleChatSubmit()" placeholder="Escribe tu consulta sobre calce, ocasiones o complementos..." type="text"/>
+<button class="absolute right-2 px-space-sm py-1.5 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-bold hover:bg-primary-container transition-all flex items-center gap-1 shadow-sm" onclick="handleChatSubmit()">
+<span>Preguntar</span>
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</div>
+<!-- Right: Complementary Look Recommendation (Total Outfit) -->
+<div class="lg:w-5/12 flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">Armario Inteligente</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Completa el Look Seleccionado</h3>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-bold">Look IA #04</span>
+</div>
+<!-- Outfit Cards Stack -->
+<div class="flex flex-col gap-space-xs">
+<!-- Complement Item 1 -->
+<div class="flex items-center gap-space-sm p-space-xs rounded-xl bg-surface-container-lowest hover:bg-surface-container transition-colors shadow-sm">
+<img class="w-16 h-16 rounded-lg object-cover" data-alt="High luxury black stiletto pointed-toe metallic heels with crystal ankle strap photographed on clean minimalist platform" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuINNZ1kzOvCXh17fOnbL-Z_cJzsZA7iRs0CO6MxEoGzC2NadfB-OtCUQH5gTmvEWkxm-0tkH1rsSnMSks8P5pEO0y7j3-snIqp3EkyoS0Vlgih9Se89z7RRwJXGJd8mUxG6h-rzRh1-_hyz7eT64yNOybFCayW1NqPF31UQacp2Dy4HH1E9xnFHwl8ZEZbzeL7E96WgGvCG91Ryw6qKK7QSVw2QI4HLzq810sgMP5SCzX_nO1HpL7Vw"/>
+<div class="flex flex-col flex-1 min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-bold truncate">Stiletto Vernice Noir 95mm</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Calzado de fiesta en piel lúcida</span>
+<span class="font-label-md text-label-md text-primary font-bold">$79.900</span>
+</div>
+<button class="p-space-xs rounded-lg bg-surface-container text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+</button>
+</div>
+<!-- Complement Item 2 -->
+<div class="flex items-center gap-space-sm p-space-xs rounded-xl bg-surface-container-lowest hover:bg-surface-container transition-colors shadow-sm">
+<img class="w-16 h-16 rounded-lg object-cover" data-alt="Designer golden box clutch bag with geometrical brass closure and detachable delicate chain strap on studio silk base" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAisKFZnnFuaX57xU7gd116f55uZqZrzgw6_zHoWCX1CVvWC7Uh-0VVl9JIgXn_SxCiLGYuT_PYeY8dJOo6b7mLMdERw81fmTCdueoKYoICfOoX2sEL0LC10BavfcmXSEcDaSSClRADczwX0TMk5gVcCmP-_RDFhm8JkistwCZvTghFTzqtb3bttVLzHs2U_rs7amkWkRx_M6a2_faNKANkyPtJPDrKgfd_yQQ9ISyFqG3k5SiaNR4Zig"/>
+<div class="flex flex-col flex-1 min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-bold truncate">Clutch Geométrico Brass Doré</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Bolso de mano rígido con cadena</span>
+<span class="font-label-md text-label-md text-primary font-bold">$49.900</span>
+</div>
+<button class="p-space-xs rounded-lg bg-surface-container text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+</button>
+</div>
+<!-- Complement Item 3 -->
+<div class="flex items-center gap-space-sm p-space-xs rounded-xl bg-surface-container-lowest hover:bg-surface-container transition-colors shadow-sm">
+<img class="w-16 h-16 rounded-lg object-cover" data-alt="Ultra sharp tailored cropped smoking tuxedo blazer in deep midnight black with satin lapel studio fashion shot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9J_-L7YSzoLzynFfxgrr21Yt22RLLTBuMhuZ9TmqUn1b4-y3MAlV6ue28h5RFw_Mh3z6NvFrPOcwlgPfvR6TU2OY_hVXjb4EK79oODsVsAVxp9ulgWnjqYixIfI_pzpZJjrFjQkibpJcXSy2wc_j-FDXh1S32VNz5SuMrMYF_d4BV_DEeT9aMhuLOtL-rvd2TDE_IDPD7LwKdsNlHo-Bjp1iT_RDd_0Mj6F9RBRPs_GDFK3TNhCTVFA"/>
+<div class="flex flex-col flex-1 min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-bold truncate">Blazer Cropped Smoking Noir</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Estructura hombrera en crepé mate</span>
+<span class="font-label-md text-label-md text-primary font-bold">$129.900</span>
+</div>
+<button class="p-space-xs rounded-lg bg-surface-container text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+</button>
+</div>
+</div>
+<!-- Bundle Purchase CTA -->
+<div class="p-space-sm rounded-xl bg-surface-container-highest/60 flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-bold">Paquete Estilismo Completo:</span>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">$419.600</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">(-15% pack)</span>
+</div>
+</div>
+<button class="w-full py-space-xs rounded-lg bg-inverse-surface text-inverse-on-surface font-label-md text-label-md font-bold hover:bg-on-surface transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-base">auto_fix_high</span>
+<span>Comprar el look completo</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- PRODUCT TABS: Details, Composition, Care, Shipping -->
+<section class="mt-space-3xl flex flex-col">
+<div class="flex items-center gap-space-xs overflow-x-auto border-none pb-space-xs">
+<button class="product-tab-btn px-space-md py-space-xs rounded-xl bg-primary text-on-primary font-label-md text-label-md font-bold shadow-sm transition-all" onclick="switchTab('desc', this)">
+          Descripción &amp; Estilo
+        </button>
+<button class="product-tab-btn px-space-md py-space-xs rounded-xl bg-surface-container text-on-surface-variant hover:bg-surface-container-high font-label-md text-label-md font-bold transition-all" onclick="switchTab('comp', this)">
+          Materiales &amp; Composición
+        </button>
+<button class="product-tab-btn px-space-md py-space-xs rounded-xl bg-surface-container text-on-surface-variant hover:bg-surface-container-high font-label-md text-label-md font-bold transition-all" onclick="switchTab('care', this)">
+          Cuidados de Alta Costura
+        </button>
+<button class="product-tab-btn px-space-md py-space-xs rounded-xl bg-surface-container text-on-surface-variant hover:bg-surface-container-high font-label-md text-label-md font-bold transition-all" onclick="switchTab('ship', this)">
+          Envíos &amp; Devoluciones
+        </button>
+</div>
+<div class="mt-space-sm p-space-lg rounded-2xl bg-surface-container-low">
+<!-- Tab Content: Description -->
+<div class="tab-pane flex flex-col lg:flex-row gap-space-xl" id="tab-desc">
+<div class="lg:w-2/3 flex flex-col gap-space-sm">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Arquitectura Escultural del Diseño</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Inspirado en los pliegues cinéticos de la escultura posmoderna, este vestido de gala reinterpreta la asimetría con una precisión de patronaje impecable. Su escote inclinado descubre sutilmente la clavícula izquierda, mientras que el drapeado envolvente desciende hacia una elegante abertura lateral que otorga fluidez y dinamismo a cada paso.
+            </p>
+<div class="grid grid-cols-2 gap-space-md pt-space-xs">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface font-bold">Silueta</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Corte columna con drapeado sesgado y abertura lateral de 42 cm.</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface font-bold">Cierre</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Cremallera invisible lateral YKK con enganche de seguridad oculto.</span>
+</div>
+</div>
+</div>
+<div class="lg:w-1/3 flex flex-col gap-space-xs bg-surface-container p-space-md rounded-xl">
+<span class="font-label-md text-label-md text-on-surface font-bold">Ficha de Talla de la Modelo</span>
+<div class="flex items-center gap-space-sm">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Bust shot of fashion model Elena posing for fit check measurements in studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLeL8zQXSN4TgSp7yt1acxeYtiMafPoswOgGw2ru1C_8r7UKjmqYe5oS33f2ZTTW4H6aQWVKKpJafi18EsWpKVrCK0_snWb3FgSz_KK9_4z4A0x2x9VRTzqxPSmrunuNrrP4v8hyTAroLKOfFUIHNPHXWeD1J6LgX9L61y3-J5xMsHgW13qo6k4l4_0ZXU2XalWenEeFGMJCiejlZCK-MIaT5XfqJdkf9JG_J-v64S06zjGE7CL2gY5w"/>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface font-semibold">Elena Rossi</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Estatura: 1.78m | Talla usada: S</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 pt-2 text-center">
+<div class="bg-surface-container-lowest p-1.5 rounded">
+<div class="font-label-sm text-label-sm text-on-surface-variant">Busto</div>
+<div class="font-label-md text-label-md font-bold text-on-surface">86 cm</div>
+</div>
+<div class="bg-surface-container-lowest p-1.5 rounded">
+<div class="font-label-sm text-label-sm text-on-surface-variant">Cintura</div>
+<div class="font-label-md text-label-md font-bold text-on-surface">63 cm</div>
+</div>
+<div class="bg-surface-container-lowest p-1.5 rounded">
+<div class="font-label-sm text-label-sm text-on-surface-variant">Cadera</div>
+<div class="font-label-md text-label-md font-bold text-on-surface">91 cm</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Tab Content: Composition -->
+<div class="tab-pane hidden flex-col gap-space-sm" id="tab-comp">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Origen &amp; Certificaciones Textiles</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<div class="p-space-sm rounded-xl bg-surface-container flex flex-col gap-1">
+<span class="font-label-lg text-label-lg text-primary font-bold">78% Crepe de Seda Mulberry</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Hilado en Como, Italia. Aporta un lustre satinado mate ultra suave y transpirable de grado premium.</p>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container flex flex-col gap-1">
+<span class="font-label-lg text-label-lg text-primary font-bold">18% Poliamida Reciclada</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Fibra circular certificada GRS que otorga memoria estructural y resistencia al arrugado durante eventos prolongados.</p>
+</div>
+<div class="p-space-sm rounded-xl bg-surface-container flex flex-col gap-1">
+<span class="font-label-lg text-label-lg text-primary font-bold">4% Elastano Invisible</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Proporciona elasticidad bi-axial en cintura y cadera garantizando libertad total de movimiento.</p>
+</div>
+</div>
+</div>
+<!-- Tab Content: Care -->
+<div class="tab-pane hidden flex-col gap-space-sm" id="tab-care">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Conservación de Prenda Exclusiva</h4>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-space-sm">
+<div class="flex items-center gap-space-xs p-space-xs rounded-xl bg-surface-container">
+<span class="material-symbols-outlined text-primary">dry_cleaning</span>
+<span class="font-body-sm text-body-sm text-on-surface">Limpieza en seco profesional</span>
+</div>
+<div class="flex items-center gap-space-xs p-space-xs rounded-xl bg-surface-container">
+<span class="material-symbols-outlined text-primary">iron</span>
+<span class="font-body-sm text-body-sm text-on-surface">Planchado a vapor a baja temp</span>
+</div>
+<div class="flex items-center gap-space-xs p-space-xs rounded-xl bg-surface-container">
+<span class="material-symbols-outlined text-primary">cloud_download</span>
+<span class="font-body-sm text-body-sm text-on-surface">No utilizar blanqueador</span>
+</div>
+<div class="flex items-center gap-space-xs p-space-xs rounded-xl bg-surface-container">
+<span class="material-symbols-outlined text-primary">checkroom</span>
+<span class="font-body-sm text-body-sm text-on-surface">Guardar colgado en funda textil</span>
+</div>
+</div>
+</div>
+<!-- Tab Content: Shipping -->
+<div class="tab-pane hidden flex-col gap-space-sm" id="tab-ship">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Logística Omnicanal &amp; Retornos Garantizados</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Ofrecemos entrega protegida con embalaje rígido Atelier. Si requieres cambio de talla o color, nuestro mensajero recoge la prenda en tu domicilio sin ningún cargo adicional durante los primeros 30 días naturales.
+          </p>
+<div class="flex flex-wrap gap-space-md pt-space-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">storefront</span>
+<span class="font-label-md text-label-md text-on-surface">Retiro express en tiendas VivaModa: Disponible en 2 horas</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">swap_horizontal_circle</span>
+<span class="font-label-md text-label-md text-on-surface">Cambios directos sin costo en cualquier punto físico nacional</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- MODAL: Guía Inteligente de Tallas (Hidden by default) -->
+<div class="fixed inset-0 z-50 bg-inverse-surface/60 backdrop-blur-md hidden items-center justify-center p-margin-mobile" id="size-guide-modal">
+<div class="bg-surface rounded-3xl p-space-lg max-w-lg w-full shadow-2xl flex flex-col gap-space-md max-h-[921px] overflow-y-auto">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-2xl">straighten</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Calculadora Inteligente de Talla</h3>
+</div>
+<button class="p-1 rounded-full hover:bg-surface-container text-on-surface-variant" onclick="toggleSizeModal(false)">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Ingresa tus dimensiones para que el motor biométrico VivaModa determine tu calce óptimo en función de este corte asimétrico.
+      </p>
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface">Estatura (cm)</label>
+<input class="p-space-xs rounded-xl bg-surface-container-low font-label-md text-label-md text-on-surface focus:outline-none" id="input-height" type="number" value="168"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface">Peso aprox. (kg)</label>
+<input class="p-space-xs rounded-xl bg-surface-container-low font-label-md text-label-md text-on-surface focus:outline-none" id="input-weight" type="number" value="58"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface">Contorno de Busto (cm)</label>
+<input class="p-space-xs rounded-xl bg-surface-container-low font-label-md text-label-md text-on-surface focus:outline-none" id="input-bust" type="number" value="88"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface">Contorno de Cadera (cm)</label>
+<input class="p-space-xs rounded-xl bg-surface-container-low font-label-md text-label-md text-on-surface focus:outline-none" id="input-hip" type="number" value="94"/>
+</div>
+</div>
+<div class="p-space-sm rounded-2xl bg-secondary/10 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary font-bold">Talla Recomendada IA:</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-bold">Talla S (98% de precisión)</span>
+</div>
+<button class="px-space-md py-space-xs rounded-xl bg-secondary text-on-secondary font-label-md text-label-md font-bold hover:bg-secondary-container transition-all" onclick="applySmartSize('S')">
+          Seleccionar S
+        </button>
+</div>
+<div class="flex justify-end">
+<button class="px-space-md py-space-xs rounded-xl bg-surface-container font-label-md text-label-md text-on-surface" onclick="toggleSizeModal(false)">
+          Cerrar
+        </button>
+</div>
+</div>
+</div>
+<script>
+    function changeMedia(idx) {
+      document.querySelectorAll('.thumb-btn').forEach((btn, i) => {
+        const ind = btn.querySelector('.thumb-indicator');
+        if (i === idx) {
+          btn.classList.remove('opacity-70');
+          btn.classList.add('shadow-md');
+          if (ind) ind.classList.remove('opacity-0');
+        } else {
+          btn.classList.add('opacity-70');
+          btn.classList.remove('shadow-md');
+          if (ind) ind.classList.add('opacity-0');
+        }
+      });
+    }
+
+    function selectColor(name, el) {
+      document.getElementById('selected-color-name').textContent = name;
+      document.querySelectorAll('.color-swatch').forEach(b => {
+        b.classList.remove('scale-110');
+        const chk = b.querySelector('.material-symbols-outlined');
+        if (chk) chk.classList.add('hidden');
+      });
+      el.classList.add('scale-110');
+      const chk = el.querySelector('.material-symbols-outlined');
+      if (chk) chk.classList.remove('hidden');
+    }
+
+    function selectSize(sz, el) {
+      if (sz === 'XL') return;
+      document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.classList.remove('bg-primary', 'text-on-primary', 'shadow-md');
+        btn.classList.add('bg-surface-container', 'text-on-surface');
+      });
+      el.classList.remove('bg-surface-container', 'text-on-surface');
+      el.classList.add('bg-primary', 'text-on-primary', 'shadow-md');
+    }
+
+    function toggleSizeModal(show) {
+      const modal = document.getElementById('size-guide-modal');
+      if (show) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      } else {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function applySmartSize(sz) {
+      const btns = document.querySelectorAll('.size-btn');
+      btns.forEach(b => {
+        if (b.textContent.trim() === sz) {
+          selectSize(sz, b);
+        }
+      });
+      toggleSizeModal(false);
+    }
+
+    function switchTab(tabId, el) {
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.add('hidden'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('flex'));
+      const active = document.getElementById('tab-' + tabId);
+      if (active) {
+        active.classList.remove('hidden');
+        active.classList.add('flex');
+      }
+
+      document.querySelectorAll('.product-tab-btn').forEach(b => {
+        b.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+        b.classList.add('bg-surface-container', 'text-on-surface-variant');
+      });
+      el.classList.remove('bg-surface-container', 'text-on-surface-variant');
+      el.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+    }
+
+    function sendQuickPrompt(txt) {
+      const input = document.getElementById('chat-input');
+      input.value = txt;
+      handleChatSubmit();
+    }
+
+    function handleChatSubmit() {
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const container = document.getElementById('chat-messages');
+
+      // Add user query
+      const userBubble = document.createElement('div');
+      userBubble.className = 'flex gap-space-xs items-start max-w-lg self-end justify-end';
+      userBubble.innerHTML = `
+        <div class="flex flex-col gap-1 items-end">
+          <div class="p-space-sm rounded-2xl rounded-tr-none bg-secondary text-on-secondary font-body-sm text-body-sm">
+            ${text}
+          </div>
+          <span class="font-label-sm text-label-sm text-on-surface-variant">Ahora</span>
+        </div>
+      `;
+      container.appendChild(userBubble);
+      input.value = '';
+
+      // Scroll
+      container.scrollTop = container.scrollHeight;
+
+      // Simulated Bot Reply
+      setTimeout(() => {
+        const botBubble = document.createElement('div');
+        botBubble.className = 'flex gap-space-xs items-start max-w-lg';
+        let responseText = "¡Excelente consulta! Para el Vestido Asimétrico Magenta, los tonos metálicos como plata fría o sandalias en color nude alargan visualmente la figura y potencian la intensidad del color fucsia.";
+        
+        if (text.includes("1.68") || text.includes("talla")) {
+          responseText = "Para una estatura de 1.68m y peso promedio, la Talla S ofrece un calce impecable en cintura y hombro, con la basta reposando exactamente a 2 cm sobre el tacón de 9cm.";
+        } else if (text.includes("boda") || text.includes("noche")) {
+          responseText = "Es perfecto para código de vestimenta 'Cocktail Elegante' o 'Black Tie Optional'. El crepe satinado refleja la luz nocturna de manera sofisticada sin saturar la fotografía.";
+        }
+
+        botBubble.innerHTML = `
+          <div class="w-7 h-7 rounded-full bg-secondary/15 text-secondary flex items-center justify-center shrink-0 mt-1">
+            <span class="material-symbols-outlined text-sm">smart_toy</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <div class="p-space-sm rounded-2xl rounded-tl-none bg-surface-container text-on-surface font-body-sm text-body-sm">
+              ${responseText}
+            </div>
+            <span class="font-label-sm text-label-sm text-on-surface-variant">Ahora</span>
+          </div>
+        `;
+        container.appendChild(botBubble);
+        container.scrollTop = container.scrollHeight;
+      }, 700);
+    }
+  </script>
+</div></main><a class="fixed bottom-6 right-6 z-40 flex items-center gap-space-xs px-space-md py-space-sm rounded-full bg-gradient-to-r from-secondary to-primary text-on-primary shadow-[0_10px_28px_-2px_rgba(79,70,229,0.35)] hover:scale-105 transition-all duration-300 group" data-path="hub-agente-ia" href="#"><span class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform">auto_awesome</span><div class="flex flex-col text-left"><span class="font-label-md text-label-md leading-none font-bold">Stylist IA</span><span class="font-label-sm text-label-sm opacity-80 leading-tight">Recomendador Activo</span></div><span class="w-2.5 h-2.5 rounded-full bg-white animate-pulse ml-1"></span></a><footer class="w-full bg-surface-container-low text-on-surface py-space-3xl mt-space-3xl"><div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-space-xl"><div class="lg:col-span-2 flex flex-col gap-space-sm"><div class="flex items-center gap-space-xs"><img alt="VivaModa Brand Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPxRS6J4xFS_SLN7LrE6NaSwEtUeeDDODwVjtuyHhM7cR_-fQWzkQwdEnqHXfTt-1uhC3rd3uw6WttAbhH6FVTECUPUlN4Mr-9EWVNGWqAkgGtK8j2RqcWIXyXMddCUzjobWi6RCeCQjpQatwx_j2AfVTViqWjnf2-VG4MI0xQLV7as0hBcqyUln2i5XwRmdAn7zr-85fCQjVxwnyyUzEIySzdMb6gRwhm3AcNfqHvSaw-RoNtA8MgXg"/><span class="font-headline-sm text-headline-sm tracking-tight text-primary font-bold">VivaModa</span></div><p class="font-body-md text-body-md text-on-surface-variant max-w-sm">Moda multicanal contemporánea para Damas, Caballeros y Niños. Inteligencia de estilo, inventario en tiempo real y experiencias de compra conectadas.</p><div class="flex flex-col gap-space-xs mt-space-sm"><span class="font-label-lg text-label-lg text-on-surface">Suscríbete al Newsletter VIP</span><div class="flex items-center gap-space-xs max-w-md"><input class="flex-1 px-space-md py-space-xs rounded-xl bg-surface-container-lowest text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/20" placeholder="Tu correo electrónico" type="email"/><button class="px-space-md py-space-xs rounded-xl bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-all shadow-sm">Unirme</button></div></div></div><div><h4 class="font-headline-sm text-headline-sm mb-space-md text-on-surface">Colecciones</h4><ul class="flex flex-col gap-space-xs font-body-sm text-body-sm text-on-surface-variant"><li><a class="hover:text-primary transition-colors" data-path="catalogo-de-productos" href="#">Damas &amp; Alta Tendencia</a></li><li><a class="hover:text-primary transition-colors" data-path="catalogo-caballeros" href="#">Caballeros Formal &amp; Casual</a></li><li><a class="hover:text-primary transition-colors" data-path="catalogo-ninos" href="#">Niños &amp; Mini-Tendencias</a></li><li><a class="hover:text-primary transition-colors" data-path="novedades" href="#">Lanzamientos Semanales</a></li><li><a class="hover:text-primary transition-colors" data-path="ofertas-flash" href="#">Ofertas Flash &amp; Outlet</a></li></ul></div><div><h4 class="font-headline-sm text-headline-sm mb-space-md text-on-surface">Atención &amp; Servicios</h4><ul class="flex flex-col gap-space-xs font-body-sm text-body-sm text-on-surface-variant"><li><a class="hover:text-primary transition-colors" data-path="seguimiento-de-pedidos" href="#">Rastreo de Pedidos</a></li><li><a class="hover:text-primary transition-colors" data-path="guia-de-tallas" href="#">Guía Inteligente de Tallas</a></li><li><a class="hover:text-primary transition-colors" data-path="politica-de-devoluciones" href="#">Políticas de Devolución</a></li><li><a class="hover:text-primary transition-colors" data-path="sucursales-y-tiendas" href="#">Localizador de Tiendas</a></li><li><a class="hover:text-primary transition-colors" data-path="hub-agente-ia" href="#">Consultar al Estilista IA</a></li></ul></div><div><h4 class="font-headline-sm text-headline-sm mb-space-md text-on-surface">Paneles Operativos</h4><ul class="flex flex-col gap-space-xs font-body-sm text-body-sm text-on-surface-variant"><li><a class="hover:text-secondary transition-colors" data-path="pedidos-y-pos" href="#">Terminal POS &amp; Empleados</a></li><li><a class="hover:text-secondary transition-colors" data-path="panel-de-almacen-y-ventas" href="#">Control Almacén &amp; Stock</a></li><li><a class="hover:text-primary transition-colors" data-path="iniciar-sesion" href="#">Portal de Acceso Unificado</a></li></ul><div class="mt-space-lg flex flex-col gap-space-2xs"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Transacciones Seguras</span><div class="flex items-center gap-space-xs text-on-surface-variant"><span class="material-symbols-outlined text-xl">verified_user</span><span class="material-symbols-outlined text-xl">lock</span><span class="material-symbols-outlined text-xl">credit_card</span></div></div></div></div><div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop mt-space-2xl pt-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-md font-body-sm text-body-sm text-on-surface-variant"><p>© 2024 VivaModa S.A. Todos los derechos reservados. Moda conectada en tiendas físicas y digital.</p><div class="flex items-center gap-space-md"><a class="hover:text-on-surface" href="#">Términos</a><a class="hover:text-on-surface" href="#">Privacidad</a><a class="hover:text-on-surface" href="#">Cookies</a></div></div></footer></body></html>

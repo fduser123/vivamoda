@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary-fixed": "#351000", "inverse-primary": "#ffb1c3", "surface-variant": "#e5e1e4", "secondary-container": "#645efb", "inverse-surface": "#313032", "on-primary": "#ffffff", "on-tertiary-container": "#fffbff", "on-secondary": "#ffffff", "secondary-fixed-dim": "#c3c0ff", "primary": "#b60055", "outline": "#906e75", "surface-container-lowest": "#ffffff", "surface-container": "#f0edf0", "inverse-on-surface": "#f3f0f2", "tertiary-container": "#c45100", "background": "#fcf8fb", "on-error-container": "#93000a", "surface-container-low": "#f6f2f5", "primary-container": "#e4006c", "primary-fixed": "#ffd9e0", "surface-dim": "#dcd9dc", "on-primary-fixed": "#3f0019", "tertiary-fixed-dim": "#ffb693", "on-tertiary-fixed-variant": "#7a3000", "on-secondary-fixed": "#0f0069", "secondary": "#4b41e1", "on-background": "#1c1b1d", "on-primary-container": "#fffbff", "primary-fixed-dim": "#ffb1c3", "tertiary-fixed": "#ffdbcc", "on-primary-fixed-variant": "#8f0041", "outline-variant": "#e5bcc4", "on-secondary-container": "#fffbff", "on-error": "#ffffff", "tertiary": "#9c3f00", "surface-bright": "#fcf8fb", "on-surface": "#1c1b1d", "error-container": "#ffdad6", "secondary-fixed": "#e2dfff", "surface": "#fcf8fb", "on-tertiary": "#ffffff", "surface-container-high": "#eae7ea", "on-surface-variant": "#5c3f45", "surface-container-highest": "#e5e1e4", "surface-tint": "#bb0058", "on-secondary-fixed-variant": "#3323cc", "error": "#ba1a1a" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-sm": "0.75rem", "space-xl": "2rem", "space-lg": "1.5rem", "space-2xl": "3rem", "space-2xs": "0.25rem", "space-md": "1rem", "margin-mobile": "1.25rem", "space-3xl": "4rem", "space-xs": "0.5rem", "space-4xl": "6rem", "container-max": "80rem", "gutter-desktop": "1.5rem", "margin-desktop": "2.5rem", "gutter-mobile": "1rem" }, "fontFamily": { "headline-md": ["Plus Jakarta Sans"], "display-hero": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "display-hero-mobile": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "price-prominent": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"] }, "fontSize": { "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "display-hero-mobile": ["36px", { "lineHeight": "42px", "letterSpacing": "-0.025em", "fontWeight": "800" }], "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }], "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0em", "fontWeight": "400" }], "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }], "body-md": ["15px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }], "price-prominent": ["22px", { "lineHeight": "26px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased"><header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="bg-inverse-surface text-inverse-on-surface px-margin-mobile lg:px-margin-desktop py-space-2xs"><div class="max-w-container-max mx-auto flex items-center justify-between font-label-sm text-label-sm"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-sm text-primary-fixed">local_shipping</span><span>Envíos express gratis en compras mayores a $49.900 | Devoluciones sin costo</span></div><div class="flex items-center gap-space-sm"><span class="text-surface-variant/70 hidden sm:inline">Ambiente Activo:</span><div class="inline-flex items-center rounded-full bg-surface-container-highest/20 p-0.5"><a class="px-space-xs py-0.5 rounded-full text-on-primary font-label-sm text-label-sm bg-primary" data-path="catalogo-de-productos" href="#">Cliente</a><a class="px-space-xs py-0.5 rounded-full text-inverse-on-surface hover:text-on-primary transition-colors font-label-sm text-label-sm" data-path="pedidos-y-pos" href="#">POS Empleado</a><a class="px-space-xs py-0.5 rounded-full text-inverse-on-surface hover:text-on-primary transition-colors font-label-sm text-label-sm" data-path="panel-de-almacen-y-ventas" href="#">Admin</a></div></div></div></div><div class="h-20 max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><a class="flex items-center gap-space-xs" data-path="catalogo-de-productos" href="#"><img alt="VivaModa Brand Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPxRS6J4xFS_SLN7LrE6NaSwEtUeeDDODwVjtuyHhM7cR_-fQWzkQwdEnqHXfTt-1uhC3rd3uw6WttAbhH6FVTECUPUlN4Mr-9EWVNGWqAkgGtK8j2RqcWIXyXMddCUzjobWi6RCeCQjpQatwx_j2AfVTViqWjnf2-VG4MI0xQLV7as0hBcqyUln2i5XwRmdAn7zr-85fCQjVxwnyyUzEIySzdMb6gRwhm3AcNfqHvSaw-RoNtA8MgXg"/><span class="font-headline-sm text-headline-sm tracking-tight text-primary font-bold">VivaModa</span></a></div><div class="hidden md:flex flex-1 max-w-md mx-space-sm"><div class="relative w-full"><span class="material-symbols-outlined absolute left-space-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span><input class="w-full pl-10 pr-space-xl py-space-xs bg-surface-container-low rounded-full font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-all" placeholder="Buscar prendas, calzado, colecciones..." type="text"/><span class="material-symbols-outlined absolute right-space-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-lg cursor-pointer hover:text-primary transition-colors">qr_code_scanner</span></div></div><div class="flex items-center gap-space-sm lg:gap-space-md"><a class="p-space-xs rounded-full text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-all flex items-center justify-center relative" data-path="lista-de-deseos" href="#"><span class="material-symbols-outlined">favorite</span><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-primary"></span></a><a class="p-space-xs rounded-full text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-all flex items-center justify-center relative" data-path="carrito-de-compras" href="#"><span class="material-symbols-outlined">shopping_bag</span><span class="absolute -top-1 -right-1 bg-primary text-on-primary font-label-sm text-label-sm rounded-full w-5 h-5 flex items-center justify-center animate-pulse">3</span></a><div class="flex items-center gap-space-xs pl-space-xs"><a class="flex items-center gap-space-xs rounded-full hover:bg-surface-container-high p-1 transition-all" data-path="perfil-de-usuario" href="#"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSN0Fqry_Z1wSeYCZJNaCbGcGEINtMzPkgVh-F0xn2KnbLRx1YHCtskzoQ9ySI-1hMZ7f2jiS9BsonZ_vtmlWACoHEowu-YB5Y19GVNiP1PGV0mxl7DhWm_v15-7OAW_--umxU0TxszQzTcryqRPPhCQtXbrz2y7L-60gvIpXn-W55Xh0DH6MFBWOpB3XG6XQ-TqhUCKjPIioHPF3xq7h5MkYHgSd4RYancLpOJ7wOSnr5MyIrKt9Avw"/><div class="hidden xl:flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface leading-tight">Elena R.</span><span class="font-label-sm text-label-sm text-on-surface-variant">Socio Gold</span></div></a></div></div></div><div class="bg-surface-container-low/80 backdrop-blur-md"><div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop flex items-center justify-between overflow-x-auto"><nav class="flex items-center gap-space-xs py-space-2xs whitespace-nowrap" data-active-classes="bg-primary text-on-primary font-bold rounded-lg shadow-sm"><a class="px-space-sm py-1.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="catalogo-de-productos" href="#">Damas</a><a class="px-space-sm py-1.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="catalogo-caballeros" href="#">Caballeros</a><a class="px-space-sm py-1.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="catalogo-ninos" href="#">Niños</a><a class="px-space-sm py-1.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="novedades" href="#">Novedades</a><a class="px-space-sm py-1.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="ofertas-flash" href="#">Ofertas Flash</a><a class="px-space-sm py-1.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="detalle-de-producto" href="#">Detalle Look</a><a class="px-space-sm py-1.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="hub-agente-ia" href="#">Asesor IA</a><a class="px-space-sm py-1.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="tienda-virtual-realidad" href="#">Tienda VR</a></nav><div class="hidden lg:flex items-center gap-space-xs"><span class="inline-flex items-center px-space-xs py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-label-sm"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-ping"></span>Omnicanal 100% Sincronizado</span></div></div></div></header><main class="w-full pt-36 bg-background"><div class="flex flex-col w-full">
+<!-- Dynamic Hero Lookbook Banner -->
+<section class="relative w-full overflow-hidden bg-inverse-surface text-inverse-on-surface">
+<div class="absolute inset-0 opacity-40 mix-blend-screen pointer-events-none">
+<div class="absolute -top-32 -left-20 w-96 h-96 rounded-full bg-primary blur-3xl"></div>
+<div class="absolute top-1/2 right-10 w-[30rem] h-[30rem] rounded-full bg-secondary blur-3xl"></div>
+<div class="absolute -bottom-20 left-1/3 w-80 h-80 rounded-full bg-tertiary blur-3xl"></div>
+</div>
+<div class="relative max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop py-space-2xl lg:py-space-3xl flex flex-col lg:flex-row items-center justify-between gap-space-xl">
+<div class="flex-1 flex flex-col gap-space-md z-10 text-left">
+<div class="inline-flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-primary/20 text-primary-fixed w-fit">
+<span class="material-symbols-outlined text-sm">arrow_back_ios_new</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Nueva Temporada Otoño-Invierno 2024</span>
+</div>
+<h1 class="font-display-hero text-display-hero max-w-2xl text-on-primary-container leading-none">
+          Expresa tu <span class="bg-gradient-to-r from-primary-fixed via-primary to-secondary text-transparent bg-clip-text">estilo audaz</span> sin límites.
+        </h1>
+<p class="font-body-lg text-body-lg text-surface-variant max-w-xl">
+          Cortes vanguardistas, paletas cromáticas vivas y confección sustentable. Sincronización de stock en tiempo real en tienda física y express a tu puerta.
+        </p>
+<div class="flex flex-wrap items-center gap-space-sm pt-space-xs">
+<a class="px-space-lg py-space-sm rounded-xl bg-primary text-on-primary font-label-lg text-label-lg shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2 group" href="#catalogo">
+<span>Explorar Damas</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+<a class="px-space-lg py-space-sm rounded-xl bg-secondary text-on-secondary font-label-lg text-label-lg shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2" href="#catalogo">
+<span>Colección Caballeros</span>
+</a>
+<a class="px-space-lg py-space-sm rounded-xl bg-surface-container-highest/30 backdrop-blur-md text-inverse-on-surface hover:bg-surface-container-highest/50 font-label-lg text-label-lg transition-all" href="#catalogo">
+<span>Moda Infantil</span>
+</a>
+</div>
+<div class="flex items-center gap-space-xl pt-space-sm text-surface-variant">
+<div class="flex items-center gap-2">
+<span class="font-price-prominent text-price-prominent text-on-primary">12k+</span>
+<span class="font-label-sm text-label-sm leading-tight">Prendas de Diseñador</span>
+</div>
+<div class="w-px h-8 bg-surface-variant/20"></div>
+<div class="flex items-center gap-2">
+<span class="font-price-prominent text-price-prominent text-on-primary">24h</span>
+<span class="font-label-sm text-label-sm leading-tight">Envío Express Activo</span>
+</div>
+<div class="w-px h-8 bg-surface-variant/20"></div>
+<div class="flex items-center gap-2">
+<span class="font-price-prominent text-price-prominent text-primary-fixed">4.9★</span>
+<span class="font-label-sm text-label-sm leading-tight">Satisfacción Omnicanal</span>
+</div>
+</div>
+</div>
+<!-- Hero Visual Collage -->
+<div class="flex-1 w-full relative flex justify-center lg:justify-end">
+<div class="relative w-full max-w-md h-[460px]">
+<div class="absolute right-0 top-0 w-72 h-96 rounded-2xl overflow-hidden shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 z-10">
+<img class="w-full h-full object-cover" data-alt="High-fashion woman model walking against a futuristic neon magenta ambient urban background wearing an avant-garde fuchsia coat and structured tailored silhouette, cinematic fashion editorial lighting, vivid and pristine." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUjcscKGryx6RkFun42GHqpjnq1jSIkvsqNfN0GvPKN4ick0oEaG__ZfURQQmvXuREMWn5g2xrwuhQzlzlSCAiydijmt7o1H-xrjXDSXYFAXXfeC4F6EGSfrlY7LN9GgcJKAPHyisaKt6GDa9esctVjbYRo5a6TlyvMMc63FsDGXs0NK0Y0AV07VAgFju5Of-ZbF0jDSs5PniQsXANKQ2Ia6RY_K3zZTMXgEz-fuRQVXDCAuJXfqO2YQ"/>
+</div>
+<div class="absolute left-0 bottom-4 w-64 h-80 rounded-2xl overflow-hidden shadow-2xl -rotate-6 hover:rotate-0 transition-transform duration-500 z-20">
+<img class="w-full h-full object-cover" data-alt="Chic male model dressed in stylish electric cobalt blue tailored jacket and modern minimal streetwear against warm terracotta architectural lighting, studio high-end editorial shot." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLcVVG2Al8xWdzdoDaMRaUelX1yB_Yqcj3N3rYSXZTMH2m_7eskZ8q-AID8iIZY5k1lYXybGOQSXyrPGDPeZ4XO4IU_POmJi41ol9G8K-hkuWUW5N6FbsMklgzTBs4OI6SupZ0pTIPJthAw3IVwSVpetKyI3T3NLZ82-z9WNuBia86Me6V2ee1jmLhyXXBQkkxj3eBVp756ZgQG4Yhs4_tIZDinZheoX-6lXReFR8nFl9g-_ayAoadpg"/>
+</div>
+<div class="absolute -top-4 left-12 w-32 h-32 rounded-2xl overflow-hidden shadow-xl z-30 hidden sm:block">
+<img class="w-full h-full object-cover" data-alt="Joyful stylish child model wearing a vibrant patterned trendy jacket with lively pops of yellow and magenta, high fashion lifestyle kid aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo9dxNRiPPaqRnW8pVaMVk2oQtKs6aGkSsK5uy3n7bytbxE9h0o7Qvd04CuGL14GLZ_-3WAK0ToJeCDzve-Rh5g_Qt3M62-GXk6tuiZ9X7Hl4I1Y2voFJsGMXYQWGXtnVqIJS-kaDNI9RzFZSQM9HUN-vwPOq3DnifPBc9saeXKTqVPj26EvxwSDiJK_j_Sk5DAjyB3yRxlpG3ipAGI_gSCW2i_ICwCK1Sy-JXY6cy5Wbau4jRe_KDXA"/>
+</div>
+<div class="absolute bottom-10 right-4 bg-surface-container-lowest/90 backdrop-blur-md px-space-md py-space-xs rounded-xl shadow-lg z-30 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">local_fire_department</span>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Tendencia Semanal</p>
+<p class="font-label-lg text-label-lg text-on-surface">+280 Looks Creados</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- VivaModa VR · Apartado: Tienda en Realidad Virtual -->
+<section class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop py-space-lg w-full">
+<a href="/tienda-virtual-realidad" class="group relative block w-full overflow-hidden rounded-3xl shadow-[0_18px_50px_-12px_rgba(27,8,24,0.55)]">
+<div class="absolute inset-0 bg-gradient-to-r from-[#1a0d1c] via-[#33102a] to-[#12102e]"></div>
+<div class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-[#e4006c]/30 blur-3xl"></div>
+<div class="absolute -bottom-28 -left-20 w-96 h-96 rounded-full bg-[#4b41e1]/25 blur-3xl"></div>
+<div class="absolute inset-0 opacity-[0.07]" style="background-image:linear-gradient(90deg,#fff 1px,transparent 1px),linear-gradient(#fff 1px,transparent 1px);background-size:44px 44px"></div>
+<div class="relative flex flex-col lg:flex-row items-center gap-space-xl px-margin-mobile lg:px-margin-desktop py-space-2xl">
+<div class="flex-1 text-center lg:text-left">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-white font-label-sm text-label-sm uppercase tracking-widest"><span class="w-1.5 h-1.5 rounded-full bg-[#ff5c9a] animate-pulse"></span>Nueva Experiencia · Realidad Virtual</span>
+<h2 class="font-headline-lg text-headline-lg text-white mt-space-md">Recorre la tienda <span class="bg-gradient-to-r from-[#ff5c9a] to-[#8f7bff] bg-clip-text text-transparent">en realidad virtual</span></h2>
+<p class="font-body-md text-body-md text-white/70 mt-space-sm max-w-xl mx-auto lg:mx-0">Entra a la recreación 3D de la boutique VivaModa: recorre las zonas de Damas, Caballeros, Niños, Novedades y Ofertas Flash, explora los productos en vitrina y salta directo a su ficha de compra.</p>
+<div class="flex flex-wrap items-center justify-center lg:justify-start gap-space-sm mt-space-lg">
+<span class="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 font-label-lg text-label-lg text-[#1a0d1c] group-hover:bg-[#ffd9e0] transition-colors shadow-lg">🥽 Entrar a la Tienda VR<span class="material-symbols-outlined text-lg group-hover:translate-x-0.5 transition-transform">arrow_forward</span></span>
+<span class="inline-flex items-center gap-2 font-label-md text-label-md text-white/60">Gratis · Sin descargas · Recorrido 360°</span>
+</div>
+</div>
+<div class="relative w-full max-w-sm h-56 [perspective:1100px] hidden sm:block">
+<div class="absolute inset-0 [transform:rotateX(16deg)_rotateZ(-7deg)] transition-transform duration-500 group-hover:[transform:rotateX(10deg)_rotateZ(-4deg)_scale(1.03)]">
+<div class="grid grid-cols-2 gap-3">
+<div class="rounded-2xl bg-gradient-to-br from-[#e4006c] to-[#8f0041] p-4 text-white shadow-xl [transform:translateZ(34px)]"><span class="text-2xl">👗</span><p class="font-label-md text-label-md mt-2">Damas</p><p class="font-label-sm text-label-sm opacity-75">Vestidos &amp; Atelier</p></div>
+<div class="rounded-2xl bg-gradient-to-br from-[#2f54d0] to-[#14286e] p-4 text-white shadow-xl [transform:translateZ(18px)] translate-y-3"><span class="text-2xl">🤵</span><p class="font-label-md text-label-md mt-2">Caballeros</p><p class="font-label-sm text-label-sm opacity-75">Formal &amp; Casual</p></div>
+<div class="rounded-2xl bg-gradient-to-br from-[#f0a832] to-[#9c5a00] p-4 text-white shadow-xl [transform:translateZ(10px)] -translate-y-2"><span class="text-2xl">🧒</span><p class="font-label-md text-label-md mt-2">Niños</p><p class="font-label-sm text-label-sm opacity-75">Mini tendencias</p></div>
+<div class="rounded-2xl bg-gradient-to-br from-[#ff4d4d] to-[#93000a] p-4 text-white shadow-xl [transform:translateZ(44px)] translate-y-2"><span class="text-2xl">🏷️</span><p class="font-label-md text-label-md mt-2">Ofertas</p><p class="font-label-sm text-label-sm opacity-75">Flash &amp; Outlet</p></div>
+</div>
+</div>
+<div class="absolute -bottom-2 left-6 rounded-full bg-[#ff5c9a] text-white font-label-md text-label-md px-3 py-1 shadow-lg [transform:translateZ(60px)]">🥽 Modo inmersivo</div>
+</div>
+</div>
+</a>
+</section>
+<!-- Main Catalog Space -->
+<section class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop py-space-xl w-full" id="catalogo">
+<!-- Top Toolbar: Search, View Switch, Sorting & Counters -->
+<div class="w-full bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col md:flex-row items-center justify-between gap-space-md mb-space-xl">
+<div class="relative w-full md:w-96">
+<span class="material-symbols-outlined absolute left-space-sm top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-space-xl py-space-xs rounded-xl bg-surface-container-low font-body-sm text-body-sm text-on-surface focus:outline-none focus:bg-surface-container-lowest focus:shadow-md transition-all" id="searchInput" placeholder="Buscar por color, corte, tela o referencia..." type="text"/>
+<button class="material-symbols-outlined absolute right-space-sm top-1/2 -translate-y-1/2 text-outline hover:text-primary text-sm hidden" id="clearSearch">close</button>
+</div>
+<div class="flex items-center justify-between w-full md:w-auto gap-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant hidden sm:inline">Mostrando:</span>
+<span class="font-label-md text-label-md bg-surface-container px-space-xs py-0.5 rounded-md text-primary font-bold" id="productCounter">9 prendas</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center bg-surface-container-low p-1 rounded-xl">
+<label class="sr-only" for="sortBy">Ordenar por</label>
+<span class="material-symbols-outlined text-on-surface-variant px-1 text-sm">sort</span>
+<select class="bg-transparent font-label-md text-label-md text-on-surface focus:outline-none pr-space-xs" id="sortBy">
+<option value="pop">Más Populares</option>
+<option value="price-asc">Precio: Menor a Mayor</option>
+<option value="price-desc">Precio: Mayor a Menor</option>
+<option value="news">Lanzamientos Recientes</option>
+</select>
+</div>
+<div class="inline-flex items-center bg-surface-container-low p-1 rounded-xl">
+<button class="p-1.5 rounded-lg bg-surface-container-lowest text-primary shadow-sm" id="viewGrid" title="Vista Cuadrícula">
+<span class="material-symbols-outlined text-base">grid_view</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface" id="viewList" title="Vista Lista">
+<span class="material-symbols-outlined text-base">view_agenda</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Catalog Body: Sidebar + Grid -->
+<div class="w-full flex flex-col lg:flex-row items-start gap-space-xl">
+<!-- Multidimensional Interactive Filters Sidebar -->
+<aside class="w-full lg:w-72 shrink-0 flex flex-col gap-space-lg bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm">
+<!-- Filter Header -->
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">tune</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Filtros</h3>
+</div>
+<button class="font-label-sm text-label-sm text-secondary hover:text-primary underline transition-colors" id="resetFilters">Limpiar todo</button>
+</div>
+<!-- Categories and Departments -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-lg text-label-lg text-on-surface uppercase tracking-wide">Departamentos</span>
+<div class="flex flex-col gap-1 text-on-surface-variant font-body-sm text-body-sm">
+<details class="group" open="">
+<summary class="flex items-center justify-between cursor-pointer py-1 text-on-surface font-label-md text-label-md">
+<span>Damas (38)</span>
+<span class="material-symbols-outlined text-sm group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="pl-space-sm flex flex-col gap-1 py-1">
+<label class="flex items-center gap-2 cursor-pointer hover:text-primary"><input checked="" class="accent-primary rounded" type="checkbox"/> Vestidos &amp; Monos</label>
+<label class="flex items-center gap-2 cursor-pointer hover:text-primary"><input class="accent-primary rounded" type="checkbox"/> Blazers &amp; Abrigos</label>
+<label class="flex items-center gap-2 cursor-pointer hover:text-primary"><input class="accent-primary rounded" type="checkbox"/> Blusas de Seda</label>
+</div>
+</details>
+<details class="group">
+<summary class="flex items-center justify-between cursor-pointer py-1 text-on-surface font-label-md text-label-md">
+<span>Caballeros (26)</span>
+<span class="material-symbols-outlined text-sm group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="pl-space-sm flex flex-col gap-1 py-1">
+<label class="flex items-center gap-2 cursor-pointer hover:text-primary"><input class="accent-primary rounded" type="checkbox"/> Trajes Slim Fit</label>
+<label class="flex items-center gap-2 cursor-pointer hover:text-primary"><input class="accent-primary rounded" type="checkbox"/> Camisas Oxford</label>
+<label class="flex items-center gap-2 cursor-pointer hover:text-primary"><input class="accent-primary rounded" type="checkbox"/> Pantalones Chino</label>
+</div>
+</details>
+<details class="group">
+<summary class="flex items-center justify-between cursor-pointer py-1 text-on-surface font-label-md text-label-md">
+<span>Niños &amp; Jóvenes (19)</span>
+<span class="material-symbols-outlined text-sm group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="pl-space-sm flex flex-col gap-1 py-1">
+<label class="flex items-center gap-2 cursor-pointer hover:text-primary"><input class="accent-primary rounded" type="checkbox"/> Conjuntos Cómodos</label>
+<label class="flex items-center gap-2 cursor-pointer hover:text-primary"><input class="accent-primary rounded" type="checkbox"/> Calzado Escolar &amp; Tenis</label>
+</div>
+</details>
+</div>
+</div>
+<!-- Size Chips Filter -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-lg text-label-lg text-on-surface uppercase tracking-wide">Tallas</span>
+<div class="flex flex-wrap gap-1.5" id="sizeSelector">
+<button class="size-chip px-space-xs py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface hover:bg-primary hover:text-on-primary transition-all">XS</button>
+<button class="size-chip px-space-xs py-1 rounded-lg bg-primary font-label-sm text-label-sm text-on-primary shadow-sm">S</button>
+<button class="size-chip px-space-xs py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface hover:bg-primary hover:text-on-primary transition-all">M</button>
+<button class="size-chip px-space-xs py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface hover:bg-primary hover:text-on-primary transition-all">L</button>
+<button class="size-chip px-space-xs py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface hover:bg-primary hover:text-on-primary transition-all">XL</button>
+<button class="size-chip px-space-xs py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface hover:bg-primary hover:text-on-primary transition-all">XXL</button>
+<button class="size-chip px-space-xs py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface hover:bg-primary hover:text-on-primary transition-all">4-6a</button>
+<button class="size-chip px-space-xs py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface hover:bg-primary hover:text-on-primary transition-all">8-10a</button>
+<button class="size-chip px-space-xs py-1 rounded-lg bg-surface-container font-label-sm text-label-sm text-on-surface hover:bg-primary hover:text-on-primary transition-all">12-14a</button>
+</div>
+</div>
+<!-- Color Swatch Palette -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-lg text-label-lg text-on-surface uppercase tracking-wide">Color</span>
+<div class="flex flex-wrap gap-2">
+<button class="w-7 h-7 rounded-full bg-primary ring-2 ring-primary ring-offset-2 transition-transform scale-110" title="Magenta Fucsia"></button>
+<button class="w-7 h-7 rounded-full bg-secondary hover:scale-110 transition-transform" title="Azul Eléctrico"></button>
+<button class="w-7 h-7 rounded-full bg-tertiary hover:scale-110 transition-transform" title="Terracota Óxido"></button>
+<button class="w-7 h-7 rounded-full bg-inverse-surface hover:scale-110 transition-transform" title="Negro Ébano"></button>
+<button class="w-7 h-7 rounded-full bg-surface-container-lowest border border-surface-variant hover:scale-110 transition-transform" title="Blanco Marfil"></button>
+<button class="w-7 h-7 rounded-full bg-primary-fixed hover:scale-110 transition-transform" title="Rosa Pastel"></button>
+</div>
+</div>
+<!-- Price Range Slider -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex justify-between items-center">
+<span class="font-label-lg text-label-lg text-on-surface uppercase tracking-wide">Rango de Precio</span>
+<span class="font-label-md text-label-md text-primary font-bold" id="priceDisplay">$12.000 - $85.000</span>
+</div>
+<input class="w-full accent-primary cursor-pointer" id="priceRange" max="150000" min="10000" step="5000" type="range" value="85000"/>
+<div class="flex justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>$10k</span>
+<span>$150k+</span>
+</div>
+</div>
+<!-- Occasion Tags -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-lg text-label-lg text-on-surface uppercase tracking-wide">Ocasión</span>
+<div class="flex flex-wrap gap-1.5">
+<span class="px-space-xs py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm cursor-pointer hover:bg-secondary hover:text-on-secondary transition-colors">Urbano / Casual</span>
+<span class="px-space-xs py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm cursor-pointer hover:bg-secondary hover:text-on-secondary transition-colors">Gala &amp; Noche</span>
+<span class="px-space-xs py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm cursor-pointer hover:bg-secondary hover:text-on-secondary transition-colors">Oficina Ejecutivo</span>
+<span class="px-space-xs py-1 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm cursor-pointer hover:bg-secondary hover:text-on-secondary transition-colors">Athleisure</span>
+</div>
+</div>
+<!-- Logistics & Omnichannel Toggles -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<span class="font-label-lg text-label-lg text-on-surface uppercase tracking-wide">Disponibilidad</span>
+<label class="flex items-center justify-between p-space-xs rounded-xl bg-surface-container-low cursor-pointer">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-base">storefront</span>
+<span class="font-body-sm text-body-sm text-on-surface">En stock en tienda local</span>
+</div>
+<input checked="" class="accent-primary h-4 w-4 rounded" type="checkbox"/>
+</label>
+<label class="flex items-center justify-between p-space-xs rounded-xl bg-surface-container-low cursor-pointer">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-base">bolt</span>
+<span class="font-body-sm text-body-sm text-on-surface">Envío Express en 2 horas</span>
+</div>
+<input class="accent-primary h-4 w-4 rounded" type="checkbox"/>
+</label>
+</div>
+</aside>
+<!-- Products Matrix -->
+<main class="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-space-lg" id="catalogGrid">
+<!-- Product 1 -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="relative w-full aspect-[3/4] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Model wearing a striking fuchsia silk slip dress with minimalist geometric cutouts, studio background with sleek soft contrast lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXMQ0P24tJZkogSOcbFrvFDAeIGUuLFRJPEM95xLZPio9SupWI1HBiZonbjZWPgS0Vd3tezpL9EiJ15iLRCGbM5FMSUdeaDLbNheNnVCv_eO0phWcKvudFUuKhqND-DdsoP7WgfVF00apHiGpTvJWsbmJmRNjdtAcRGTPaghQjDuISJfs5SSOO6E8Lz1iMbyKQsU7A6O-BHbKHZUkZiqmAPOEukrxxXvEvdR-b0y30crj77h8M2MCX5w"/>
+<span class="absolute top-3 left-3 px-space-xs py-0.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm uppercase font-bold shadow-md">Nuevo</span>
+<button class="like-btn absolute top-3 right-3 w-9 h-9 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors shadow">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<button class="add-to-cart-btn w-full py-2.5 rounded-xl bg-inverse-surface/90 backdrop-blur text-inverse-on-surface font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary transition-colors shadow-lg">
+<span class="material-symbols-outlined text-sm">shopping_bag</span>
+<span>Añadir a la Bolsa</span>
+</button>
+</div>
+</div>
+<div class="p-space-md flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Damas • Fiesta</span>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm font-bold">4.9</span>
+<span class="text-outline font-body-sm text-xs">(128)</span>
+</div>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface truncate">Vestido Satinado Fuchsia Night</h4>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-baseline gap-2">
+<span class="font-price-prominent text-price-prominent text-primary">$49.900</span>
+<span class="font-body-sm text-body-sm line-through text-outline">$65.000</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-3.5 h-3.5 rounded-full bg-primary ring-1 ring-offset-1 ring-primary"></span>
+<span class="w-3.5 h-3.5 rounded-full bg-inverse-surface"></span>
+</div>
+</div>
+</div>
+</article>
+<!-- Product 2 -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="relative w-full aspect-[3/4] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Sophisticated male model wearing a modern unstructured cobalt blue suit blazer over an ivory mock neck shirt, high end fashion photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwc_TEWZHvyYhD5O9_udHQHqLAoe3hvDvFJl5pEpeEE14LKVWlItSTjHsP1ebKWOZ5CKYtHjwUo7LPgXwzdqt86SYM1lqSL8RGTRsi2LZjjHYFAmuDo01Gv7VvNGfGFG80-p2bd55bmWJHA-07IjerFLmHiRQZcd8hEilg67oa22j5ENhy4e3PQ4hXRRmnfwbdKLC-sXgqLQM2JTQyucsP9cuxuruf1HLpeTE7WMA00xswI9qy3v4Hzg"/>
+<span class="absolute top-3 left-3 px-space-xs py-0.5 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm uppercase font-bold shadow-md">Trending</span>
+<button class="like-btn absolute top-3 right-3 w-9 h-9 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors shadow">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<button class="add-to-cart-btn w-full py-2.5 rounded-xl bg-inverse-surface/90 backdrop-blur text-inverse-on-surface font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary transition-colors shadow-lg">
+<span class="material-symbols-outlined text-sm">shopping_bag</span>
+<span>Añadir a la Bolsa</span>
+</button>
+</div>
+</div>
+<div class="p-space-md flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Caballeros • Sastrería</span>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm font-bold">4.8</span>
+<span class="text-outline font-body-sm text-xs">(85)</span>
+</div>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface truncate">Blazer Índigo Desestructurado</h4>
+<div class="flex items-center justify-between mt-1">
+<span class="font-price-prominent text-price-prominent text-on-surface">$79.900</span>
+<div class="flex items-center gap-1">
+<span class="w-3.5 h-3.5 rounded-full bg-secondary ring-1 ring-offset-1 ring-secondary"></span>
+<span class="w-3.5 h-3.5 rounded-full bg-surface-variant"></span>
+</div>
+</div>
+</div>
+</article>
+<!-- Product 3 -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="relative w-full aspect-[3/4] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Charming child model with playful urban outfit, wearing an organic terracotta utility jacket with pockets, modern kids fashion lookbook." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWmUqDKQqycgXHkvOorCbreHHFEGSyFEpNG012yf8hPvCOkCb0O_FtFWbgw5pp3a-JcLco2VJgOestz5LIaXP4rvp8lvio0yGixfrzfSvkF2PcXqOpaQT3XaK9H58jJaHdIqBHfnfgcrecAZMY7ufclvpj4nEkEI8-7P5WSCfOCVlefcPYt-prV1WWC1k42UA1W2REzgVxPh0N9x-k3Ar3EPxyIsQbEoG6CPfWBipKfQcwicdcfTUymQ"/>
+<span class="absolute top-3 left-3 px-space-xs py-0.5 rounded-full bg-tertiary text-on-tertiary font-label-sm text-label-sm uppercase font-bold shadow-md">Eco-Friendly</span>
+<button class="like-btn absolute top-3 right-3 w-9 h-9 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors shadow">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<button class="add-to-cart-btn w-full py-2.5 rounded-xl bg-inverse-surface/90 backdrop-blur text-inverse-on-surface font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary transition-colors shadow-lg">
+<span class="material-symbols-outlined text-sm">shopping_bag</span>
+<span>Añadir a la Bolsa</span>
+</button>
+</div>
+</div>
+<div class="p-space-md flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Niños • Urbano</span>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm font-bold">5.0</span>
+<span class="text-outline font-body-sm text-xs">(42)</span>
+</div>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface truncate">Chaqueta Utility Terra Kids</h4>
+<div class="flex items-center justify-between mt-1">
+<span class="font-price-prominent text-price-prominent text-on-surface">$34.900</span>
+<div class="flex items-center gap-1">
+<span class="w-3.5 h-3.5 rounded-full bg-tertiary ring-1 ring-offset-1 ring-tertiary"></span>
+<span class="w-3.5 h-3.5 rounded-full bg-primary-fixed"></span>
+</div>
+</div>
+</div>
+</article>
+<!-- Product 4 -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="relative w-full aspect-[3/4] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close up editorial shot of a woman in an oversized tailored magenta wool coat with sharp lapels, dynamic studio fashion stance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCi2SovbMLXvSGBDnoN0teA0iG68el0pfo0_mMQMKdAdUJr3cuma66QYT_cIigrCGrjXGvkFJgwMZiftEr0V7_cH5_JngF1fNxCUBWEDdr253NWDQaa1Rxc9MzniKlq4Eri0Yp1zIpqxOu96EvQNb4y8a0Dp2ZbhwgZTe8YvlqOrpmJGlDDuJf_5v3quyopXsWh0nj5BveRoTsMHTi61SPmBmaPJrEaP6W3gnv3PX138kZepaL7p30kIw"/>
+<span class="absolute top-3 left-3 px-space-xs py-0.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm uppercase font-bold shadow-md">-30% Flash</span>
+<button class="like-btn absolute top-3 right-3 w-9 h-9 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors shadow">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<button class="add-to-cart-btn w-full py-2.5 rounded-xl bg-inverse-surface/90 backdrop-blur text-inverse-on-surface font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary transition-colors shadow-lg">
+<span class="material-symbols-outlined text-sm">shopping_bag</span>
+<span>Añadir a la Bolsa</span>
+</button>
+</div>
+</div>
+<div class="p-space-md flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Damas • Abrigos</span>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm font-bold">4.7</span>
+<span class="text-outline font-body-sm text-xs">(94)</span>
+</div>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface truncate">Abrigo Oversized Magenta Wool</h4>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-baseline gap-2">
+<span class="font-price-prominent text-price-prominent text-primary">$89.900</span>
+<span class="font-body-sm text-body-sm line-through text-outline">$129.000</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-3.5 h-3.5 rounded-full bg-primary ring-1 ring-offset-1 ring-primary"></span>
+<span class="w-3.5 h-3.5 rounded-full bg-inverse-surface"></span>
+</div>
+</div>
+</div>
+</article>
+<!-- Product 5 -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="relative w-full aspect-[3/4] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Male model wearing a textured crisp cotton ivory shirt and deep midnight blue pleated trousers in an airy modernist room." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAANPOT16IOviFAASGrACzzdiPTngkHg5cHd2Qr0f_pfuxu8MUw3M9q_3h5D6AxVHDfCyaUVHxNKql_n3x2RH_ztikcO4NjzZnHkD3rIHLIGAytWN0uJEaQiVfZWKVoLL5rRL6yVMnJ_6AUNNiRq9IOCXHdkfX6iLy9cwE4D5e_DO5l-jPsaWiBa8DfcJN88wO-FDs2Y-eg2dLZJUefnrIeR65IHitYwbhB2BmqjEzHd4DTpXb9LJ8a3w"/>
+<span class="absolute top-3 left-3 px-space-xs py-0.5 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm uppercase font-bold shadow-md">Básico Clásico</span>
+<button class="like-btn absolute top-3 right-3 w-9 h-9 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors shadow">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<button class="add-to-cart-btn w-full py-2.5 rounded-xl bg-inverse-surface/90 backdrop-blur text-inverse-on-surface font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary transition-colors shadow-lg">
+<span class="material-symbols-outlined text-sm">shopping_bag</span>
+<span>Añadir a la Bolsa</span>
+</button>
+</div>
+</div>
+<div class="p-space-md flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Caballeros • Casual</span>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm font-bold">4.9</span>
+<span class="text-outline font-body-sm text-xs">(61)</span>
+</div>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface truncate">Camisa Oxford Cuello Mao</h4>
+<div class="flex items-center justify-between mt-1">
+<span class="font-price-prominent text-price-prominent text-on-surface">$39.900</span>
+<div class="flex items-center gap-1">
+<span class="w-3.5 h-3.5 rounded-full bg-surface-container-lowest border border-surface-variant ring-1 ring-offset-1 ring-outline"></span>
+<span class="w-3.5 h-3.5 rounded-full bg-secondary"></span>
+</div>
+</div>
+</div>
+</article>
+<!-- Product 6 -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="relative w-full aspect-[3/4] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Child girl wearing a chic pleated lilac and pastel rose dress paired with trendy white sneakers, smiling in bright daylight garden setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9ppNM0648ToC6GJwswKGS3CFu8KRRZPwcnz9fW3eCja8a8UG_7eJL_6-ccNYtZvuTZqz9p4cqkgRsDCTF60khyQNj1yM53y2i04Ek690eWFfqvbns597vF-qsrbe6c5KNUeL3KFnOzEQJosstLAZ6sW1kWDJKGpPWCoUhVadafZiCiXjGC54dvH1PkoHBU4evdNGNSUa5ictfJPYleO5MbVeW6GAz-PgGTwd4Remii-xRvG-gE9M84A"/>
+<span class="absolute top-3 left-3 px-space-xs py-0.5 rounded-full bg-primary-fixed-dim text-on-primary-fixed-variant font-label-sm text-label-sm uppercase font-bold shadow-md">Nuevo</span>
+<button class="like-btn absolute top-3 right-3 w-9 h-9 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors shadow">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<button class="add-to-cart-btn w-full py-2.5 rounded-xl bg-inverse-surface/90 backdrop-blur text-inverse-on-surface font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary transition-colors shadow-lg">
+<span class="material-symbols-outlined text-sm">shopping_bag</span>
+<span>Añadir a la Bolsa</span>
+</button>
+</div>
+</div>
+<div class="p-space-md flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Niñas • Vestidos</span>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm font-bold">4.9</span>
+<span class="text-outline font-body-sm text-xs">(36)</span>
+</div>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface truncate">Vestido Plisado Soft Blossom</h4>
+<div class="flex items-center justify-between mt-1">
+<span class="font-price-prominent text-price-prominent text-on-surface">$29.900</span>
+<div class="flex items-center gap-1">
+<span class="w-3.5 h-3.5 rounded-full bg-primary-fixed ring-1 ring-offset-1 ring-primary"></span>
+<span class="w-3.5 h-3.5 rounded-full bg-secondary-fixed"></span>
+</div>
+</div>
+</div>
+</article>
+<!-- Product 7 -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="relative w-full aspect-[3/4] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Trendy woman wearing a modern two piece cobalt blue tailored suit with wide leg trousers on a minimalist warm toned runway." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4bNmtjWD1cSvK63r2SHqAbCp7wc7Ra6q8RVwhYIHn6EdPaB7r1k65xQ7WB9Ph72drAWVyrIw4KttDKroMuQguhcelT0nAymn9su8gtMPzQ953Ygeq7fI9aK_fv0-4MU5hD8xtmXdwB2Xc8AKZ5OH4LYA0xzYJwRkJNIGSiQcmQjAFaH5lGnYEpLTW_ZZFXUFsPmMvklwRahZ25F34laEqUyi8sXMwNskEt7qNkf033SFb_ACDvoeGVw"/>
+<span class="absolute top-3 left-3 px-space-xs py-0.5 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm uppercase font-bold shadow-md">Top Ventas</span>
+<button class="like-btn absolute top-3 right-3 w-9 h-9 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors shadow">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<button class="add-to-cart-btn w-full py-2.5 rounded-xl bg-inverse-surface/90 backdrop-blur text-inverse-on-surface font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary transition-colors shadow-lg">
+<span class="material-symbols-outlined text-sm">shopping_bag</span>
+<span>Añadir a la Bolsa</span>
+</button>
+</div>
+</div>
+<div class="p-space-md flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Damas • Oficina</span>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm font-bold">5.0</span>
+<span class="text-outline font-body-sm text-xs">(173)</span>
+</div>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface truncate">Conjunto Blazer &amp; Pantalón Cobalt</h4>
+<div class="flex items-center justify-between mt-1">
+<span class="font-price-prominent text-price-prominent text-on-surface">$119.000</span>
+<div class="flex items-center gap-1">
+<span class="w-3.5 h-3.5 rounded-full bg-secondary ring-1 ring-offset-1 ring-secondary"></span>
+<span class="w-3.5 h-3.5 rounded-full bg-inverse-surface"></span>
+</div>
+</div>
+</div>
+</article>
+<!-- Product 8 -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="relative w-full aspect-[3/4] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Athletic male model wearing a sleek black technical bomber jacket with warm terracotta lining, urban outdoor setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJ4NGCrRgw6zkeGFWyg9z3tlgEx77Gn8VdprXAe2_XTudLBi3bxrBZzn_7nAR69t0-q6v0lPtAtTL3xI5U0rCAnYN7ki6d1-JeBXoPYSmXZsgQkBrp54wx6WVBReHZroUFEpskUOZs7gGbF3r9i_vimwEk_X0KKkIVq5LzI5lSTXqzZzcSMDB3dZAEZXMRFnbxAXtumrYZ1JwfIyYB-cyMXjDj1Ph8XVHmfpeUCSKI7g2gVpsUkV0RPQ"/>
+<span class="absolute top-3 left-3 px-space-xs py-0.5 rounded-full bg-inverse-surface text-inverse-on-surface font-label-sm text-label-sm uppercase font-bold shadow-md">Últimas Unidades</span>
+<button class="like-btn absolute top-3 right-3 w-9 h-9 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors shadow">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<button class="add-to-cart-btn w-full py-2.5 rounded-xl bg-inverse-surface/90 backdrop-blur text-inverse-on-surface font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary transition-colors shadow-lg">
+<span class="material-symbols-outlined text-sm">shopping_bag</span>
+<span>Añadir a la Bolsa</span>
+</button>
+</div>
+</div>
+<div class="p-space-md flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Caballeros • Athleisure</span>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm font-bold">4.8</span>
+<span class="text-outline font-body-sm text-xs">(88)</span>
+</div>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface truncate">Bomber Jacket Stealth Pro</h4>
+<div class="flex items-center justify-between mt-1">
+<span class="font-price-prominent text-price-prominent text-on-surface">$69.900</span>
+<div class="flex items-center gap-1">
+<span class="w-3.5 h-3.5 rounded-full bg-inverse-surface ring-1 ring-offset-1 ring-outline"></span>
+<span class="w-3.5 h-3.5 rounded-full bg-tertiary"></span>
+</div>
+</div>
+</div>
+</article>
+<!-- Product 9 -->
+<article class="group relative flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+<div class="relative w-full aspect-[3/4] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Two kids wearing coordinated high energy street fashion, graphic colorblocked hoodies in energetic purple, orange and fuchsia." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZ3y81dFc9gc55RPZg9kRwA4Jdz7bRlY_IcQlLlD1zv-1GAXx4xZihJnGrp2ea6-bGLJxSu-FFe20jSHh-4-L3kBqZncmtQXCbcp_6ae8eS6nEq5Sq_VYPgQS6BqkjcYN-FRkacOnx2slaUoP7U6FYHq3nurW-3PxYdlH6zEU7YpfmmqhXYlPYmgK_BWAHAI1BDe9Hscix1K0pRX5ODCbu6hHxXHMwaY6jXisvEDYlCRhegzfmVOgAgQ"/>
+<span class="absolute top-3 left-3 px-space-xs py-0.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm uppercase font-bold shadow-md">-20% Pack</span>
+<button class="like-btn absolute top-3 right-3 w-9 h-9 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-on-surface hover:text-primary transition-colors shadow">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<button class="add-to-cart-btn w-full py-2.5 rounded-xl bg-inverse-surface/90 backdrop-blur text-inverse-on-surface font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary transition-colors shadow-lg">
+<span class="material-symbols-outlined text-sm">shopping_bag</span>
+<span>Añadir a la Bolsa</span>
+</button>
+</div>
+</div>
+<div class="p-space-md flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Niños • Streetwear</span>
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm font-bold">4.9</span>
+<span class="text-outline font-body-sm text-xs">(54)</span>
+</div>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface truncate">Hoodie Colorblock Active Kids</h4>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-baseline gap-2">
+<span class="font-price-prominent text-price-prominent text-primary">$27.900</span>
+<span class="font-body-sm text-body-sm line-through text-outline">$35.000</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-3.5 h-3.5 rounded-full bg-secondary ring-1 ring-offset-1 ring-secondary"></span>
+<span class="w-3.5 h-3.5 rounded-full bg-tertiary"></span>
+</div>
+</div>
+</div>
+</article>
+</main>
+</div>
+</section>
+<!-- Featured Collections Bento Grid -->
+<section class="w-full bg-surface-container-low py-space-3xl mt-space-xl">
+<div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop flex flex-col gap-space-xl">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-sm">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-bold">Curaduría Editorial</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Colecciones en el Foco</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">Explora cápsulas diseñadas para cada momento de tu rutina contemporánea, desde alfombra roja hasta domingo casual.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Bento 1 -->
+<div class="relative group rounded-3xl overflow-hidden aspect-[4/5] md:aspect-auto md:h-96 shadow-md">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="High-fashion model in a bold monochromatic fuchsia suit against soft warm architectural elements, editorial magazine cover aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9SxfI8AynsFyeoh5A52udER044drOzY9Zt7SEFq7dOAzXuPwZeK2SwNHZ4ycW9YHVYsYwPLcpcmVbbf8I4o5UfTYrd2R0Y-cVNbSXypBZOTFjkC6zeiJMHvyERV6m7c42hDUxLjkg3YhIy6cBsvB2V0SCTKIH24o6vcSE33Z6UuO5wwUpKZ8R1iOpflG7SSbjuZ_8RUFmhMn6fzDuEtcpiZRsTc_Hjupl15ouHOCIL_123-VHQE_3cA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-background/90 via-on-background/20 to-transparent p-space-lg flex flex-col justify-end">
+<span class="font-label-sm text-label-sm uppercase text-primary-fixed tracking-wider">Cápsula Exclusiva</span>
+<h3 class="font-headline-md text-headline-md text-on-primary">Monocromía Neón</h3>
+<a class="mt-2 inline-flex items-center gap-2 font-label-md text-label-md text-on-primary underline underline-offset-4 hover:text-primary-fixed transition-colors" href="#catalogo">Explorar Looks <span class="material-symbols-outlined text-sm">north_east</span></a>
+</div>
+</div>
+<!-- Bento 2 -->
+<div class="relative group rounded-3xl overflow-hidden aspect-[4/5] md:aspect-auto md:h-96 shadow-md">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Male model sitting in a modern Scandinavian lounge chair wearing a minimalist navy blue knit sweater and relaxed fit trousers, warm daylight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuTyiKtifoSe_rKmBhTePeai7qEXgxS52WQBeaSsvddtvlVQu2lm6zYtKn-onV4vZpapLc8gJk1xPy8nVyH3dyRfbhWI_E7uGgB39Y47rnd4KW2JqQhBbWT2HgqjTbDpX71lGYGnCjxi65_yWRYKdW7PFxwU9hlhbj1S_8f7Qw8t57QOvNEHRuE01gv1wZ-ykmxFxCPhyY2tXsOqR1fwJ9XcJ6Pg_KDKU_B83PPIUS1lBUfuV213hCfg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-background/90 via-on-background/20 to-transparent p-space-lg flex flex-col justify-end">
+<span class="font-label-sm text-label-sm uppercase text-secondary-fixed tracking-wider">Sartorial Tech</span>
+<h3 class="font-headline-md text-headline-md text-on-primary">Confort Ejecutivo</h3>
+<a class="mt-2 inline-flex items-center gap-2 font-label-md text-label-md text-on-primary underline underline-offset-4 hover:text-secondary-fixed transition-colors" href="#catalogo">Descubrir Sastrería <span class="material-symbols-outlined text-sm">north_east</span></a>
+</div>
+</div>
+<!-- Bento 3 -->
+<div class="relative group rounded-3xl overflow-hidden aspect-[4/5] md:aspect-auto md:h-96 shadow-md">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Playful energetic kids jumping in stylish colorful matching sportswear against a clean pastel minimalist background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA742agVdmB652WF7LdMYWMplKRmr3qKAmUVKKaGm2ogv1VmYpX7ogaGZLumSP1VJ90XOB3-k7eIzVe_TJOWdJxhCymHgFQ5Es6VBPNOflpd1K2VICax_CeOy3UUOSWM9UE7F82W1bjRVr8nI9BETXB3KB64UM7vWhK4-3ET5v_duvcRpCtzxz-Ox2AO2eWDy5CLdCIvt9LNE4cEBbMwLesAtpvs7ONdlW0fgaxxqJ50BCS2Fm5c7HqnA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-background/90 via-on-background/20 to-transparent p-space-lg flex flex-col justify-end">
+<span class="font-label-sm text-label-sm uppercase text-tertiary-fixed tracking-wider">Mini Tendencia</span>
+<h3 class="font-headline-md text-headline-md text-on-primary">Infancia en Movimiento</h3>
+<a class="mt-2 inline-flex items-center gap-2 font-label-md text-label-md text-on-primary underline underline-offset-4 hover:text-tertiary-fixed transition-colors" href="#catalogo">Ver Mini Colección <span class="material-symbols-outlined text-sm">north_east</span></a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Value Propositions / Purchase Guarantees -->
+<section class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop py-space-2xl w-full">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<div class="flex items-start gap-space-md p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm">
+<div class="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-2xl">local_shipping</span>
+</div>
+<div class="flex flex-col gap-1">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Envíos Express Omnicanal</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Entrega en menos de 24 horas en zonas metropolitanas o retira en 2 horas en cualquiera de nuestras sucursales.</p>
+</div>
+</div>
+<div class="flex items-start gap-space-md p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm">
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-2xl">published_with_changes</span>
+</div>
+<div class="flex flex-col gap-1">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Devolución en 30 Días</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">¿No te convenció la talla? Cambios y retornos sin costo tanto en tienda física como mediante recogida a domicilio.</p>
+</div>
+</div>
+<div class="flex items-start gap-space-md p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm">
+<div class="w-12 h-12 rounded-xl bg-tertiary/10 text-tertiary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-2xl">security</span>
+</div>
+<div class="flex flex-col gap-1">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Pagos 100% Blindados</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Transacciones tokenizadas con soporte para tarjetas, transferencias inmediatas y cuotas sin interés.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Style Assistant Dialog Popover -->
+<div class="fixed bottom-24 right-6 w-80 sm:w-96 bg-surface-container-lowest rounded-3xl shadow-2xl z-50 overflow-hidden flex flex-col transition-all duration-300 transform scale-0 origin-bottom-right" id="aiChatDialog">
+<div class="bg-gradient-to-r from-secondary to-primary p-space-md text-on-primary flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">auto_awesome</span>
+</div>
+<div>
+<h5 class="font-label-lg text-label-lg font-bold">Stylist Virtual VivaModa</h5>
+<span class="font-label-sm text-label-sm opacity-80 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> En línea para ti
+          </span>
+</div>
+</div>
+<button class="text-on-primary hover:opacity-75 transition-opacity" id="closeAiChat">
+<span class="material-symbols-outlined text-xl">close</span>
+</button>
+</div>
+<div class="p-space-md flex flex-col gap-space-sm max-h-72 overflow-y-auto font-body-sm text-body-sm bg-surface-container-low/40">
+<div class="flex items-start gap-2">
+<div class="w-6 h-6 rounded-full bg-secondary text-on-secondary flex items-center justify-center text-xs shrink-0 mt-0.5">IA</div>
+<div class="bg-surface-container-lowest p-space-xs px-space-sm rounded-2xl rounded-tl-none shadow-sm text-on-surface">
+          ¡Hola! ¿Buscas tu outfit ideal? Pregúntame sobre tallas exactas, combinaciones de color o dress codes para eventos.
+        </div>
+</div>
+<div class="flex flex-wrap gap-1.5 pt-1">
+<button class="chat-prompt-pill px- space-xs py-1 rounded-full bg-surface-container text-on-surface text-xs hover:bg-secondary hover:text-on-secondary transition-colors">¿Qué talla soy en vestidos?</button>
+<button class="chat-prompt-pill px-space-xs py-1 rounded-full bg-surface-container text-on-surface text-xs hover:bg-secondary hover:text-on-secondary transition-colors">Combinar blazer índigo</button>
+</div>
+</div>
+<div class="p-space-xs bg-surface-container-lowest flex items-center gap-2">
+<input class="flex-1 px-space-sm py-2 rounded-xl bg-surface-container-low font-body-sm text-body-sm focus:outline-none focus:bg-surface-container-lowest" id="aiChatInput" placeholder="Escribe tu consulta de estilo..." type="text"/>
+<button class="w-9 h-9 rounded-xl bg-primary text-on-primary flex items-center justify-center hover:bg-primary-container transition-all" id="sendAiMessage">
+<span class="material-symbols-outlined text-base">send</span>
+</button>
+</div>
+</div>
+<script>
+    (() => {
+      // Interactive Likes
+      document.querySelectorAll('.like-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const icon = btn.querySelector('.material-symbols-outlined');
+          const isLiked = icon.style.fontVariationSettings && icon.style.fontVariationSettings.includes("'FILL' 1");
+          if (isLiked) {
+            icon.style.fontVariationSettings = "'FILL' 0";
+            btn.classList.remove('text-primary');
+          } else {
+            icon.style.fontVariationSettings = "'FILL' 1";
+            btn.classList.add('text-primary');
+          }
+        });
+      });
+
+      // Price slider interaction
+      const priceSlider = document.getElementById('priceRange');
+      const priceDisplay = document.getElementById('priceDisplay');
+      if (priceSlider && priceDisplay) {
+        priceSlider.addEventListener('input', (e) => {
+          const val = Number(e.target.value).toLocaleString('es-CL');
+          priceDisplay.textContent = `$10.000 - $${val}`;
+        });
+      }
+
+      // Size chip selection
+      const sizeChips = document.querySelectorAll('.size-chip');
+      sizeChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          sizeChips.forEach(c => {
+            c.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm');
+            c.classList.add('bg-surface-container', 'text-on-surface');
+          });
+          chip.classList.remove('bg-surface-container', 'text-on-surface');
+          chip.classList.add('bg-primary', 'text-on-primary', 'shadow-sm');
+        });
+      });
+
+      // Add to cart feedback
+      document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const originalText = btn.innerHTML;
+          btn.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span><span>¡Agregado!</span>';
+          btn.classList.add('bg-primary', 'text-on-primary');
+          setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.classList.remove('bg-primary', 'text-on-primary');
+          }, 1500);
+        });
+      });
+
+      // AI Chat popover trigger connected with bottom floating button
+      const aiFloatingBtn = document.querySelector('a[data-path="hub-agente-ia"]');
+      const aiDialog = document.getElementById('aiChatDialog');
+      const closeAiChat = document.getElementById('closeAiChat');
+      
+      if (aiFloatingBtn && aiDialog) {
+        aiFloatingBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          aiDialog.classList.toggle('scale-0');
+          aiDialog.classList.toggle('scale-100');
+        });
+      }
+
+      if (closeAiChat && aiDialog) {
+        closeAiChat.addEventListener('click', () => {
+          aiDialog.classList.remove('scale-100');
+          aiDialog.classList.add('scale-0');
+        });
+      }
+
+      // Chat prompts fill input
+      document.querySelectorAll('.chat-prompt-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          const input = document.getElementById('aiChatInput');
+          if (input) {
+            input.value = pill.textContent.trim();
+            input.focus();
+          }
+        });
+      });
+
+      // Simple Search Filter Simulation
+      const searchInput = document.getElementById('searchInput');
+      const clearSearch = document.getElementById('clearSearch');
+      const catalogGrid = document.getElementById('catalogGrid');
+      const productCounter = document.getElementById('productCounter');
+
+      if (searchInput && catalogGrid) {
+        searchInput.addEventListener('input', (e) => {
+          const val = e.target.value.toLowerCase().trim();
+          if (val.length > 0) {
+            clearSearch.classList.remove('hidden');
+          } else {
+            clearSearch.classList.add('hidden');
+          }
+
+          let visibleCount = 0;
+          catalogGrid.querySelectorAll('article').forEach(card => {
+            const text = card.textContent.toLowerCase();
+            if (text.includes(val)) {
+              card.style.display = 'flex';
+              visibleCount++;
+            } else {
+              card.style.display = 'none';
+            }
+          });
+
+          if (productCounter) {
+            productCounter.textContent = `${visibleCount} prendas`;
+          }
+        });
+
+        clearSearch.addEventListener('click', () => {
+          searchInput.value = '';
+          clearSearch.classList.add('hidden');
+          catalogGrid.querySelectorAll('article').forEach(card => card.style.display = 'flex');
+          if (productCounter) productCounter.textContent = '9 prendas';
+        });
+      }
+
+      // View switcher
+      const viewGrid = document.getElementById('viewGrid');
+      const viewList = document.getElementById('viewList');
+      if (viewGrid && viewList && catalogGrid) {
+        viewGrid.addEventListener('click', () => {
+          viewGrid.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+          viewGrid.classList.remove('text-on-surface-variant');
+          viewList.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+          viewList.classList.add('text-on-surface-variant');
+          catalogGrid.classList.remove('grid-cols-1');
+          catalogGrid.classList.add('sm:grid-cols-2', 'xl:grid-cols-3');
+        });
+
+        viewList.addEventListener('click', () => {
+          viewList.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+          viewList.classList.remove('text-on-surface-variant');
+          viewGrid.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+          viewGrid.classList.add('text-on-surface-variant');
+          catalogGrid.classList.remove('sm:grid-cols-2', 'xl:grid-cols-3');
+          catalogGrid.classList.add('grid-cols-1');
+        });
+      }
+    })();
+  </script>
+</div></main><a class="fixed bottom-6 right-6 z-40 flex items-center gap-space-xs px-space-md py-space-sm rounded-full bg-gradient-to-r from-secondary to-primary text-on-primary shadow-[0_10px_28px_-2px_rgba(79,70,229,0.35)] hover:scale-105 transition-all duration-300 group" data-path="hub-agente-ia" href="#"><span class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform">auto_awesome</span><div class="flex flex-col text-left"><span class="font-label-md text-label-md leading-none font-bold">Stylist IA</span><span class="font-label-sm text-label-sm opacity-80 leading-tight">Recomendador Activo</span></div><span class="w-2.5 h-2.5 rounded-full bg-white animate-pulse ml-1"></span></a><footer class="w-full bg-surface-container-low text-on-surface py-space-3xl mt-space-3xl"><div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-space-xl"><div class="lg:col-span-2 flex flex-col gap-space-sm"><div class="flex items-center gap-space-xs"><img alt="VivaModa Brand Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPxRS6J4xFS_SLN7LrE6NaSwEtUeeDDODwVjtuyHhM7cR_-fQWzkQwdEnqHXfTt-1uhC3rd3uw6WttAbhH6FVTECUPUlN4Mr-9EWVNGWqAkgGtK8j2RqcWIXyXMddCUzjobWi6RCeCQjpQatwx_j2AfVTViqWjnf2-VG4MI0xQLV7as0hBcqyUln2i5XwRmdAn7zr-85fCQjVxwnyyUzEIySzdMb6gRwhm3AcNfqHvSaw-RoNtA8MgXg"/><span class="font-headline-sm text-headline-sm tracking-tight text-primary font-bold">VivaModa</span></div><p class="font-body-md text-body-md text-on-surface-variant max-w-sm">Moda multicanal contemporánea para Damas, Caballeros y Niños. Inteligencia de estilo, inventario en tiempo real y experiencias de compra conectadas.</p><div class="flex flex-col gap-space-xs mt-space-sm"><span class="font-label-lg text-label-lg text-on-surface">Suscríbete al Newsletter VIP</span><div class="flex items-center gap-space-xs max-w-md"><input class="flex-1 px-space-md py-space-xs rounded-xl bg-surface-container-lowest text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-primary/20" placeholder="Tu correo electrónico" type="email"/><button class="px-space-md py-space-xs rounded-xl bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-all shadow-sm">Unirme</button></div></div></div><div><h4 class="font-headline-sm text-headline-sm mb-space-md text-on-surface">Colecciones</h4><ul class="flex flex-col gap-space-xs font-body-sm text-body-sm text-on-surface-variant"><li><a class="hover:text-primary transition-colors" data-path="catalogo-de-productos" href="#">Damas &amp; Alta Tendencia</a></li><li><a class="hover:text-primary transition-colors" data-path="catalogo-caballeros" href="#">Caballeros Formal &amp; Casual</a></li><li><a class="hover:text-primary transition-colors" data-path="catalogo-ninos" href="#">Niños &amp; Mini-Tendencias</a></li><li><a class="hover:text-primary transition-colors" data-path="novedades" href="#">Lanzamientos Semanales</a></li><li><a class="hover:text-primary transition-colors" data-path="ofertas-flash" href="#">Ofertas Flash &amp; Outlet</a></li><li><a class="hover:text-primary transition-colors" data-path="tienda-virtual-realidad" href="#">Tienda Virtual en Realidad Virtual</a></li></ul></div><div><h4 class="font-headline-sm text-headline-sm mb-space-md text-on-surface">Atención &amp; Servicios</h4><ul class="flex flex-col gap-space-xs font-body-sm text-body-sm text-on-surface-variant"><li><a class="hover:text-primary transition-colors" data-path="seguimiento-de-pedidos" href="#">Rastreo de Pedidos</a></li><li><a class="hover:text-primary transition-colors" data-path="guia-de-tallas" href="#">Guía Inteligente de Tallas</a></li><li><a class="hover:text-primary transition-colors" data-path="politica-de-devoluciones" href="#">Políticas de Devolución</a></li><li><a class="hover:text-primary transition-colors" data-path="sucursales-y-tiendas" href="#">Localizador de Tiendas</a></li><li><a class="hover:text-primary transition-colors" data-path="hub-agente-ia" href="#">Consultar al Estilista IA</a></li></ul></div><div><h4 class="font-headline-sm text-headline-sm mb-space-md text-on-surface">Paneles Operativos</h4><ul class="flex flex-col gap-space-xs font-body-sm text-body-sm text-on-surface-variant"><li><a class="hover:text-secondary transition-colors" data-path="pedidos-y-pos" href="#">Terminal POS &amp; Empleados</a></li><li><a class="hover:text-secondary transition-colors" data-path="panel-de-almacen-y-ventas" href="#">Control Almacén &amp; Stock</a></li><li><a class="hover:text-primary transition-colors" data-path="iniciar-sesion" href="#">Portal de Acceso Unificado</a></li></ul><div class="mt-space-lg flex flex-col gap-space-2xs"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Transacciones Seguras</span><div class="flex items-center gap-space-xs text-on-surface-variant"><span class="material-symbols-outlined text-xl">verified_user</span><span class="material-symbols-outlined text-xl">lock</span><span class="material-symbols-outlined text-xl">credit_card</span></div></div></div></div><div class="max-w-container-max mx-auto px-margin-mobile lg:px-margin-desktop mt-space-2xl pt-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-md font-body-sm text-body-sm text-on-surface-variant"><p>© 2024 VivaModa S.A. Todos los derechos reservados. Moda conectada en tiendas físicas y digital.</p><div class="flex items-center gap-space-md"><a class="hover:text-on-surface" href="#">Términos</a><a class="hover:text-on-surface" href="#">Privacidad</a><a class="hover:text-on-surface" href="#">Cookies</a></div></div></footer></body></html>

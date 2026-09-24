@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary-fixed": "#351000", "inverse-primary": "#ffb1c3", "surface-variant": "#e5e1e4", "secondary-container": "#645efb", "inverse-surface": "#313032", "on-primary": "#ffffff", "on-tertiary-container": "#fffbff", "on-secondary": "#ffffff", "secondary-fixed-dim": "#c3c0ff", "primary": "#b60055", "outline": "#906e75", "surface-container-lowest": "#ffffff", "surface-container": "#f0edf0", "inverse-on-surface": "#f3f0f2", "tertiary-container": "#c45100", "background": "#fcf8fb", "on-error-container": "#93000a", "surface-container-low": "#f6f2f5", "primary-container": "#e4006c", "primary-fixed": "#ffd9e0", "surface-dim": "#dcd9dc", "on-primary-fixed": "#3f0019", "tertiary-fixed-dim": "#ffb693", "on-tertiary-fixed-variant": "#7a3000", "on-secondary-fixed": "#0f0069", "secondary": "#4b41e1", "on-background": "#1c1b1d", "on-primary-container": "#fffbff", "primary-fixed-dim": "#ffb1c3", "tertiary-fixed": "#ffdbcc", "on-primary-fixed-variant": "#8f0041", "outline-variant": "#e5bcc4", "on-secondary-container": "#fffbff", "on-error": "#ffffff", "tertiary": "#9c3f00", "surface-bright": "#fcf8fb", "on-surface": "#1c1b1d", "error-container": "#ffdad6", "secondary-fixed": "#e2dfff", "surface": "#fcf8fb", "on-tertiary": "#ffffff", "surface-container-high": "#eae7ea", "on-surface-variant": "#5c3f45", "surface-container-highest": "#e5e1e4", "surface-tint": "#bb0058", "on-secondary-fixed-variant": "#3323cc", "error": "#ba1a1a" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-sm": "0.75rem", "space-xl": "2rem", "space-lg": "1.5rem", "space-2xl": "3rem", "space-2xs": "0.25rem", "space-md": "1rem", "margin-mobile": "1.25rem", "space-3xl": "4rem", "space-xs": "0.5rem", "space-4xl": "6rem", "container-max": "80rem", "gutter-desktop": "1.5rem", "margin-desktop": "2.5rem", "gutter-mobile": "1rem" }, "fontFamily": { "headline-md": ["Plus Jakarta Sans"], "display-hero": ["Plus Jakarta Sans"], "headline-lg-mobile": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "display-hero-mobile": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "price-prominent": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"] }, "fontSize": { "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "display-hero-mobile": ["36px", { "lineHeight": "42px", "letterSpacing": "-0.025em", "fontWeight": "800" }], "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }], "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0em", "fontWeight": "400" }], "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }], "body-md": ["15px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }], "price-prominent": ["22px", { "lineHeight": "26px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col justify-between pt-space-md pb-space-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="px-space-lg pb-space-md flex items-center justify-between"><a class="flex items-center gap-space-xs" data-path="catalogo-de-productos" href="#"><img alt="VivaModa Brand Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPxRS6J4xFS_SLN7LrE6NaSwEtUeeDDODwVjtuyHhM7cR_-fQWzkQwdEnqHXfTt-1uhC3rd3uw6WttAbhH6FVTECUPUlN4Mr-9EWVNGWqAkgGtK8j2RqcWIXyXMddCUzjobWi6RCeCQjpQatwx_j2AfVTViqWjnf2-VG4MI0xQLV7as0hBcqyUln2i5XwRmdAn7zr-85fCQjVxwnyyUzEIySzdMb6gRwhm3AcNfqHvSaw-RoNtA8MgXg"/><span class="font-headline-sm text-headline-sm tracking-tight text-primary font-bold">VivaModa</span></a></div><div class="px-space-md py-space-xs"><div class="bg-surface-container-lowest rounded-xl p-space-xs flex items-center justify-between text-on-surface"><div class="flex items-center gap-space-xs"><span class="w-2 h-2 rounded-full bg-emerald-500"></span><span class="font-label-sm text-label-sm font-bold uppercase tracking-wider text-on-surface-variant">Modo Operativo</span></div><span class="font-label-sm text-label-sm text-secondary font-bold">POS / ERP</span></div></div><nav class="flex flex-col gap-1 px-space-md mt-space-sm" data-active-classes="bg-secondary text-on-secondary font-bold rounded-xl shadow-sm"><a class="flex items-center px-space-md py-2.5 rounded-xl font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="panel-de-almacen-y-ventas" href="#"><span class="material-symbols-outlined mr-3 text-xl">inventory_2</span>Almacén &amp; Stock</a><a aria-current="page" class="flex items-center px-space-md py-2.5 transition-all bg-secondary text-on-secondary font-bold rounded-xl shadow-sm" data-path="pedidos-y-pos" href="#"><span class="material-symbols-outlined mr-3 text-xl">point_of_sale</span>Terminal POS &amp; Caja</a><a class="flex items-center px-space-md py-2.5 rounded-xl font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="gestion-pedidos-multicanal" href="#"><span class="material-symbols-outlined mr-3 text-xl">local_shipping</span>Pedidos Omnicanal</a><a class="flex items-center px-space-md py-2.5 rounded-xl font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="hub-agente-ia" href="#"><span class="material-symbols-outlined mr-3 text-xl">smart_toy</span>Asistente &amp; IA Hub</a><a class="flex items-center px-space-md py-2.5 rounded-xl font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="catalogo-de-productos" href="#"><span class="material-symbols-outlined mr-3 text-xl">storefront</span>Ver Tienda Pública</a></nav></div><div class="px-space-md flex flex-col gap-space-xs"><div class="p-space-xs bg-surface-container-high rounded-xl flex items-center gap-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSN0Fqry_Z1wSeYCZJNaCbGcGEINtMzPkgVh-F0xn2KnbLRx1YHCtskzoQ9ySI-1hMZ7f2jiS9BsonZ_vtmlWACoHEowu-YB5Y19GVNiP1PGV0mxl7DhWm_v15-7OAW_--umxU0TxszQzTcryqRPPhCQtXbrz2y7L-60gvIpXn-W55Xh0DH6MFBWOpB3XG6XQ-TqhUCKjPIioHPF3xq7h5MkYHgSd4RYancLpOJ7wOSnr5MyIrKt9Avw"/><div class="flex flex-col flex-1 overflow-hidden"><span class="font-label-md text-label-md text-on-surface truncate">Carlos M.</span><span class="font-label-sm text-label-sm text-on-surface-variant truncate">Admin Sucursal Centro</span></div><a class="text-on-surface-variant hover:text-error transition-colors p-1" data-path="iniciar-sesion" href="#"><span class="material-symbols-outlined text-lg">logout</span></a></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 px-space-xl flex items-center justify-between"><div class="flex items-center gap-space-md"><div class="relative w-72"><span class="material-symbols-outlined absolute left-space-xs top-1/2 -translate-y-1/2 text-on-surface-variant text-base">barcode_scanner</span><input class="w-full pl-8 pr-space-xs py-1.5 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:ring-1 focus:ring-secondary" placeholder="Escanear SKU o buscar ref..." type="text"/></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-1 rounded-full text-on-surface-variant font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span>Almacén Central (Bodega A-12)</span></div><a class="px-space-sm py-1.5 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md flex items-center gap-1" data-path="catalogo-de-productos" href="#"><span class="material-symbols-outlined text-base">arrow_back</span>Ir a Tienda</a><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSN0Fqry_Z1wSeYCZJNaCbGcGEINtMzPkgVh-F0xn2KnbLRx1YHCtskzoQ9ySI-1hMZ7f2jiS9BsonZ_vtmlWACoHEowu-YB5Y19GVNiP1PGV0mxl7DhWm_v15-7OAW_--umxU0TxszQzTcryqRPPhCQtXbrz2y7L-60gvIpXn-W55Xh0DH6MFBWOpB3XG6XQ-TqhUCKjPIioHPF3xq7h5MkYHgSd4RYancLpOJ7wOSnr5MyIrKt9Avw"/></div></header><main class="w-full pt-16 px-space-xl py-space-xl bg-background min-h-screen"><div class="flex flex-col w-full">
+<!-- Employee Operation Header Bar -->
+<div class="w-full bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-wrap items-center justify-between gap-space-md mb-space-lg">
+<div class="flex items-center gap-space-lg flex-wrap">
+<div class="flex items-center gap-space-xs">
+<div class="w-3 h-3 rounded-full bg-emerald-500 animate-ping"></div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Turno Activo</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Matutino #04 • Caja 02</span>
+</div>
+</div>
+<div class="h-8 w-px bg-surface-container-high hidden md:block"></div>
+<div class="flex items-center gap-space-xs">
+<div class="p-2 rounded-lg bg-primary-fixed text-on-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">pending_actions</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Despachos Pendientes</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">14 Pedidos</span>
+</div>
+</div>
+<div class="h-8 w-px bg-surface-container-high hidden md:block"></div>
+<div class="flex items-center gap-space-xs">
+<div class="p-2 rounded-lg bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">receipt_long</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Venta Diaria Caja</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-bold">$1,489,200 COP</span>
+</div>
+</div>
+</div>
+<!-- Mode Quick Actions -->
+<div class="flex items-center gap-space-xs">
+<button class="px-space-md py-2 rounded-xl bg-surface-container-high text-on-surface hover:bg-surface-variant transition-all flex items-center gap-space-2xs font-label-lg text-label-lg shadow-sm" id="btn-toggle-scan" onclick="triggerBarcodeScan()">
+<span class="material-symbols-outlined text-lg">qr_code_scanner</span>
+<span>Escanear Lector</span>
+</button>
+<button class="px-space-md py-2 rounded-xl bg-primary text-on-primary hover:bg-primary-container transition-all flex items-center gap-space-2xs font-label-lg text-label-lg shadow-md hover:scale-105" id="btn-quick-pos" onclick="switchView('pos')">
+<span class="material-symbols-outlined text-lg">point_of_sale</span>
+<span>Modo POS (Caja Rápida)</span>
+</button>
+</div>
+</div>
+<!-- Operational Mode Tabs Switcher -->
+<div class="w-full flex items-center justify-between mb-space-lg flex-wrap gap-space-sm">
+<div class="inline-flex bg-surface-container-high p-1 rounded-xl shadow-inner">
+<button class="flex items-center gap-space-xs px-space-lg py-2.5 rounded-lg font-label-lg text-label-lg bg-surface-container-lowest text-on-surface font-bold shadow-sm transition-all" id="tab-orders" onclick="switchView('orders')">
+<span class="material-symbols-outlined text-base text-primary">local_shipping</span>
+<span>Gestión de Pedidos &amp; Despachos</span>
+<span class="ml-1 px-2 py-0.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm">8</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-lg py-2.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-all" id="tab-pos" onclick="switchView('pos')">
+<span class="material-symbols-outlined text-base text-secondary">shopping_cart_checkout</span>
+<span>Punto de Venta Mostrador (POS)</span>
+</button>
+</div>
+<!-- Live Sync Telemetry & Station Info -->
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-low text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-emerald-600 text-sm">wifi_tethering</span>
+<span>Impresora Térmica: Conectada</span>
+</div>
+<button class="p-2 rounded-lg bg-surface-container-lowest text-on-surface-variant hover:text-secondary shadow-sm" onclick="printDailyZReport()" title="Corte de Caja Z">
+<span class="material-symbols-outlined text-base">print</span>
+</button>
+</div>
+</div>
+<!-- VIEW 1: GESTIÓN DE PEDIDOS & DESPACHOS (KANBAN OMNICANAL) -->
+<div class="w-full grid grid-cols-1 xl:grid-cols-4 gap-space-md" id="view-orders">
+<!-- COL 1: Por Preparar (Picking) -->
+<div class="flex flex-col bg-surface-container-low rounded-xl p-space-sm shadow-sm">
+<div class="flex items-center justify-between pb-space-xs mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary-container"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Picking Pendiente</span>
+</div>
+<span class="px-2 py-0.5 bg-surface-container-lowest font-label-sm text-label-sm rounded-md text-on-surface font-bold">3</span>
+</div>
+<div class="flex flex-col gap-space-sm overflow-y-auto max-h-[720px] pr-1">
+<!-- Order Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md transition-all flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-bold tracking-wide">#VM-9082</span>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold animate-pulse flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">bolt</span> Express 2H
+            </span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold">Mariana Restrepo</h4>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Medellín • El Poblado</span>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-low flex flex-col gap-1 my-1">
+<div class="flex items-center justify-between text-on-surface font-label-sm text-label-sm">
+<span class="truncate max-w-[180px]">Vestido Magenta Asimétrico (M)</span>
+<span class="font-bold">x1</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span class="truncate max-w-[180px]">Cinturón Cuero Fucsia Neón (U)</span>
+<span class="font-bold">x1</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-price-prominent text-price-prominent text-primary">$289,900</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Canal: Shopify</span>
+</div>
+<div class="flex items-center gap-2 pt-2">
+<button class="flex-1 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary-container font-label-sm text-label-sm font-bold flex items-center justify-center gap-1 shadow-sm" onclick="confirmPicking('VM-9082')">
+<span class="material-symbols-outlined text-sm">inventory</span>
+<span>Confirmar Picking</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high" onclick="quickBarcodeScanItem('VM-9082')" title="Escanear Prendas">
+<span class="material-symbols-outlined text-base">barcode_scanner</span>
+</button>
+</div>
+</div>
+<!-- Order Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md transition-all flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-bold tracking-wide">#VM-9085</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm">Estándar</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold">Felipe Morales</h4>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Bogotá D.C. • Chapinero</span>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-low flex flex-col gap-1 my-1">
+<div class="flex items-center justify-between text-on-surface font-label-sm text-label-sm">
+<span class="truncate max-w-[180px]">Camisa Slim Caballero Azul Cobalto (L)</span>
+<span class="font-bold">x2</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span class="truncate max-w-[180px]">Pantalón Chino Khaki (32)</span>
+<span class="font-bold">x1</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-price-prominent text-price-prominent text-primary">$419,700</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Canal: WhatsApp POS</span>
+</div>
+<div class="flex items-center gap-2 pt-2">
+<button class="flex-1 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary-container font-label-sm text-label-sm font-bold flex items-center justify-center gap-1 shadow-sm" onclick="confirmPicking('VM-9085')">
+<span class="material-symbols-outlined text-sm">inventory</span>
+<span>Confirmar Picking</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high" onclick="quickBarcodeScanItem('VM-9085')" title="Escanear Prendas">
+<span class="material-symbols-outlined text-base">barcode_scanner</span>
+</button>
+</div>
+</div>
+<!-- Order Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md transition-all flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-bold tracking-wide">#VM-9089</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">store</span> Retiro en Tienda
+            </span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold">Camila Arango</h4>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Recoge en Caja 02</span>
+</div>
+<div class="p-2 rounded-lg bg-surface-container-low flex flex-col gap-1 my-1">
+<div class="flex items-center justify-between text-on-surface font-label-sm text-label-sm">
+<span class="truncate max-w-[180px]">Chaqueta Bomber Satinada (S)</span>
+<span class="font-bold">x1</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-price-prominent text-price-prominent text-primary">$199,000</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Canal: App Móvil</span>
+</div>
+<div class="flex items-center gap-2 pt-2">
+<button class="flex-1 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary-container font-label-sm text-label-sm font-bold flex items-center justify-center gap-1 shadow-sm" onclick="confirmPicking('VM-9089')">
+<span class="material-symbols-outlined text-sm">inventory</span>
+<span>Confirmar Picking</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high" onclick="quickBarcodeScanItem('VM-9089')">
+<span class="material-symbols-outlined text-base">barcode_scanner</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- COL 2: Empacado / Listo -->
+<div class="flex flex-col bg-surface-container-low rounded-xl p-space-sm shadow-sm">
+<div class="flex items-center justify-between pb-space-xs mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Empacado / Listo</span>
+</div>
+<span class="px-2 py-0.5 bg-surface-container-lowest font-label-sm text-label-sm rounded-md text-on-surface font-bold">2</span>
+</div>
+<div class="flex flex-col gap-space-sm overflow-y-auto max-h-[720px] pr-1">
+<!-- Order Card Ready 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md transition-all flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-bold tracking-wide">#VM-9076</span>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold animate-pulse flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">bolt</span> Express 2H
+            </span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold">Sebastián Gil</h4>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Cali • Granada</span>
+</div>
+<div class="p-2 rounded-lg bg-secondary-fixed/30 flex flex-col gap-1 my-1 text-on-secondary-fixed">
+<div class="flex items-center justify-between font-label-sm text-label-sm">
+<span>Bolsa Biodegradable #03 sellada</span>
+<span class="material-symbols-outlined text-xs">done_all</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">2 Prendas verificadas</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-price-prominent text-price-prominent text-primary">$345,000</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Carrier: EnviaYa</span>
+</div>
+<div class="flex items-center gap-2 pt-2">
+<button class="flex-1 py-2 rounded-lg bg-secondary text-on-secondary hover:bg-secondary-container font-label-sm text-label-sm font-bold flex items-center justify-center gap-1 shadow-sm" onclick="printShippingLabel('VM-9076')">
+<span class="material-symbols-outlined text-sm">print</span>
+<span>Imprimir Guía</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high" onclick="markDispatched('VM-9076')" title="Despachar a Mensajero">
+<span class="material-symbols-outlined text-base">departure_board</span>
+</button>
+</div>
+</div>
+<!-- Order Card Ready 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md transition-all flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-bold tracking-wide">#VM-9078</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm">Nacional</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold">Valeria Henao</h4>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Barranquilla • Alto Prado</span>
+</div>
+<div class="p-2 rounded-lg bg-secondary-fixed/30 flex flex-col gap-1 my-1 text-on-secondary-fixed">
+<div class="flex items-center justify-between font-label-sm text-label-sm">
+<span>Caja Regalo VivaModa Rosa</span>
+<span class="material-symbols-outlined text-xs">done_all</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Conjunto Niña + Moño</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-price-prominent text-price-prominent text-primary">$159,900</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Carrier: Coordinadora</span>
+</div>
+<div class="flex items-center gap-2 pt-2">
+<button class="flex-1 py-2 rounded-lg bg-secondary text-on-secondary hover:bg-secondary-container font-label-sm text-label-sm font-bold flex items-center justify-center gap-1 shadow-sm" onclick="printShippingLabel('VM-9078')">
+<span class="material-symbols-outlined text-sm">print</span>
+<span>Imprimir Guía</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high" onclick="markDispatched('VM-9078')">
+<span class="material-symbols-outlined text-base">departure_board</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- COL 3: En Tránsito -->
+<div class="flex flex-col bg-surface-container-low rounded-xl p-space-sm shadow-sm">
+<div class="flex items-center justify-between pb-space-xs mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-fixed-dim"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">En Tránsito</span>
+</div>
+<span class="px-2 py-0.5 bg-surface-container-lowest font-label-sm text-label-sm rounded-md text-on-surface font-bold">2</span>
+</div>
+<div class="flex flex-col gap-space-sm overflow-y-auto max-h-[720px] pr-1">
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm flex flex-col gap-space-xs opacity-90">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-bold">#VM-9060</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Ruta Urbana #12</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold">Lucas Botero</h4>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Mensajero: Jorge E. (En moto)</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 mt-1 overflow-hidden">
+<div class="bg-secondary h-full w-3/4 rounded-full"></div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-price-prominent text-price-prominent text-on-surface">$224,500</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">ETA: 25 min</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm flex flex-col gap-space-xs opacity-90">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-bold">#VM-9055</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Intermunicipal</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold">Elena Castro</h4>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Guía: SER-9938102</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 mt-1 overflow-hidden">
+<div class="bg-secondary h-full w-1/2 rounded-full"></div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-price-prominent text-price-prominent text-on-surface">$512,000</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Salida de Hub</span>
+</div>
+</div>
+</div>
+</div>
+<!-- COL 4: Entregado / Cerrado -->
+<div class="flex flex-col bg-surface-container-low rounded-xl p-space-sm shadow-sm">
+<div class="flex items-center justify-between pb-space-xs mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Entregados Hoy</span>
+</div>
+<span class="px-2 py-0.5 bg-surface-container-lowest font-label-sm text-label-sm rounded-md text-emerald-600 font-bold">18</span>
+</div>
+<div class="flex flex-col gap-space-sm overflow-y-auto max-h-[720px] pr-1">
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">#VM-9040</span>
+<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-label-sm font-bold">Firma Digital OK</span>
+</div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold">Daniela Gómez</h4>
+<div class="flex items-center justify-between pt-1">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Entregado 14:22</span>
+<span class="font-label-lg text-label-lg text-on-surface font-bold">$179,900</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">#VM-9037</span>
+<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-label-sm font-bold">Pick-up Tienda OK</span>
+</div>
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold">Carlos Duque</h4>
+<div class="flex items-center justify-between pt-1">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Entregado 13:48</span>
+<span class="font-label-lg text-label-lg text-on-surface font-bold">$388,400</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- VIEW 2: TERMINAL PUNTO DE VENTA MOSTRADOR (POS) & CAJA RÁPIDA -->
+<div class="w-full hidden grid-cols-1 lg:grid-cols-12 gap-space-lg" id="view-pos">
+<!-- Left Column: Fast Catalog Search & Scan (7 Cols) -->
+<div class="lg:col-span-7 flex flex-col gap-space-md">
+<!-- Search and Scanner Input Bar -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-xl">barcode_reader</span>
+<input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-low rounded-xl font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-secondary transition-all" id="pos-product-input" onkeydown="handleBarcodeEnter(event)" placeholder="Escanear código de barra (ej: 770123401) o buscar prenda..." type="text"/>
+</div>
+<button class="px-space-md py-2.5 bg-secondary text-on-secondary rounded-xl font-label-lg text-label-lg font-bold hover:bg-secondary-container transition-all flex items-center gap-1 shadow-sm" onclick="addCurrentScannedItem()">
+<span class="material-symbols-outlined text-lg">add_shopping_cart</span>
+<span>Agregar</span>
+</button>
+</div>
+<!-- Fast Filter Categories -->
+<div class="flex items-center gap-2 overflow-x-auto pb-1">
+<button class="px-3 py-1 rounded-lg bg-on-background text-surface font-label-sm text-label-sm font-bold whitespace-nowrap" onclick="filterCatalog('all')">Todas las Colecciones</button>
+<button class="px-3 py-1 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm hover:bg-surface-variant whitespace-nowrap" onclick="filterCatalog('damas')">Damas</button>
+<button class="px-3 py-1 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm hover:bg-surface-variant whitespace-nowrap" onclick="filterCatalog('caballeros')">Caballeros</button>
+<button class="px-3 py-1 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm hover:bg-surface-variant whitespace-nowrap" onclick="filterCatalog('ninos')">Niños &amp; Jóvenes</button>
+<button class="px-3 py-1 rounded-lg bg-surface-container-high text-on-surface font-label-sm text-label-sm hover:bg-surface-variant whitespace-nowrap" onclick="filterCatalog('accesorios')">Accesorios / Calzado</button>
+</div>
+</div>
+<!-- Quick Select Product Matrix -->
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-space-sm">
+<!-- Item 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md cursor-pointer transition-all flex flex-col group" onclick="addPosItem('Vestido Coctel Magenta', 189900, 'Talla M • VM-001', 'https://lh3.googleusercontent.com/aida-public/AB6AXuBPxRS6J4xFS_SLN7LrE6NaSwEtUeeDDODwVjtuyHhM7cR_-fQWzkQwdEnqHXfTt-1uhC3rd3uw6WttAbhH6FVTECUPUlN4Mr-9EWVNGWqAkgGtK8j2RqcWIXyXMddCUzjobWi6RCeCQjpQatwx_j2AfVTViqWjnf2-VG4MI0xQLV7as0hBcqyUln2i5XwRmdAn7zr-85fCQjVxwnyyUzEIySzdMb6gRwhm3AcNfqHvSaw-RoNtA8MgXg')">
+<div class="w-full h-32 rounded-lg bg-surface-container-low overflow-hidden relative mb-2">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-all" data-alt="Vibrant magenta evening cocktail dress tailored with clean modern silhouette on clean studio spotlight VivaModa high fashion" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGygzjvfyQVxqeK2_6v7FQEDs4_RsUK3mT6nGvx2s5Q8PaSQ8YU01PoFJIah3fp8PR0lMUtj-gbWDitoStv514Wm2uOiAB_q0rTRuDgt2sMkauE1N066kxHMuvyk6GqXhmuMEHIXLIIzibqA1V01ME4sKIQDnB8tSzPEiZgp2wvm5ai_6y7P4nv7PhJVz1-S-XRI7Dhh73rj-nEvKBJq-94HRoC9sexANNQuHiQHOg9obhlSpTGh6o_g"/>
+<span class="absolute top-1.5 right-1.5 px-2 py-0.5 rounded-md bg-surface/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm font-bold">M</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Damas • Vestidos</span>
+<h5 class="font-label-lg text-label-lg text-on-surface font-bold truncate">Vestido Coctel Magenta</h5>
+<span class="font-price-prominent text-price-prominent text-primary mt-1">$189,900</span>
+</div>
+<!-- Item 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md cursor-pointer transition-all flex flex-col group" onclick="addPosItem('Camisa Slim Cobalt L', 129000, 'Talla L • VM-002', 'placeholder')">
+<div class="w-full h-32 rounded-lg bg-surface-container-low overflow-hidden relative mb-2">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-all" data-alt="Men fitted cobalt blue dress shirt premium cotton texture folded cleanly fashion catalog studio VivaModa" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTQXtlkGZ3eS_FDn7pqxqE0TybGrrqStrwxGbsd2HdaG_jwoakQoF7ypp8akWHsYjeteJpgzyJoCsWe0dE3t9zkMIpMibvPREwzkLyqMm9yBFB_aHAqPtldB8jCOm_RKmbQp-BN3dfE_uc62Rs9zgvkiFxBvkMqnLRafLkMK6REoT0J6XyY_4NdmmKyChA-kVdFxFP09EbfTWF-Qw3NxrfVMR0vwnyVNq63NkxAnuLAX-xjXMySjrzNg"/>
+<span class="absolute top-1.5 right-1.5 px-2 py-0.5 rounded-md bg-surface/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm font-bold">L</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Caballeros • Camisas</span>
+<h5 class="font-label-lg text-label-lg text-on-surface font-bold truncate">Camisa Slim Cobalto</h5>
+<span class="font-price-prominent text-price-prominent text-primary mt-1">$129,000</span>
+</div>
+<!-- Item 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md cursor-pointer transition-all flex flex-col group" onclick="addPosItem('Pantalón Chino Beige', 145000, 'Talla 32 • VM-003', 'placeholder')">
+<div class="w-full h-32 rounded-lg bg-surface-container-low overflow-hidden relative mb-2">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-all" data-alt="Tailored beige chino trousers for men hanging against bright minimalist background retail product photography VivaModa" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyIT1aIcJ0pKakeD-DBWXzzCvM2JFRLWDa2AAZv_Xvjy3s5v4q-NdAhbnxlYE-uJBXPRA6jK9iVFXckShFhzFw8b0ufhd1l09xaus0GKMOe5x5hCkrVw3-sp1-J6lCqmR0c_l_lGqAV4WRDq5Ig1H-Ran0lLFdanQjQjT4sfmKxQEJFvy8T1AMyLRKatdWHCxy0_gkqlV3n1Dwwsf0DUO0rP9AEbBwRQ2_zrrNnMRf0AYMFFK7plvzZA"/>
+<span class="absolute top-1.5 right-1.5 px-2 py-0.5 rounded-md bg-surface/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm font-bold">32</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Caballeros • Pantalones</span>
+<h5 class="font-label-lg text-label-lg text-on-surface font-bold truncate">Pantalón Chino Beige</h5>
+<span class="font-price-prominent text-price-prominent text-primary mt-1">$145,000</span>
+</div>
+<!-- Item 4 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md cursor-pointer transition-all flex flex-col group" onclick="addPosItem('Blusa Seda Neon Fuchsia', 115000, 'Talla S • VM-004', 'placeholder')">
+<div class="w-full h-32 rounded-lg bg-surface-container-low overflow-hidden relative mb-2">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-all" data-alt="Elegant women silk blouse in neon fuchsia hue luxury fabric texture studio lighting VivaModa chic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARDtjCOV-nkiyW0Adsu-J6QnYNfEUZ0BhFA-zRiKXO9YcsE6jbsz5g3CtrOHbd6chch0XHF8HDhvsAlg_EcPYj4pDok0Y9lCqJLNDOCksW_XRA8dbU0jYIkB2z5R8zgDQ-nnaVWheEma_bb1faF0At4x8CTuAUNPCnJ8qBV00kO-II-13gKoDT0MsoPq-91SV9cYg7byrFrKyXsyXFcewVZLoPs2KpRMqRhjGOnKaj2tgvUfGNfH1BkQ"/>
+<span class="absolute top-1.5 right-1.5 px-2 py-0.5 rounded-md bg-surface/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm font-bold">S</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Damas • Blusas</span>
+<h5 class="font-label-lg text-label-lg text-on-surface font-bold truncate">Blusa Seda Neón</h5>
+<span class="font-price-prominent text-price-prominent text-primary mt-1">$115,000</span>
+</div>
+<!-- Item 5 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md cursor-pointer transition-all flex flex-col group" onclick="addPosItem('Chaqueta Denim Kids', 95000, 'Talla 8 • VM-005', 'placeholder')">
+<div class="w-full h-32 rounded-lg bg-surface-container-low overflow-hidden relative mb-2">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-all" data-alt="Kids trendy denim jacket with embroidered colorful patch details stylish children fashion VivaModa" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBO6mDMkCTiDf7BJHi5vas2TpVw2Mz0rpS0Gx1Fy_L1HD8B2mD21b566uGQw1Xx8OOY2PbI50QNFhxMQDS_fnmxaDsy7kLBLjeLWXKDs9PsrAxPoG4vwFyk1v9RXuJ6LN-qeaoZk8Fdb7N3_jznoc6HjOxOXFpylZmu8d0hZdRQvvwA4gtf2uT4L02jNovqHfgtTScNQcJXBOFiMbL1yiQWTfkJwcqGHIIaYoZBGx198IBjnM7UrrOd4A"/>
+<span class="absolute top-1.5 right-1.5 px-2 py-0.5 rounded-md bg-surface/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm font-bold">T8</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Niños • Ropa Exterior</span>
+<h5 class="font-label-lg text-label-lg text-on-surface font-bold truncate">Chaqueta Denim Kids</h5>
+<span class="font-price-prominent text-price-prominent text-primary mt-1">$95,000</span>
+</div>
+<!-- Item 6 -->
+<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm hover:shadow-md cursor-pointer transition-all flex flex-col group" onclick="addPosItem('Cinturón Cuero Magenta', 49000, 'Talla U • VM-006', 'placeholder')">
+<div class="w-full h-32 rounded-lg bg-surface-container-low overflow-hidden relative mb-2">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-all" data-alt="High quality magenta leather belt with polished silver buckle fashion luxury accessory VivaModa" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3T0sjna9i2k_8WqYLoqSDDFU9DmlL9DMit6Pvxr9SiAzoTYb1j5I_VkAJMXHD8dNdbZog4K6qG5i6GCf5UZYZo6Z9yiJlqpMGrxj6X0ZWc_YHAKglIhXBZmny4pDXcpyC3he1kMsuq9bONJR_dVEKFqO5gnBUV1hIlbVxC2x8gPRJBDHeMU-z-0q0Ci4aJrqi4q7HvARlcCsWbYk02MKUatIS-NeoxeOHdHu8IyKXvNnEq6rfe4yBjQ"/>
+<span class="absolute top-1.5 right-1.5 px-2 py-0.5 rounded-md bg-surface/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm font-bold">U</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Accesorios • Cuero</span>
+<h5 class="font-label-lg text-label-lg text-on-surface font-bold truncate">Cinturón Cuero Magenta</h5>
+<span class="font-price-prominent text-price-prominent text-primary mt-1">$49,000</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Interactive POS Register & Checkout (5 Cols) -->
+<div class="lg:col-span-5 flex flex-col bg-surface-container-lowest rounded-2xl p-space-md shadow-md">
+<!-- Seller & Register Allocation -->
+<div class="flex items-center justify-between pb-space-sm border-b border-surface-container-high mb-space-sm">
+<div class="flex items-center gap-space-xs">
+<div class="w-9 h-9 rounded-full bg-secondary text-on-secondary flex items-center justify-center font-bold font-label-lg text-label-lg">
+            CM
+          </div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Asesor / Vendedor comisiones:</span>
+<div class="flex items-center gap-1">
+<select class="bg-transparent font-label-lg text-label-lg text-on-surface font-bold focus:outline-none cursor-pointer" id="seller-select">
+<option value="Carlos Morales (Centro)">Carlos Morales (Tú)</option>
+<option value="Laura Gómez (Ventas)">Laura Gómez</option>
+<option value="Andrés Velásquez (Ventas)">Andrés Velásquez</option>
+<option value="Valentina Ríos (Piso 2)">Valentina Ríos</option>
+</select>
+<span class="material-symbols-outlined text-xs text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-error transition-colors p-1" onclick="clearPosCart()" title="Vaciar Carrito">
+<span class="material-symbols-outlined text-lg">delete_sweep</span>
+</button>
+</div>
+<!-- Customer Lookup Field for Invoice/Loyalty -->
+<div class="bg-surface-container-low rounded-xl p-space-xs flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-2 flex-1">
+<span class="material-symbols-outlined text-on-surface-variant text-base">person_search</span>
+<input class="w-full bg-transparent font-label-md text-label-md text-on-surface focus:outline-none" id="pos-customer" placeholder="C.C. Cliente o Cliente Mostrador..." type="text" value="Consumidor Final (222222222)"/>
+</div>
+<button class="px-2 py-1 rounded-md bg-surface-container text-on-surface font-label-sm text-label-sm font-bold hover:bg-surface-variant">
+          Puntos Viva: 320
+        </button>
+</div>
+<!-- POS Items Cart List -->
+<div class="flex flex-col gap-space-xs flex-1 max-h-[320px] overflow-y-auto pr-1 mb-space-sm" id="pos-cart-items">
+<!-- Default Item Row 1 -->
+<div class="flex items-center justify-between p-2 rounded-xl bg-surface-container-low" data-id="1">
+<div class="flex items-center gap-2 flex-1 min-w-0">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-primary font-bold">
+<span class="material-symbols-outlined text-base">checkroom</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-bold truncate">Vestido Coctel Magenta</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Talla M • VM-001</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center bg-surface-container-lowest rounded-lg">
+<button class="px-2 py-0.5 text-on-surface-variant hover:text-on-surface font-bold" onclick="updateQty(1, -1)">-</button>
+<span class="px-2 font-label-md text-label-md text-on-surface font-bold item-qty">1</span>
+<button class="px-2 py-0.5 text-on-surface-variant hover:text-on-surface font-bold" onclick="updateQty(1, 1)">+</button>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface font-bold item-subtotal">$189,900</span>
+<button class="text-on-surface-variant hover:text-error" onclick="removePosItem(1)">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</div>
+<!-- Default Item Row 2 -->
+<div class="flex items-center justify-between p-2 rounded-xl bg-surface-container-low" data-id="2">
+<div class="flex items-center gap-2 flex-1 min-w-0">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary font-bold">
+<span class="material-symbols-outlined text-base">style</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface font-bold truncate">Cinturón Cuero Magenta</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Talla U • VM-006</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center bg-surface-container-lowest rounded-lg">
+<button class="px-2 py-0.5 text-on-surface-variant hover:text-on-surface font-bold" onclick="updateQty(2, -1)">-</button>
+<span class="px-2 font-label-md text-label-md text-on-surface font-bold item-qty">1</span>
+<button class="px-2 py-0.5 text-on-surface-variant hover:text-on-surface font-bold" onclick="updateQty(2, 1)">+</button>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface font-bold item-subtotal">$49,000</span>
+<button class="text-on-surface-variant hover:text-error" onclick="removePosItem(2)">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Financial Calculation Summary Box -->
+<div class="bg-surface-container-low rounded-xl p-space-sm flex flex-col gap-1.5 mb-space-sm">
+<div class="flex items-center justify-between font-label-md text-label-md text-on-surface-variant">
+<span>Subtotal Neto</span>
+<span class="font-bold text-on-surface" id="pos-subtotal">$200,756</span>
+</div>
+<div class="flex items-center justify-between font-label-md text-label-md text-on-surface-variant">
+<span>IVA Calculado (19%)</span>
+<span class="font-bold text-on-surface" id="pos-tax">$38,144</span>
+</div>
+<div class="flex items-center justify-between font-label-md text-label-md text-emerald-600">
+<div class="flex items-center gap-1">
+<span>Descuento Promo Turno</span>
+<span class="px-1.5 py-0.2 rounded bg-emerald-100 font-label-sm text-label-sm font-bold">-0%</span>
+</div>
+<span class="font-bold" id="pos-discount">$0</span>
+</div>
+<div class="h-px bg-surface-container-high my-1"></div>
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">Total a Cobrar</span>
+<span class="font-display-hero-mobile text-display-hero-mobile text-primary font-bold" id="pos-total">$238,900</span>
+</div>
+</div>
+<!-- Payment Method Switcher -->
+<div class="flex flex-col gap-1.5 mb-space-md">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Forma de Pago</span>
+<div class="grid grid-cols-3 gap-2">
+<button class="payment-opt py-2 px-2 rounded-xl bg-secondary text-on-secondary font-label-sm text-label-sm font-bold flex flex-col items-center gap-1 shadow-sm transition-all" id="pay-tarjeta" onclick="selectPayment('tarjeta')" type="button">
+<span class="material-symbols-outlined text-lg">credit_card</span>
+<span>Tarjeta / Datáfono</span>
+</button>
+<button class="payment-opt py-2 px-2 rounded-xl bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold flex flex-col items-center gap-1 hover:bg-surface-variant transition-all" id="pay-efectivo" onclick="selectPayment('efectivo')" type="button">
+<span class="material-symbols-outlined text-lg">payments</span>
+<span>Efectivo</span>
+</button>
+<button class="payment-opt py-2 px-2 rounded-xl bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold flex flex-col items-center gap-1 hover:bg-surface-variant transition-all" id="pay-enlace" onclick="selectPayment('enlace')" type="button">
+<span class="material-symbols-outlined text-lg">qr_code_2</span>
+<span>QR / Enlace Digital</span>
+</button>
+</div>
+</div>
+<!-- Process Checkout CTA -->
+<div class="flex items-center gap-2">
+<button class="flex-1 py-3 rounded-xl bg-primary text-on-primary font-headline-sm text-headline-sm font-bold hover:bg-primary-container transition-all flex items-center justify-center gap-2 shadow-lg hover:scale-[1.01]" onclick="processSale()">
+<span class="material-symbols-outlined text-2xl">point_of_sale</span>
+<span>Cobrar e Imprimir Factura</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Notification Toast Modal Container -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-32 opacity-0 transition-all duration-300 pointer-events-none" id="toast-notification">
+<div class="bg-inverse-surface text-inverse-on-surface px-space-md py-space-sm rounded-xl shadow-2xl flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-emerald-400" id="toast-icon">check_circle</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-bold" id="toast-title">Operación Exitosa</span>
+<span class="font-body-sm text-body-sm text-surface-variant" id="toast-desc">Acción realizada correctamente en el sistema.</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // State variables
+  let cart = [
+    { id: 1, name: 'Vestido Coctel Magenta', price: 189900, qty: 1, meta: 'Talla M • VM-001' },
+    { id: 2, name: 'Cinturón Cuero Magenta', price: 49000, qty: 1, meta: 'Talla U • VM-006' }
+  ];
+  let nextCartId = 3;
+
+  function showToast(title, desc, icon = 'check_circle', iconColor = 'text-emerald-400') {
+    const toast = document.getElementById('toast-notification');
+    const toastTitle = document.getElementById('toast-title');
+    const toastDesc = document.getElementById('toast-desc');
+    const toastIcon = document.getElementById('toast-icon');
+
+    toastTitle.textContent = title;
+    toastDesc.textContent = desc;
+    toastIcon.textContent = icon;
+    toastIcon.className = 'material-symbols-outlined ' + iconColor;
+
+    toast.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
+    toast.classList.add('translate-y-0', 'opacity-100');
+
+    setTimeout(() => {
+      toast.classList.add('translate-y-32', 'opacity-0', 'pointer-events-none');
+      toast.classList.remove('translate-y-0', 'opacity-100');
+    }, 3200);
+  }
+
+  function switchView(view) {
+    const ordersView = document.getElementById('view-orders');
+    const posView = document.getElementById('view-pos');
+    const tabOrders = document.getElementById('tab-orders');
+    const tabPos = document.getElementById('tab-pos');
+
+    if (view === 'orders') {
+      ordersView.classList.remove('hidden');
+      ordersView.classList.add('grid');
+      posView.classList.add('hidden');
+      posView.classList.remove('grid');
+
+      tabOrders.className = "flex items-center gap-space-xs px-space-lg py-2.5 rounded-lg font-label-lg text-label-lg bg-surface-container-lowest text-on-surface font-bold shadow-sm transition-all";
+      tabPos.className = "flex items-center gap-space-xs px-space-lg py-2.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-all";
+    } else {
+      ordersView.classList.add('hidden');
+      ordersView.classList.remove('grid');
+      posView.classList.remove('hidden');
+      posView.classList.add('grid');
+
+      tabPos.className = "flex items-center gap-space-xs px-space-lg py-2.5 rounded-lg font-label-lg text-label-lg bg-surface-container-lowest text-on-surface font-bold shadow-sm transition-all";
+      tabOrders.className = "flex items-center gap-space-xs px-space-lg py-2.5 rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-all";
+    }
+  }
+
+  function triggerBarcodeScan() {
+    showToast("Lector Láser Activo", "Escanee el código de barras del pedido o prenda física.", "qr_code_scanner", "text-secondary");
+    const input = document.getElementById('pos-product-input');
+    if (input) {
+      input.focus();
+    }
+  }
+
+  function quickBarcodeScanItem(orderId) {
+    showToast("Verificación de Prendas", "Lector listo para validar prendas de la orden " + orderId, "barcode_scanner", "text-secondary");
+  }
+
+  function confirmPicking(orderId) {
+    showToast("Picking Completado", "Pedido " + orderId + " trasladado a 'Empacado / Listo'.", "done_all", "text-emerald-400");
+  }
+
+  function printShippingLabel(orderId) {
+    showToast("Imprimiendo Guía", "Generando rótulo térmico y código de rastreo para " + orderId, "print", "text-secondary");
+  }
+
+  function markDispatched(orderId) {
+    showToast("Enviado a Transportadora", "Pedido " + orderId + " marcado en tránsito.", "departure_board", "text-secondary");
+  }
+
+  function printDailyZReport() {
+    showToast("Corte Z Emitido", "Reporte fiscal de turno enviado a impresora térmica.", "receipt_long", "text-secondary");
+  }
+
+  function formatCOP(number) {
+    return '$' + number.toLocaleString('es-CO');
+  }
+
+  function updateCartUI() {
+    const container = document.getElementById('pos-cart-items');
+    if (!container) return;
+    container.innerHTML = '';
+
+    let total = 0;
+    cart.forEach(item => {
+      const subtotal = item.price * item.qty;
+      total += subtotal;
+
+      const itemEl = document.createElement('div');
+      itemEl.className = 'flex items-center justify-between p-2 rounded-xl bg-surface-container-low';
+      itemEl.innerHTML = `
+        <div class="flex items-center gap-2 flex-1 min-w-0">
+          <div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary font-bold">
+            <span class="material-symbols-outlined text-base">checkroom</span>
+          </div>
+          <div class="flex flex-col min-w-0">
+            <span class="font-label-md text-label-md text-on-surface font-bold truncate">${item.name}</span>
+            <span class="font-label-sm text-label-sm text-on-surface-variant">${item.meta}</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="flex items-center bg-surface-container-lowest rounded-lg">
+            <button onclick="updateQty(${item.id}, -1)" class="px-2 py-0.5 text-on-surface-variant hover:text-on-surface font-bold">-</button>
+            <span class="px-2 font-label-md text-label-md text-on-surface font-bold">${item.qty}</span>
+            <button onclick="updateQty(${item.id}, 1)" class="px-2 py-0.5 text-on-surface-variant hover:text-on-surface font-bold">+</button>
+          </div>
+          <span class="font-label-lg text-label-lg text-on-surface font-bold">${formatCOP(subtotal)}</span>
+          <button onclick="removePosItem(${item.id})" class="text-on-surface-variant hover:text-error">
+            <span class="material-symbols-outlined text-sm">close</span>
+          </button>
+        </div>
+      `;
+      container.appendChild(itemEl);
+    });
+
+    const tax = Math.round(total * 0.19);
+    const net = total - tax;
+
+    document.getElementById('pos-subtotal').textContent = formatCOP(net);
+    document.getElementById('pos-tax').textContent = formatCOP(tax);
+    document.getElementById('pos-total').textContent = formatCOP(total);
+  }
+
+  function updateQty(id, delta) {
+    const item = cart.find(i => i.id === id);
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) {
+      cart = cart.filter(i => i.id !== id);
+    }
+    updateCartUI();
+  }
+
+  function removePosItem(id) {
+    cart = cart.filter(i => i.id !== id);
+    updateCartUI();
+  }
+
+  function clearPosCart() {
+    cart = [];
+    updateCartUI();
+    showToast("Caja Limpia", "El ticket de venta ha sido vaciado.", "delete_sweep", "text-on-surface-variant");
+  }
+
+  function addPosItem(name, price, meta, img) {
+    const existing = cart.find(i => i.name === name);
+    if (existing) {
+      existing.qty += 1;
+    } else {
+      cart.push({ id: nextCartId++, name, price, qty: 1, meta });
+    }
+    updateCartUI();
+    showToast("Prenda Agregada", name + " sumada a la venta actual.", "shopping_bag", "text-primary");
+  }
+
+  function handleBarcodeEnter(event) {
+    if (event.key === 'Enter') {
+      addCurrentScannedItem();
+    }
+  }
+
+  function addCurrentScannedItem() {
+    const input = document.getElementById('pos-product-input');
+    const val = input.value.trim();
+    if (!val) {
+      showToast("Ingrese Referencia", "Escanee un código o ingrese texto para buscar.", "warning", "text-tertiary-container");
+      return;
+    }
+    addPosItem(val, 135000, 'Escaneo Directo Lector', '');
+    input.value = '';
+  }
+
+  function selectPayment(type) {
+    const buttons = document.querySelectorAll('.payment-opt');
+    buttons.forEach(b => {
+      b.className = 'payment-opt py-2 px-2 rounded-xl bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold flex flex-col items-center gap-1 hover:bg-surface-variant transition-all';
+    });
+    const selected = document.getElementById('pay-' + type);
+    if (selected) {
+      selected.className = 'payment-opt py-2 px-2 rounded-xl bg-secondary text-on-secondary font-label-sm text-label-sm font-bold flex flex-col items-center gap-1 shadow-sm transition-all';
+    }
+  }
+
+  function processSale() {
+    if (cart.length === 0) {
+      showToast("Carrito Vacío", "Agregue al menos una prenda antes de facturar.", "warning", "text-tertiary-container");
+      return;
+    }
+    const seller = document.getElementById('seller-select').value;
+    showToast("Venta Exitosa", "Ticket procesado. Comisión acreditada a: " + seller, "receipt", "text-emerald-400");
+    cart = [];
+    updateCartUI();
+  }
+
+  function filterCatalog(category) {
+    showToast("Filtro Aplicado", "Mostrando categoría: " + category.toUpperCase(), "filter_list", "text-secondary");
+  }
+</script></main></div></body></html>
