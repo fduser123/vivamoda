@@ -63,7 +63,7 @@ flowchart TB
 | `backend/.env` **(modificado)** | Clave + modelo de OpenRouter |
 | `backend/public/js/common.js` **(modificado)** | `modelShortName()` y `modelChipHtml()` (exportados en `window.VM`) |
 | `backend/public/js/pages/{hub,detalle,catalogo}.js` **(modificados)** | Renderizan el chip del modelo en cada burbuja del asistente |
-| `hub_agente_ia_automatizaci_n/code.html` | Mockup intacto — el encabezado "Modo Inferencia Viva" es reescrito en vivo por `hub.js` |
+| `frontends/hub-agentes-ia/code.html` | Mockup intacto — el encabezado "Modo Inferencia Viva" es reescrito en vivo por `hub.js` |
 
 ### A.4 El indicador de modelo en la UI
 
@@ -174,14 +174,16 @@ vivamoda/
 │   ├── hub_modelo_indicador.png       📸 Evidencia: chip de modelo en el Hub
 │   └── server.log                     Log de la última ejecución
 │
-├── tienda_cat_logo_completo/          Mockup → /catalogo-de-productos
-├── detalle_de_producto_asistente_ia/  Mockup → /detalle-de-producto?sku=…
-├── hub_agente_ia_automatizaci_n/      Mockup → /hub-agente-ia
-├── portal_de_autenticaci_n_registro/  Mockup → /iniciar-sesion · /registro
-├── consola_empleado_pedidos_pos/      Mockup → /pedidos-y-pos
-├── panel_admin_gesti_n_de_almac_n/    Mockup → /panel-de-almacen-y-ventas
-├── tienda_virtual_realidad/           Pantalla 3D → /tienda-virtual-realidad
-└── vibrant_high_fashion_dynamic/      DESIGN.md (tokens del sistema de diseño)
+├── frontends/                         Páginas HTML servidas por la API
+│   ├── tienda-catalogo/               Mockup → /catalogo-de-productos
+│   ├── detalle-producto-ia/           Mockup → /detalle-de-producto?sku=…
+│   ├── hub-agentes-ia/                Mockup → /hub-agente-ia
+│   ├── portal-acceso/                 Mockup → /iniciar-sesion · /registro
+│   ├── pos-pedidos/                   Mockup → /pedidos-y-pos
+│   ├── panel-almacen/                 Mockup → /panel-de-almacen-y-ventas
+│   └── tienda-vr/                     Pantalla 3D → /tienda-virtual-realidad
+└── assets/
+    └── sistema-diseno/                DESIGN.md (tokens del sistema de diseño)
 ```
 
 ★ = creado/modificado en la sesión de integración IA · ☆ = temporal (decidir si se conserva)

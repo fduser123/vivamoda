@@ -482,7 +482,7 @@ stateDiagram-v2
 
 ```mermaid
 flowchart TB
-    HTML["tienda_virtual_realidad/code.html<br/>canvas + HUD (zonas, cliente, tarjeta)"]
+    HTML["frontends/tienda-vr/code.html<br/>canvas + HUD (zonas, cliente, tarjeta)"]
     HTML --> THREE["Three.js r128 + OrbitControls (CDN)"]
     HTML --> CORE["core.js — VRStore"]
 

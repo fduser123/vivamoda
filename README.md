@@ -10,12 +10,12 @@ con sesiones JWT, carrito, pedidos POS, gestión de almacén y una estilista IA.
 
 | Módulo | Ruta | Frontend (mockup) |
 |---|---|---|
-| 🛍️ Tienda & Catálogo | `/catalogo-de-productos` | `tienda_cat_logo_completo/code.html` |
-| 👗 Detalle + Estilista IA | `/detalle-de-producto?sku=…` | `detalle_de_producto_asistente_ia/code.html` |
-| 🤖 Hub de Agentes IA | `/hub-agente-ia` | `hub_agente_ia_automatizaci_n/code.html` |
-| 🔐 Portal de acceso | `/iniciar-sesion` · `/registro` | `portal_de_autenticaci_n_registro/code.html` |
-| 🧾 Consola POS & Pedidos | `/pedidos-y-pos` | `consola_empleado_pedidos_pos/code.html` |
-| 📦 Panel Almacén & Ventas | `/panel-de-almacen-y-ventas` | `panel_admin_gesti_n_de_almac_n/code.html` |
+| 🛍️ Tienda & Catálogo | `/catalogo-de-productos` | `frontends/tienda-catalogo/code.html` |
+| 👗 Detalle + Estilista IA | `/detalle-de-producto?sku=…` | `frontends/detalle-producto-ia/code.html` |
+| 🤖 Hub de Agentes IA | `/hub-agente-ia` | `frontends/hub-agentes-ia/code.html` |
+| 🔐 Portal de acceso | `/iniciar-sesion` · `/registro` | `frontends/portal-acceso/code.html` |
+| 🧾 Consola POS & Pedidos | `/pedidos-y-pos` | `frontends/pos-pedidos/code.html` |
+| 📦 Panel Almacén & Ventas | `/panel-de-almacen-y-ventas` | `frontends/panel-almacen/code.html` |
 
 Todo el código del servidor vive en [`backend/`](backend/):
 

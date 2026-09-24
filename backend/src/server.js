@@ -59,27 +59,27 @@ app.use(express.static(PUBLIC));
 // -------------------------------------------------------------
 // script de wiring que se inyecta en cada página (además de /js/common.js)
 const PAGE_SCRIPTS = {
-  'tienda_cat_logo_completo/code.html': 'catalogo.js',
-  'detalle_de_producto_asistente_ia/code.html': 'detalle.js',
-  'hub_agente_ia_automatizaci_n/code.html': 'hub.js',
-  'portal_de_autenticaci_n_registro/code.html': 'login.js',
-  'consola_empleado_pedidos_pos/code.html': 'pos.js',
-  'panel_admin_gesti_n_de_almac_n/code.html': 'admin.js',
+  'frontends/tienda-catalogo/code.html': 'catalogo.js',
+  'frontends/detalle-producto-ia/code.html': 'detalle.js',
+  'frontends/hub-agentes-ia/code.html': 'hub.js',
+  'frontends/portal-acceso/code.html': 'login.js',
+  'frontends/pos-pedidos/code.html': 'pos.js',
+  'frontends/panel-almacen/code.html': 'admin.js',
 };
 
 const PAGES = {
-  '/catalogo-de-productos': 'tienda_cat_logo_completo/code.html',
-  '/catalogo-caballeros': 'tienda_cat_logo_completo/code.html',
-  '/catalogo-ninos': 'tienda_cat_logo_completo/code.html',
-  '/novedades': 'tienda_cat_logo_completo/code.html',
-  '/ofertas-flash': 'tienda_cat_logo_completo/code.html',
-  '/detalle-de-producto': 'detalle_de_producto_asistente_ia/code.html',
-  '/hub-agente-ia': 'hub_agente_ia_automatizaci_n/code.html',
-  '/tienda-virtual-realidad': 'tienda_virtual_realidad/code.html',
-  '/iniciar-sesion': 'portal_de_autenticaci_n_registro/code.html',
-  '/registro': 'portal_de_autenticaci_n_registro/code.html',
-  '/pedidos-y-pos': 'consola_empleado_pedidos_pos/code.html',
-  '/panel-de-almacen-y-ventas': 'panel_admin_gesti_n_de_almac_n/code.html',
+  '/catalogo-de-productos': 'frontends/tienda-catalogo/code.html',
+  '/catalogo-caballeros': 'frontends/tienda-catalogo/code.html',
+  '/catalogo-ninos': 'frontends/tienda-catalogo/code.html',
+  '/novedades': 'frontends/tienda-catalogo/code.html',
+  '/ofertas-flash': 'frontends/tienda-catalogo/code.html',
+  '/detalle-de-producto': 'frontends/detalle-producto-ia/code.html',
+  '/hub-agente-ia': 'frontends/hub-agentes-ia/code.html',
+  '/tienda-virtual-realidad': 'frontends/tienda-vr/code.html',
+  '/iniciar-sesion': 'frontends/portal-acceso/code.html',
+  '/registro': 'frontends/portal-acceso/code.html',
+  '/pedidos-y-pos': 'frontends/pos-pedidos/code.html',
+  '/panel-de-almacen-y-ventas': 'frontends/panel-almacen/code.html',
 };
 
 const PLACEHOLDER = (name, path) => `<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"/>

@@ -1,8 +1,8 @@
 // =====================================================================
 // Semilla de datos demo.
 // - Los productos de vitrina y el producto estrella se extraen del HTML
-//   original de los mockups (tienda_cat_logo_completo y
-//   detalle_de_producto_asistente_ia), de modo que la base siempre
+//   original de los mockups (frontends/tienda-catalogo y
+//   frontends/detalle-producto-ia), de modo que la base siempre
 //   refleja fielmente lo que muestran los diseños.
 // - El resto (accesorios, calzado, ítems operativos, pedidos POS,
 //   usuarios, tiendas, sesiones IA) se define aquí abajo.
@@ -38,7 +38,7 @@ function cleanText(html) {
 // 1) Productos de la vitrina (tarjetas del catálogo)
 // ---------------------------------------------------------------
 function scrapeStorefrontProducts() {
-  const html = readPage('tienda_cat_logo_completo');
+  const html = readPage('frontends/tienda-catalogo');
   const start = html.indexOf('id="catalogGrid"');
   if (start < 0) return [];
   const grid = html.slice(start);
@@ -87,7 +87,7 @@ function scrapeStorefrontProducts() {
 // 2) Producto estrella: Vestido Asimétrico Magenta Atelier
 // ---------------------------------------------------------------
 function scrapeDetailProduct() {
-  const html = readPage('detalle_de_producto_asistente_ia');
+  const html = readPage('frontends/detalle-producto-ia');
   if (!html) return null;
   const imgs = html.match(/https:\/\/lh3\.googleusercontent\.com\/[^"'\s\\]+/g) || [];
   // En el detalle: img 2-4 son las vistas del vestido (thumb-0..2)

@@ -56,16 +56,18 @@ vivamoda/
 │       └── services/                  products.js (consultas), stylist.js (orquestador IA),
 │                                      llm.js (cliente OpenRouter ★)
 │
-├── tienda_cat_logo_completo/          Mockup: catálogo (code.html + screen.png)
-├── detalle_de_producto_asistente_ia/  Mockup: detalle + asistente IA
-├── hub_agente_ia_automatizaci_n/      Mockup: hub de agentes IA
-├── portal_de_autenticaci_n_registro/  Mockup: login/registro
-├── consola_empleado_pedidos_pos/      Mockup: consola POS de empleado
-├── panel_admin_gesti_n_de_almac_n/    Mockup: panel de almacén y ventas
-├── tienda_virtual_realidad/           Pantalla VR 3D (code.html, sin screen.png)
-├── vibrant_high_fashion_dynamic/      DESIGN.md → sistema de diseño (tokens: color, tipografía…)
-├── vivamoda_brand_logo/               Asset: logotipo (screen.png)
-└── professional_avatar_headshot_of_…/ Asset: avatar/headshot (screen.png)
+├── frontends/                         Páginas HTML servidas por la API
+│   ├── tienda-catalogo/               Mockup: catálogo (code.html + screen.png)
+│   ├── detalle-producto-ia/           Mockup: detalle + asistente IA
+│   ├── hub-agentes-ia/                Mockup: hub de agentes IA
+│   ├── portal-acceso/                 Mockup: login/registro
+│   ├── pos-pedidos/                   Mockup: consola POS de empleado
+│   ├── panel-almacen/                 Mockup: panel de almacén y ventas
+│   └── tienda-vr/                     Pantalla VR 3D (code.html, sin screen.png)
+└── assets/                            Recursos de marca y diseño
+    ├── sistema-diseno/                DESIGN.md → sistema de diseño (tokens: color, tipografía…)
+    ├── logo/                          Logotipo (screen.png)
+    └── avatar-gerente/                Avatar/headshot (screen.png)
 ```
 
 > **Nota:** los frontends son los HTML de diseño **servidos tal cual**; el backend les inyecta sus scripts. No hay bundler, ni `src/` de frontend, ni framework (React/Vue).
@@ -139,7 +141,7 @@ vivamoda/
 - **Tailwind CSS vía CDN** (`cdn.tailwindcss.com`), **Material Symbols** y **Plus Jakarta Sans** (Google Fonts).
 - **JS vanilla** con IIFEs y un namespace global `window.VM`.
 - **Three.js r128** (CDN) + `OrbitControls` para la tienda VR.
-- Sistema de diseño documentado en `vibrant_high_fashion_dynamic/DESIGN.md` (tokens de color, tipografía, elevación, componentes).
+- Sistema de diseño documentado en `assets/sistema-diseno/DESIGN.md` (tokens de color, tipografía, elevación, componentes).
 
 ---
 
@@ -234,13 +236,13 @@ vivamoda/
 
 | Ruta | Mockup | Script |
 |---|---|---|
-| `/catalogo-de-productos`, `/catalogo-caballeros`, `/catalogo-ninos`, `/novedades`, `/ofertas-flash` | `tienda_cat_logo_completo` | `catalogo.js` |
-| `/detalle-de-producto?sku=…` | `detalle_de_producto_asistente_ia` | `detalle.js` |
-| `/hub-agente-ia` | `hub_agente_ia_automatizaci_n` | `hub.js` |
-| `/iniciar-sesion`, `/registro` | `portal_de_autenticaci_n_registro` | `login.js` |
-| `/pedidos-y-pos` | `consola_empleado_pedidos_pos` | `pos.js` |
-| `/panel-de-almacen-y-ventas` | `panel_admin_gesti_n_de_almac_n` | `admin.js` |
-| `/tienda-virtual-realidad` | `tienda_virtual_realidad` | *(carga sus propios scripts VR)* |
+| `/catalogo-de-productos`, `/catalogo-caballeros`, `/catalogo-ninos`, `/novedades`, `/ofertas-flash` | `frontends/tienda-catalogo` | `catalogo.js` |
+| `/detalle-de-producto?sku=…` | `frontends/detalle-producto-ia` | `detalle.js` |
+| `/hub-agente-ia` | `frontends/hub-agentes-ia` | `hub.js` |
+| `/iniciar-sesion`, `/registro` | `frontends/portal-acceso` | `login.js` |
+| `/pedidos-y-pos` | `frontends/pos-pedidos` | `pos.js` |
+| `/panel-de-almacen-y-ventas` | `frontends/panel-almacen` | `admin.js` |
+| `/tienda-virtual-realidad` | `frontends/tienda-vr` | *(carga sus propios scripts VR)* |
 
 Rutas no diseñadas (`/carrito-de-compras`, `/checkout`, `/perfil-de-usuario`, `/guia-de-tallas`, etc.) devuelven una **landing placeholder** con enlaces a módulos activos. `/` redirige al catálogo.
 
@@ -282,7 +284,7 @@ Expone `window.VM` con:
 
 ## 9. Módulo Tienda Virtual en Realidad (VR/3D)
 
-`tienda_virtual_realidad/code.html` + `public/js/pages/vr-store/` (≈1.800 líneas). Arquitectura modular con **patrón registry**:
+`frontends/tienda-vr/code.html` + `public/js/pages/vr-store/` (≈1.800 líneas). Arquitectura modular con **patrón registry**:
 
 - **`core.js`** — núcleo: motor Three.js (renderer WebGL, escena, cámara 60°, OrbitControls, niebla), paleta VivaModa, **5 zonas** (Damas, Caballeros, Niños, Novedades, Ofertas Flash), catálogo 3D, luces (hemisférica, direccional con sombras, spot central, luces por zona), helpers (`textSprite`, materiales), bucle de render y orquestador `S.build()`.
 - **Partes** (registradas con `VRStore.part(...)`): `estructura`, `percheros`, `estantes`, `espejos`, `mobiliario`, `ropa`, `secciones`, `letreros`, `interaccion`.
