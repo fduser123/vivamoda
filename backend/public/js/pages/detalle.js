@@ -1,6 +1,6 @@
 /* Detalle de producto en vivo + estilista IA conectado */
 (function () {
-  const { api, fmtUSD, esc, toast, addToCart, refreshCartBadge, paintUserChip, getUser, modelChipHtml } = window.VM;
+  const { api, fmtUSD, esc, toast, addToCart, refreshCartBadge, paintUserChip, getUser, modelChipHtml, aiChat, aiExtrasHtml, aiTypingHtml } = window.VM;
 
   const MOCK_NAME = 'Vestido Asimétrico Magenta Atelier';
   let product = null;
@@ -227,6 +227,7 @@
            <div class="flex flex-col gap-1 max-w-[80%]"><div class="p-space-sm rounded-2xl rounded-tl-none bg-surface-container text-on-surface font-body-sm text-body-sm" style="white-space:pre-wrap">${esc(text).replace(/\*\*/g, '')}</div></div>`;
       box.appendChild(row);
       box.scrollTop = box.scrollHeight;
+      return row;
     }
     function suggestionChips(list) {
       const wrap = document.createElement('div');
@@ -234,6 +235,8 @@
       list.forEach((p) => {
         const a = document.createElement('a');
         a.href = `/detalle-de-producto?sku=${encodeURIComponent(p.sku)}`;
+        a.setAttribute('data-vm-sku', p.sku);
+        if (p.reason) a.title = `Sugerida porque ${p.reason}`;
         a.textContent = `${p.name} · ${fmtUSD(p.price)}`;
         a.style.cssText = 'font:600 11px/1.2 "Plus Jakarta Sans";padding:6px 10px;border-radius:10px;border:1px solid #f0c1cd;color:#8f0041;text-decoration:none;background:#fff';
         wrap.appendChild(a);
@@ -246,11 +249,22 @@
       if (!msg || !product) return;
       bubble('user', msg);
       input.value = '';
-      bubble('assistant', '…');
+      // Respuesta en vivo (streaming) dentro de una burbuja que se va llenando
+      const row = bubble('assistant', '');
+      const content = row.lastElementChild;
+      const target = content.querySelector('div') || content;
+      target.innerHTML = aiTypingHtml();
       try {
-        const res = await api('/ai/chat', { auth: false, method: 'POST', body: { message: msg, productContext: product.sku } });
-        box.lastChild.remove();
-        bubble('assistant', res.reply);
+        const res = await aiChat({
+          message: msg,
+          productContext: product.sku,
+          onDelta: (t, total) => {
+            target.textContent = String(total).replace(/\*\*/g, '');
+            box.scrollTop = box.scrollHeight;
+          },
+        });
+        target.textContent = String(res.reply || target.textContent).replace(/\*\*/g, '');
+        if (res.learned?.length || res.sources?.length) content.insertAdjacentHTML('beforeend', aiExtrasHtml(res));
         if (res.suggestions?.length) suggestionChips(res.suggestions);
         const meta = document.createElement('div');
         meta.style.cssText = 'display:flex;justify-content:flex-end;align-items:center;gap:6px;padding:0 0 2px 32px';
@@ -260,8 +274,7 @@
         const pills = document.querySelectorAll('.ai-suggestion-pill, .chat-prompt-pill');
         pills.forEach((p) => p.remove());
       } catch (err) {
-        box.lastChild.remove();
-        bubble('assistant', 'Ups, no pude responder: ' + err.message);
+        target.textContent = 'Ups, no pude responder: ' + err.message;
       }
     }
     window.handleChatSubmit = () => { if (input.value.trim()) send(); };

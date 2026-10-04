@@ -213,34 +213,151 @@
     setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity .4s'; setTimeout(() => el.remove(), 420); }, 3200);
   }
   const style = document.createElement('style');
-  style.textContent = '@keyframes vmfade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}';
+  style.textContent = '@keyframes vmfade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}'
+    + '@keyframes vmTyping{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:1;transform:translateY(-2px)}}';
   document.head.appendChild(style);
 
   // ---------- IA: indicador del modelo activo ----------
   const LOCAL_AI_LABEL = 'aria-local-v1 (motor VivaModa)';
-  function modelShortName(model) {
+  // El proveedor lo informa el backend (Gemini, OpenRouter…); la etiqueta se
+  // construye con lo que devuelva, sin asumir ninguno en el cliente.
+  function modelShortName(model, provider) {
     if (!model || model === LOCAL_AI_LABEL) return 'Motor local';
     const tail = String(model).split('/').pop();
-    if (/llama/i.test(tail)) return 'Llama · OpenRouter';
-    if (/gpt|o\d|openai/i.test(tail)) return 'GPT · OpenRouter';
-    if (/claude/i.test(tail)) return 'Claude · OpenRouter';
-    if (/mistral|mixtral/i.test(tail)) return 'Mistral · OpenRouter';
-    if (/gemma/i.test(tail)) return 'Gemma · OpenRouter';
-    if (/deepseek/i.test(tail)) return 'DeepSeek · OpenRouter';
-    if (/qwen/i.test(tail)) return 'Qwen · OpenRouter';
-    return tail.replace(/[-_]/g, ' ').slice(0, 24) + ' · OpenRouter';
+    const friendly =
+      /gemini/i.test(tail) ? 'Gemini'
+        : /llama/i.test(tail) ? 'Llama'
+          : /gpt|o\d|openai/i.test(tail) ? 'GPT'
+            : /claude/i.test(tail) ? 'Claude'
+              : /mistral|mixtral/i.test(tail) ? 'Mistral'
+                : /gemma/i.test(tail) ? 'Gemma'
+                  : /deepseek/i.test(tail) ? 'DeepSeek'
+                    : /qwen/i.test(tail) ? 'Qwen'
+                      : tail.replace(/[-_]/g, ' ').slice(0, 24);
+    // Solo añade el proveedor si aporta información (evita "Gemini · Gemini")
+    const adds = provider && !friendly.toLowerCase().includes(String(provider).toLowerCase());
+    return friendly + (adds ? ` · ${provider}` : '');
   }
   /** Etiqueta pequeña que se añade bajo cada burbuja del asistente */
   function modelChipHtml(res) {
     const isLocal = !res || !res.model || res.model === LOCAL_AI_LABEL;
     const color = isLocal ? '#6b7280' : '#059669';
     const icon = isLocal ? 'settings_suggest' : 'auto_awesome';
+    const providerName = res && (res.providerLabel || res.provider);
     const title = isLocal
       ? 'Respuesta generada por el motor de reglas local (LLM no disponible)'
-      : 'Respuesta generada por ' + (res.model || 'LLM') + ' vía OpenRouter';
+      : 'Respuesta generada por ' + (res.model || 'LLM') + (providerName ? ' vía ' + providerName : '');
     const err = res && res.llmError ? ` · fallback: ${esc(String(res.llmError).slice(0, 60))}` : '';
-    return `<span class="vm-model-chip" title="${esc(title)}${esc(err)}" style="display:inline-flex;align-items:center;gap:3px;font:600 10px/1 'Plus Jakarta Sans',sans-serif;color:${color};background:${color}14;border:1px solid ${color}33;border-radius:8px;padding:3px 7px;letter-spacing:.2px"><span class="material-symbols-outlined" style="font-size:11px">${icon}</span>${modelShortName(res && res.model)}${err}</span>`;
+    return `<span class="vm-model-chip" title="${esc(title)}${esc(err)}" style="display:inline-flex;align-items:center;gap:3px;font:600 10px/1 'Plus Jakarta Sans',sans-serif;color:${color};background:${color}14;border:1px solid ${color}33;border-radius:8px;padding:3px 7px;letter-spacing:.2px"><span class="material-symbols-outlined" style="font-size:11px">${icon}</span>${modelShortName(res && res.model, providerName)}${err}</span>`;
   }
+
+  // ---------- IA: sesión con memoria, streaming y feedback ----------
+  /**
+   * Clave de sesión estable de Aria: vive en localStorage, así que la
+   * conversación (y lo aprendido) sobrevive a las recargas y al cambio de página.
+   */
+  function aiSessionKey() {
+    let key = localStorage.getItem('vm_ai_session');
+    if (!key) {
+      key = 'web-' + Math.random().toString(36).slice(2, 10);
+      localStorage.setItem('vm_ai_session', key);
+    }
+    return key;
+  }
+
+  /** Empieza una conversación nueva (botón de reinicio del hub). */
+  function aiSessionReset() {
+    const key = 'web-' + Math.random().toString(36).slice(2, 10);
+    localStorage.setItem('vm_ai_session', key);
+    return key;
+  }
+
+  function aiHeaders() {
+    const t = localStorage.getItem(TOKEN_KEY);
+    return { 'Content-Type': 'application/json', ...(t ? { Authorization: `Bearer ${t}` } : {}) };
+  }
+
+  /**
+   * Envía un mensaje a Aria consumiendo el stream SSE: onDelta(fragmento, total)
+   * se llama mientras llega el texto y el retorno es el payload final
+   * (reply, sugerencias, memoria aprendida, fuentes…).
+   * Si el streaming falla antes de emitir nada, reintenta por el endpoint JSON.
+   */
+  async function aiChat({ message, productContext = null, onDelta = null } = {}) {
+    const sessionKey = aiSessionKey();
+    const body = { message, productContext, sessionKey };
+    let acc = '';
+    try {
+      const res = await fetch(`${API}/ai/chat/stream`, { method: 'POST', headers: aiHeaders(), body: JSON.stringify(body) });
+      if (!res.ok || !res.body || !res.body.getReader) throw new Error(`stream HTTP ${res.status}`);
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      let final = null;
+      let failure = null;
+      for (;;) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const blocks = buffer.split('\n\n');
+        buffer = blocks.pop() || '';
+        for (const block of blocks) {
+          const event = /^event:\s*(\w+)/m.exec(block)?.[1];
+          const line = /^data:\s*(.*)$/m.exec(block)?.[1];
+          if (!event || !line) continue;
+          let data = {};
+          try { data = JSON.parse(line); } catch { continue; }
+          if (event === 'delta') {
+            acc += data.text || '';
+            if (onDelta) onDelta(data.text || '', acc);
+          } else if (event === 'done') {
+            final = data;
+          } else if (event === 'error') {
+            failure = data.error || 'Error del asistente';
+          }
+        }
+      }
+      if (failure) throw new Error(failure);
+      return final || { reply: acc, sessionKey };
+    } catch (err) {
+      if (acc) throw err; // ya se mostró texto al cliente: no lo duplicamos
+      const res = await api('/ai/chat', { auth: false, method: 'POST', body });
+      if (onDelta && res.reply) onDelta(res.reply, res.reply);
+      return res;
+    }
+  }
+
+  /** Registra el interés del cliente por una prenda (feedback implícito de Aria). */
+  function aiFeedback(sku, event = 'clicked') {
+    if (!sku) return Promise.resolve(null);
+    return fetch(`${API}/ai/feedback`, {
+      method: 'POST',
+      headers: aiHeaders(),
+      body: JSON.stringify({ sku, event, sessionKey: aiSessionKey() }),
+    }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  }
+
+  /** Bloque con lo aprendido en el mensaje y las fuentes de internet usadas. */
+  function aiExtrasHtml(res) {
+    if (!res) return '';
+    const learned = (res.learned || []).map((l) => `${esc(l.label || l.key)}: <b>${esc(l.value)}</b>`);
+    const sources = (res.sources || []).map((s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener" style="color:#8f0041;text-decoration:underline">${esc(s.title)}</a>`);
+    const out = [];
+    if (learned.length) out.push(`<div style="margin-top:6px;font:600 10.5px/1.4 'Plus Jakarta Sans',sans-serif;color:#4b5563">🧠 Recordé ${learned.join(' · ')}</div>`);
+    if (sources.length) out.push(`<div style="margin-top:4px;font:500 10.5px/1.4 'Plus Jakarta Sans',sans-serif;color:#6b7280">🔎 Fuentes: ${sources.join(' · ')}</div>`);
+    return out.join('');
+  }
+
+  /** Texto provisional mientras Aria escribe (3 puntos animados). */
+  function aiTypingHtml() {
+    return '<span style="display:inline-flex;gap:3px;align-items:center"><span style="width:5px;height:5px;border-radius:50%;background:#b60055;animation:vmTyping 1s infinite"></span><span style="width:5px;height:5px;border-radius:50%;background:#b60055;animation:vmTyping 1s .15s infinite"></span><span style="width:5px;height:5px;border-radius:50%;background:#b60055;animation:vmTyping 1s .3s infinite"></span></span>';
+  }
+
+  // Feedback implícito global: cualquier enlace con data-vm-sku cuenta como interés
+  document.addEventListener('click', (e) => {
+    const el = e.target && e.target.closest ? e.target.closest('[data-vm-sku]') : null;
+    if (el) aiFeedback(el.getAttribute('data-vm-sku'), el.getAttribute('data-vm-event') || 'clicked');
+  }, true);
 
   // ---------- helpers DOM ----------
   function findRow(container, needle) {
@@ -280,6 +397,7 @@
     api, refreshMe, getUser, getToken, setSession, clearSession, requireRole, homeForRole, ROUTES, fixLinks,
     fmtUSD, fmtCOP, fmtQty, esc, initials, timeAgo, qs, toast, addToCart, updateCartBadge, refreshCartBadge,
     modelShortName, modelChipHtml,
+    aiChat, aiSessionKey, aiSessionReset, aiFeedback, aiExtrasHtml, aiTypingHtml,
     paintUserChip, guestCart, elFromText, closestByTag, plural,
   };
 

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VivaModa · Simulador de Tienda</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; font-family: 'Plus Jakarta Sans', sans-serif; background: #14101a; color: #fff; }
+    #world { position: fixed; inset: 0; display: block; }
+    .glass { background: rgba(20, 14, 26, 0.82); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.10); }
+    .kbtn { display: inline-flex; align-items: center; justify-content: center; min-width: 1.7rem; padding: 2px 7px; border-radius: 6px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); font-weight: 700; font-size: 12px; }
+    #loader { transition: opacity .5s ease; }
+    .modal-in { animation: pop .18s ease; }
+    @keyframes pop { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: scale(1); } }
+    .cart-badge { box-shadow: 0 0 0 3px rgba(228,0,108,.25); }
+    input[type=range] { accent-color: #e4006c; }
+  </style>
+</head>
+<body>
+  <canvas id="world"></canvas>
+
+  <!-- Loader -->
+  <div id="loader" class="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-4 bg-[#14101a]">
+    <div class="w-12 h-12 rounded-full border-4 border-white/10 border-t-[#e4006c] animate-spin"></div>
+    <p id="loaderText" class="font-semibold text-white/80 text-sm">Cargando el simulador…</p>
+    <p class="text-white/40 text-xs">Interior "TIENDA ROPA MK IT" · CC-BY Christophe Caro Alcalde</p>
+  </div>
+
+  <!-- HUD superior -->
+  <header class="fixed top-0 inset-x-0 z-20 flex items-center justify-between px-4 py-3 pointer-events-none">
+    <div class="glass rounded-2xl px-4 py-2 flex items-center gap-3 pointer-events-auto">
+      <a href="/catalogo-de-productos" class="font-extrabold bg-gradient-to-br from-[#e4006c] to-[#4b41e1] rounded-lg px-2.5 py-1 text-sm">V</a>
+      <div>
+        <div class="text-xs font-bold leading-none">Simulador de Tienda</div>
+        <div class="text-[10px] text-white/50 leading-none mt-1" id="simUser">Invitado</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 pointer-events-auto">
+      <div class="glass rounded-2xl px-3 py-2 text-sm font-bold">$<span id="simTotal">0.00</span></div>
+      <button id="btnCart" class="glass rounded-2xl px-3 py-2 text-sm font-bold relative">
+        🛒 <span id="cartCount" class="cart-badge absolute -top-1.5 -right-1.5 bg-[#e4006c] text-[10px] font-extrabold rounded-full px-1.5 py-0.5">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Prompt de interacción -->
+  <div id="prompt" class="hidden fixed left-1/2 bottom-28 -translate-x-1/2 z-20 glass rounded-2xl px-5 py-3 text-sm pointer-events-none">
+    <span class="kbtn">E</span> <span id="promptText" class="ml-2">Ver producto</span>
+  </div>
+
+  <!-- Ayuda de controles -->
+  <div id="help" class="fixed left-4 bottom-4 z-20 glass rounded-2xl px-4 py-3 text-xs leading-relaxed text-white/80">
+    <div class="font-bold text-white mb-1">Controles</div>
+    <div><span class="kbtn">W</span><span class="kbtn">A</span><span class="kbtn">S</span><span class="kbtn">D</span> caminar · <span class="kbtn">Shift</span> correr</div>
+    <div class="mt-1"><span class="kbtn">Mouse</span> girar cámara · <span class="kbtn">E</span> interactuar · <span class="kbtn">Esc</span> cerrar</div>
+  </div>
+
+  <!-- Notificación -->
+  <div id="toast" class="hidden fixed top-20 left-1/2 -translate-x-1/2 z-40 glass rounded-2xl px-5 py-3 text-sm font-semibold modal-in"></div>
+
+  <!-- Modal producto -->
+  <div id="productModal" class="hidden fixed inset-0 z-30 flex items-center justify-center bg-black/50 p-4">
+    <div class="glass modal-in rounded-3xl max-w-md w-full overflow-hidden">
+      <div class="h-44 bg-[#241a2b] relative">
+        <img id="pmImg" class="w-full h-full object-cover" alt="" />
+        <span id="pmEmoji" class="hidden absolute inset-0 flex items-center justify-center text-6xl"></span>
+        <span id="pmZone" class="absolute top-3 left-3 glass rounded-full px-3 py-1 text-[11px] font-bold"></span>
+      </div>
+      <div class="p-5">
+        <div class="flex items-start justify-between gap-3">
+          <h3 id="pmName" class="font-extrabold text-lg leading-snug"></h3>
+          <button id="pmClose" class="text-white/50 hover:text-white text-xl leading-none">✕</button>
+        </div>
+        <p id="pmMeta" class="text-sm text-white/60 mt-1"></p>
+        <div class="flex items-baseline gap-2 mt-3">
+          <span id="pmPrice" class="text-2xl font-extrabold text-[#ff5c9d]"></span>
+          <span id="pmStock" class="text-xs text-white/50"></span>
+        </div>
+        <div id="pmSizes" class="flex flex-wrap gap-2 mt-4"></div>
+        <button id="pmAdd" class="w-full mt-5 bg-gradient-to-r from-[#e4006c] to-[#4b41e1] rounded-2xl py-3 font-extrabold disabled:opacity-40 disabled:cursor-not-allowed">
+          🛒 Añadir al carrito
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carrito -->
+  <div id="cartModal" class="hidden fixed inset-0 z-30 flex items-center justify-center bg-black/50 p-4">
+    <div class="glass modal-in rounded-3xl max-w-md w-full p-5">
+      <div class="flex items-center justify-between">
+        <h3 class="font-extrabold text-lg">🛒 Tu carrito</h3>
+        <button id="cartClose" class="text-white/50 hover:text-white text-xl leading-none">✕</button>
+      </div>
+      <div id="cartItems" class="mt-4 space-y-2 max-h-64 overflow-y-auto text-sm"></div>
+      <div class="border-t border-white/10 mt-4 pt-4 flex justify-between font-extrabold">
+        <span>Total</span><span>$<span id="cartTotal">0.00</span></span>
+      </div>
+      <button id="cartCheckout" class="w-full mt-4 bg-gradient-to-r from-[#1b6c3a] to-[#2e9e57] rounded-2xl py-3 font-extrabold disabled:opacity-40">
+        ✅ Finalizar compra
+      </button>
+      <p id="cartNote" class="text-[11px] text-white/40 mt-2 text-center">Inicia sesión como cliente para que la compra quede en tu historial</p>
+    </div>
+  </div>
+
+  <!-- Motor (mismos CDN que la tienda VR) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+</body>
+</html>

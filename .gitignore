@@ -3,9 +3,30 @@ node_modules/
 .env
 *.log
 
+# Entornos virtuales de Python (docs/.venv-doc)
+.venv/
+.venv-doc/
+__pycache__/
+*.pyc
+
+# Archivos temporales de LibreOffice
+.~lock.*#
+
 # Imágenes de productos descargadas de APIs externas
 # (se regeneran con: cd backend && npm run seed:external)
 backend/public/img/ext/
+
+# Descargas originales de Sketchfab (~148 MB). Los .glb ya convertidos
+# viven en backend/public/models/; ver docs/DESCARGA_MODELOS_TIENDA.md
+downloads/
+
+# Modelos 3D pesados (~100 MB). Ver docs/DESCARGA_MODELOS_TIENDA.md para
+# re-descargarlos. Los .glb pequeños (<10 MB) sí se versionan.
+backend/public/models/*.glb
+backend/public/models/**/*.glb
+backend/public/models/**/*.bin
+backend/public/models/sponza/
+backend/public/models/_cand/
 
 # Originales de diseño
 _originals/

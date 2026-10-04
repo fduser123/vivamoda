@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VivaModa · Probador AR facial (webcam)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    #video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); background: #111; }
+    #overlay { position: fixed; inset: 0; width: 100%; height: 100%; }
+    .hud { position: fixed; z-index: 10; }
+    .panel { backdrop-filter: blur(8px); }
+  </style>
+</head>
+<body class="bg-black text-white">
+  <video id="video" playsinline autoplay muted></video>
+  <canvas id="overlay"></canvas>
+
+  <header class="hud top-0 inset-x-0 flex items-center justify-between px-4 py-3 bg-gradient-to-b from-black/70 to-transparent">
+    <a href="/ver-en-tu-espacio" class="flex items-center gap-2">
+      <span class="bg-gradient-to-br from-[#b60055] to-[#4b41e1] text-white font-extrabold rounded-xl px-3 py-1.5">VivaModa</span>
+      <span class="text-sm text-white/80 hidden sm:inline">Probador AR facial · IA sobre tu webcam</span>
+    </a>
+    <a href="/catalogo-de-productos" class="text-sm px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20">← Tienda</a>
+  </header>
+
+  <!-- Ajuste en vivo -->
+  <div class="hud left-4 bottom-6 panel bg-black/55 rounded-2xl p-3 w-56 text-xs space-y-2">
+    <div class="font-bold text-white/90">Ajuste del modelo</div>
+    <label class="block">Tamaño <span id="vSize" class="float-right text-white/60">1.15×</span>
+      <input id="ctlSize" type="range" min="60" max="190" value="115" class="w-full accent-[#b60055]" />
+    </label>
+    <label class="block">Altura <span id="vHigh" class="float-right text-white/60">+12%</span>
+      <input id="ctlHigh" type="range" min="-50" max="70" value="12" class="w-full accent-[#4b41e1]" />
+    </label>
+    <label class="block">Seguimiento <span id="vSmooth" class="float-right text-white/60">normal</span>
+      <input id="ctlSmooth" type="range" min="10" max="90" value="40" class="w-full accent-emerald-400" />
+    </label>
+    <div class="text-white/50 leading-snug pt-1">Gira y inclina la cabeza: el modelo sigue tu rotación. Se calibra solo los primeros segundos.</div>
+  </div>
+
+  <div class="hud inset-x-0 bottom-6 text-center px-4 pointer-events-none">
+    <div id="statusMsg" class="inline-block bg-black/70 rounded-2xl px-5 py-3 text-sm leading-relaxed">Pulsa <b>Activar cámara</b> para comenzar (el modelo de rostro descarga ~8 MB la primera vez)</div>
+    <div class="mt-2">
+      <button id="btnCam" class="pointer-events-auto bg-gradient-to-br from-[#b60055] to-[#4b41e1] text-white font-bold rounded-xl px-6 py-3 shadow-lg">📷 Activar cámara</button>
+    </div>
+  </div>
+</body>
+<script>
+(function () {
+  'use strict';
+  const video = document.getElementById('video');
+  const statusMsg = document.getElementById('statusMsg');
+  const say = (t) => { statusMsg.innerHTML = t; };
+
+  /* ================= Ajustes en vivo ================= */
+  const state = { sizeMul: 1.15, hOff: 0.12, smooth: 0.40 };
+  const bind = (id, label, fmt, fn) => {
+    const el = document.getElementById(id), out = document.getElementById(label);
+    el.addEventListener('input', () => { fn(Number(el.value)); out.textContent = fmt(Number(el.value)); });
+  };
+  bind('ctlSize', 'vSize', (v) => (v / 100).toFixed(2) + '×', (v) => { state.sizeMul = v / 100; });
+  bind('ctlHigh', 'vHigh', (v) => (v >= 0 ? '+' : '') + v + '%', (v) => { state.hOff = v / 100; });
+  bind('ctlSmooth', 'vSmooth', (v) => (v < 30 ? 'suave' : v < 60 ? 'normal' : 'rápido'), (v) => { state.smooth = 1 - v / 100; });
+
+  /* ================= Escena 3D transparente ================= */
+  const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('overlay'), alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 100);
+  camera.position.z = 5;
+  scene.add(new THREE.AmbientLight(0xffffff, 1.15));
+  const dl = new THREE.DirectionalLight(0xffffff, 0.9);
+  dl.position.set(2, 3, 4); scene.add(dl);
+
+  // "anchor" recibe la pose de la cabeza; dentro vive el producto normalizado
+  const anchor = new THREE.Group();
+  anchor.rotation.order = 'YXZ';
+  anchor.visible = false;
+  scene.add(anchor);
+
+  let glasses = null, modelW = 1;      // ancho original del modelo
+  const smooth = { pos: null, rot: null }; // suavizado exponencial
+
+  new THREE.GLTFLoader().load('/models/gafas-sol.glb',
+    (g) => {
+      glasses = g.scene;
+      // Normaliza: centrado en su caja y ancho = 1 unidad → la escala del anchor es "veces la distancia entre pupilas"
+      const box = new THREE.Box3().setFromObject(glasses);
+      const size = box.getSize(new THREE.Vector3());
+      modelW = size.x || 1;
+      const center = box.getCenter(new THREE.Vector3());
+      glasses.position.sub(center);
+      glasses.scale.setScalar(1 / modelW);
+      anchor.add(glasses);
+      say('Modelo 3D listo ✔ — buscando tu rostro…');
+    },
+    undefined,
+    (e) => { say('🚫 No se pudo cargar el modelo 3D (¿sin internet para el CDN?)'); console.error('[ar-face] glb', e); });
+
+  function resize() {
+    renderer.setSize(innerWidth, innerHeight, false);
+    camera.aspect = innerWidth / innerHeight;
+    camera.updateProjectionMatrix();
+  }
+  addEventListener('resize', resize); resize();
+
+  /* ================= Seguimiento facial (MediaPipe, local) ================= */
+  const FACE = new FaceMesh({ locateFile: (f) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${f}` });
+  FACE.setOptions({ maxNumFaces: 1, refineLandmarks: true, minDetectionConfidence: 0.5, minTrackingConfidence: 0.5 });
+
+  const viewH = () => 2 * camera.position.z * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+  const avgIris = (lm, a, b) => { // centro del iris (5 puntos)
+    let x = 0, y = 0; for (let i = a; i <= b; i++) { x += lm[i].x; y += lm[i].y; }
+    return { x: x / 5, y: y / 5 };
+  };
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
+  // --- Calibración de pose neutra (primeros frames con rostro) ---
+  const calib = { need: 18, yaw: [], pitch: [], roll: [], done: false, neutral: { yaw: 0, pitch: 0, roll: 0 } };
+  let lastSeen = 0; // gracia si el rostro se pierde un instante
+
+  FACE.onResults((res) => {
+    const lm = res.multiFaceLandmarks && res.multiFaceLandmarks[0];
+    if (!lm || !glasses) { if (performance.now() - lastSeen > 350) anchor.visible = false; return; }
+    lastSeen = performance.now();
+
+    const vh = viewH(), vw = vh * camera.aspect;
+    // Espejo: lo que ves a la derecha en pantalla = +X del mundo
+    const X = (n) => (1 - n.x - 0.5) * vw;
+    const Y = (n) => -(n.y - 0.5) * vh;
+
+    // --- Referencias anatómicas ---
+    const irisR = avgIris(lm, 468, 472);   // iris ojo derecho del usuario
+    const irisL = avgIris(lm, 473, 477);   // iris ojo izquierdo
+    const nose  = lm[1];                    // punta de la nariz
+    const chin  = lm[152], forehead = lm[10];
+    const edgeR = lm[234], edgeL = lm[454]; // bordes laterales del rostro
+
+    const R = { x: X(irisR), y: Y(irisR) };
+    const L = { x: X(irisL), y: Y(irisL) };
+    const eyeDist = Math.hypot(L.x - R.x, L.y - R.y) || 1e-6;
+
+    // --- Rotación (proporciones geométricas del rostro, relativas a la calibración) ---
+    const faceCx = (edgeR.x + edgeL.x) / 2, halfW = Math.abs(edgeL.x - edgeR.x) / 2 || 1e-6;
+    const eyeY = (lm[33].y + lm[263].y) / 2;
+    const yawRatio = clamp((nose.x - faceCx) / halfW, -1, 1);
+    const pitchRatio = (nose.y - eyeY) / Math.max(chin.y - forehead.y, 1e-6);
+    const roll = Math.atan2(R.y - L.y, R.x - L.x); // estable sin calibración
+
+    if (!calib.done) {
+      calib.yaw.push(yawRatio); calib.pitch.push(pitchRatio); calib.roll.push(roll);
+      if (calib.yaw.length >= calib.need) {
+        const mean = (a) => a.reduce((s, v) => s + v, 0) / a.length;
+        calib.neutral = { yaw: mean(calib.yaw), pitch: mean(calib.pitch), roll: mean(calib.roll) };
+        calib.done = true;
+        say('Calibrado ✔ — gira la cabeza y mira cómo te sigue 😎');
+      } else {
+        say(`Calibrando pose neutra… ${calib.yaw.length}/${calib.need} (mira al frente)`);
+      }
+    }
+    const dYaw = yawRatio - calib.neutral.yaw;
+    const dPitch = pitchRatio - calib.neutral.pitch;
+    const dRoll = roll - calib.neutral.roll;
+    const yaw = clamp(-Math.asin(clamp(dYaw, -0.95, 0.95)) * 1.05, -0.75, 0.75); // girar cabeza → girar modelo
+    const pitch = clamp((dPitch) * 2.6, -0.55, 0.55);
+    const rollC = dRoll;
+
+    // --- Posición: centro entre pupilas + altura ajustable ---
+    const cx = (R.x + L.x) / 2;
+    const cy = (R.y + L.y) / 2 + eyeDist * state.hOff;
+    const targetPos = new THREE.Vector3(cx, cy, 0);
+    const targetRot = new THREE.Euler(pitch, yaw, rollC, 'YXZ');
+    const targetScale = eyeDist * 2.15 * state.sizeMul; // ancho del modelo ≈ 2.15 × distancia entre pupilas
+
+    // --- Suavizado exponencial (anti-temblor) ---
+    if (!smooth.pos) { smooth.pos = targetPos.clone(); smooth.rot = targetRot.clone(); smooth.scl = targetScale; }
+    const k = 1 - state.smooth; // 0=rígido … 1=muy suave
+    smooth.pos.lerp(targetPos, clamp(k * 2.2, 0.05, 0.95));
+    smooth.rot.x += (targetRot.x - smooth.rot.x) * clamp(k * 2.2, 0.05, 0.95);
+    smooth.rot.y += (targetRot.y - smooth.rot.y) * clamp(k * 2.2, 0.05, 0.95);
+    smooth.rot.z += (targetRot.z - smooth.rot.z) * clamp(k * 2.6, 0.05, 0.95);
+    smooth.scl += (targetScale - smooth.scl) * clamp(k * 2.2, 0.05, 0.95);
+
+    anchor.visible = true;
+    anchor.position.copy(smooth.pos);
+    anchor.rotation.copy(smooth.rot);
+    anchor.scale.setScalar(smooth.scl);
+  });
+
+  /* ================= Webcam (getUserMedia directo) + bucle ================= */
+  let sending = false;
+  async function startCamera() {
+    const btn = document.getElementById('btnCam');
+    btn.disabled = true; btn.textContent = '⏳ Pidiendo permiso…';
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { width: { ideal: 960 }, height: { ideal: 540 }, facingMode: 'user' },
+        audio: false,
+      });
+      video.srcObject = stream;
+      await video.play();
+      say('Cámara activa ✔ — mírate a la cámara para calibrar');
+      btn.style.display = 'none';
+      sending = true;
+      const tick = async () => {
+        if (!sending) return;
+        if (video.readyState >= 2) { try { await FACE.send({ image: video }); } catch (e) { /* frame perdido */ } }
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    } catch (e) {
+      console.error('[ar-face] camera', e);
+      btn.disabled = false; btn.textContent = '📷 Reintentar cámara';
+      const motivo = e.name === 'NotAllowedError' ? 'permiso denegado — revisa el candado 🔒 de la barra de direcciones y pulsa <b>Permitir</b>'
+        : e.name === 'NotFoundError' ? 'no se encontró ninguna cámara'
+        : e.name === 'NotReadableError' ? 'la cámara está ocupada por otra app'
+        : (e.name || 'error') + ': ' + String(e.message || '').slice(0, 80);
+      say('🚫 ' + motivo);
+    }
+  }
+  document.getElementById('btnCam').addEventListener('click', startCamera);
+
+  (function loop() { requestAnimationFrame(loop); renderer.render(scene, camera); })();
+})();
+</script>
+</html>

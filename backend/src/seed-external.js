@@ -188,9 +188,11 @@ const SHEIN_RULES = [
 ];
 
 function sheinGender(root, cat) {
-  if (/kids|girls|boys|baby/i.test(cat) || root === 'Kids' || root === 'Baby') return 'ninos';
-  if (/\bmen\b|men's|male/i.test(cat)) return 'caballeros';
-  if (/women|ladies|girl/i.test(cat) || root === 'Women Apparel') return 'damas';
+  const catText = String(cat || '');
+  if (/kids|boys|baby/i.test(catText) || /\bgirls?\b/i.test(catText) || root === 'Kids' || root === 'Baby') return 'ninos';
+  // \b evita que "Women's" matchee "men"; female se evalúa aparte del women genérico
+  if (/\bmen\b|\bmale\b/i.test(catText) && !/women|female/i.test(catText)) return 'caballeros';
+  if (/women|ladies|female|\bgirls?\b/i.test(catText) || root === 'Women Apparel') return 'damas';
   return 'damas'; // accesorios de moda: catálogo femenino por defecto
 }
 

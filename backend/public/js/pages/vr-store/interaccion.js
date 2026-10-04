@@ -103,7 +103,7 @@ VRStore.part('interaccion', function (S, g) {
   }
 
   // ── Modo FPS (primera persona) ────────────────────────────
-  const FP_WALK_HEIGHT = 1.7;
+  const FP_WALK_HEIGHT = 2.0; // 1.7 sobre el piso del modelo (Y≈0.30)
   const FP_NAV = new THREE.Vector3();
   const FP_FORCE = new THREE.Vector3();
   let fpPathId = 0;
@@ -280,10 +280,17 @@ VRStore.part('interaccion', function (S, g) {
       const step = move.multiplyScalar(speed * dt);
       const next = S.camera.position.clone().add(step);
       next.y = FP_WALK_HEIGHT;
-      // simple clamp para no salir de la tienda
-      const limit = 22;
-      next.x = Math.max(-limit, Math.min(limit, next.x));
-      next.z = Math.max(-limit, Math.min(limit, next.z));
+      // Límites DENTRO del local MK IT (única área explorable)
+      const mk = S.MK;
+      if (mk) {
+        const m = 0.5;
+        next.x = Math.max(mk.minX + m, Math.min(mk.maxX - m, next.x));
+        next.z = Math.max(mk.minZ + m, Math.min(mk.maxZ - m, next.z));
+      } else {
+        const limit = 22;
+        next.x = Math.max(-limit, Math.min(limit, next.x));
+        next.z = Math.max(-limit, Math.min(limit, next.z));
+      }
       S.camera.position.copy(next);
     }
 

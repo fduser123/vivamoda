@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><title>QR VivaModa · Sneaker</title>
+<style>body{font-family:system-ui;background:#faf7fa;display:flex;gap:32px;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:24px}
+.card{background:#fff;border-radius:24px;box-shadow:0 8px 30px rgba(0,0,0,.08);padding:28px;max-width:420px;text-align:center}
+h1{font-size:1.25rem;margin:0 0 4px;color:#b60055}p{color:#666;font-size:.9rem;margin:6px 0 0}
+img.qr{width:260px;height:260px}video{width:100%;border-radius:16px;background:#000;min-height:300px}
+</style></head><body>
+<div class="card"><h1>👟 Zapatilla VivaModa</h1><p>Etiqueta con QR · escanéala con tu celular</p><img class="qr" src="/api/products/VM-DAM-SH39598728/qr" alt="QR"><p id="u"></p></div>
+<div class="card"><h1>Modelo 3D animado</h1><p>Giro 360° + flotación · loop 4s (Blender)</p>
+<video src="/models/anim-demo-sneaker.glb" style="display:none"></video>
+<model-viewer src="/models/anim-demo-sneaker.glb" camera-controls autoplay shadow-intensity="1" style="width:100%;height:380px"></model-viewer>
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js"></script>
+</div>
+<script>fetch('/api/products/VM-DAM-SH39598728/qr').then(r=>document.getElementById('u').textContent=r.headers.get('X-QR-Url'))</script>
+</body></html>

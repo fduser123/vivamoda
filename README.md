@@ -96,8 +96,8 @@ npm run seed:external -- --dry-run     # previsualiza sin escribir en la base
 - Cada producto importado trae 3-4 imágenes (galería), variantes por talla y stock
   distribuido en las 4 tiendas (CENTRAL · CENTRO · NORTE · ONLINE).
 - **Traducción al español:** nombres y descripciones se traducen automáticamente
-  (`backend/src/services/translator.js`). Si hay `OPENROUTER_API_KEY` usa el LLM del
-  estilista (traducción editorial en lotes); si no —o si la API falla— cae en un
+  (`backend/src/services/translator.js`). Si hay un proveedor LLM configurado usa el mismo
+  del estilista (traducción editorial en lotes); si no —o si la API falla— cae en un
   diccionario local sin red. Usa `--no-translate` para conservar el inglés original.
   Puedes probar el diccionario con `node scripts/test-translator.mjs`.
 
@@ -157,14 +157,38 @@ curl "http://localhost:3000/api/products?gender=damas"
 
 ## Estilista IA
 
-- **LLM real (OpenRouter):** define `OPENROUTER_API_KEY` en `backend/.env` (también se
-  acepta `OPENAI_API_KEY`) y opcionalmente `OPENROUTER_MODEL` (default:
-  `meta-llama/llama-3.3-70b-instruct`). El LLM genera la respuesta conversacional y el
-  motor local aporta el contexto de catálogo real (SQL) y la calculadora de tallas.
-- **Fallback automático:** si la API falla (red, cuota, timeout), responde el motor local
-  y la respuesta incluye `llmError` para diagnóstico.
+- **Proveedor intercambiable por entorno:** todas las IAs (Aria, estilista visual, analista
+  admin, asesor de compras, traductor y probador virtual) hablan la API compatible con
+  OpenAI a través de un único módulo, `backend/src/services/llm-provider.js`. Prioridad:
+  `LLM_BASE_URL`+`LLM_API_KEY` → `LLM_PROVIDER` → `GEMINI_API_KEY` → `OPENROUTER_API_KEY`.
+- **Google Gemini (recomendado, tier gratuito):** define `GEMINI_API_KEY` en `backend/.env`
+  (también se acepta `GOOGLE_API_KEY`) y opcionalmente `GEMINI_MODEL` (default:
+  `gemini-2.5-flash`). No hace falta tocar código: Gemini toma prioridad sobre OpenRouter.
+- **OpenRouter:** alternativa con `OPENROUTER_API_KEY` (también se acepta `OPENAI_API_KEY`)
+  y `OPENROUTER_MODEL` (default: `meta-llama/llama-3.3-70b-instruct`).
+- **Cualquier otra API compatible:** `LLM_BASE_URL` + `LLM_API_KEY` + `LLM_MODEL`
+  (Groq, Cerebras, Mistral, Ollama local, un proxy propio…).
+- **Fallback automático:** si el proveedor falla (red, cuota, timeout) o no hay llave,
+  responde el motor local de reglas y la respuesta incluye `llmError` para diagnóstico.
+- **Memoria del cliente:** Aria aprende de la conversación (talla, presupuesto, colores,
+  ocasiones, para quién busca) y de la base de datos (talla y categorías compradas, ticket
+  medio) y de sus clics sobre las sugerencias, que reordenan las próximas recomendaciones.
+  Se guarda en `ai_memory` y viaja entre mensajes, recargas y dispositivos.
+- **Contexto de BD en cada respuesta:** perfil, pedidos recientes con estado y guía, carrito
+  en vivo, stock por talla/tienda y promociones activas. De ahí que responda "¿dónde está mi
+  pedido?", "¿qué llevo en el carrito?" o "¿qué sabes de mí?".
+- **Búsquedas en internet:** para preguntas de cultura de moda ("¿qué es el smart casual?") usa
+  DuckDuckGo + Wikipedia sin API key, con caché de 6 h, y cita las fuentes en la respuesta.
+- **Control de la memoria:** el asistente del panel de admin incluye la pestaña **Memoria de Aria**
+  (🔒 solo admin) con lo aprendido de cada cliente y cada sesión anónima, la fuente y confianza de
+  cada dato, corrección en línea, olvido selectivo y los clics que reordenan las recomendaciones.
+- **Fluidez:** chat en streaming (`POST /api/ai/chat/stream`, SSE) con sesión persistente en
+  `ai_sessions`; el frontend muestra el texto mientras se escribe (`VM.aiChat()`).
 - **Motor local:** reglas + búsqueda sobre el catálogo real; sugiere hasta 3 prendas
-  (`suggestions`) por evento/estilo. Forzable con `USE_LOCAL_AI=true`.
+  (`suggestions`) por evento/estilo, ahora enriquecidas con tallas con stock y el motivo de la
+  sugerencia. Forzable con `USE_LOCAL_AI=true` (también en la selección de proveedor).
+
+> Detalle técnico y evidencia: [`docs/ARIA-MEMORIA-Y-CONTEXTO.md`](docs/ARIA-MEMORIA-Y-CONTEXTO.md).
 
 ## Configuración (`backend/.env`)
 
@@ -172,8 +196,13 @@ curl "http://localhost:3000/api/products?gender=damas"
 PORT=3000
 DATABASE_URL=postgres://vivamoda:vivamoda_dev@localhost:5432/vivamoda
 JWT_SECRET=cámbialo-en-producción
-OPENROUTER_API_KEY=sk-or-v1-…
-# OPENROUTER_MODEL=meta-llama/llama-3.3-70b-instruct
+
+# IA Estilista — elige un proveedor (ver services/llm-provider.js)
+GEMINI_API_KEY=AIza-…                          # Gemini (recomendado, gratis)
+# OPENROUTER_API_KEY=sk-or-v1-…
+# LLM_BASE_URL=https://api.groq.com/openai/v1  # cualquier API compatible con OpenAI
+# LLM_API_KEY=…
+# LLM_MODEL=llama-3.3-70b-versatile
 ```
 
 ## Cómo se conectan los frontends

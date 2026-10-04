@@ -176,7 +176,14 @@ window.VRStore = (function () {
   function firstFrame() {
     if (started) return;
     started = true;
-    setTimeout(() => { loader.style.opacity = '0'; setTimeout(() => loader.remove(), 650); }, 400);
+    const hide = () => { loader.style.opacity = '0'; setTimeout(() => loader.remove(), 650); };
+    if (window.__MK_WAIT__) {
+      // el escenario GLB sigue descargando: se espera a mk:ready (con tope de seguridad)
+      window.addEventListener('mk:ready', hide, { once: true });
+      setTimeout(hide, 20000);
+    } else {
+      setTimeout(hide, 400);
+    }
   }
 
   function animate() {
@@ -186,8 +193,20 @@ window.VRStore = (function () {
 
     if (S.tour) {
       S.tourAngle += dt * 0.11;
-      camera.position.set(Math.sin(S.tourAngle) * 14, 4.9 + Math.sin(S.tourAngle * 2) * 0.5, Math.cos(S.tourAngle) * 14);
-      camera.lookAt(0, 1.9, 0);
+      // Recorrido adaptado al interior MK (elipse DENTRO del local)
+      const mk = S.MK;
+      if (mk) {
+        const cx = mk.cx, cz = mk.cz;
+        camera.position.set(
+          cx + Math.sin(S.tourAngle) * 8.5,
+          2.2 + Math.sin(S.tourAngle * 2) * 0.3,
+          cz + Math.cos(S.tourAngle) * 3.6,
+        );
+        camera.lookAt(cx, 1.7, cz);
+      } else {
+        camera.position.set(Math.sin(S.tourAngle) * 14, 4.9 + Math.sin(S.tourAngle * 2) * 0.5, Math.cos(S.tourAngle) * 14);
+        camera.lookAt(0, 1.9, 0);
+      }
     } else {
       controls.update();
     }

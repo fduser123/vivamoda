@@ -8,8 +8,24 @@ export const config = {
   jwtSecret: process.env.JWT_SECRET || 'vivamoda-dev-secret',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '12h',
   // --- IA Estilista ---
+  // Proveedor LLM activo (ver services/llm-provider.js). Cualquiera de estos
+  // habla la API compatible con OpenAI, así que cambiar de proveedor es solo
+  // cuestión de variables de entorno.
+  llmProvider: process.env.LLM_PROVIDER || null, // 'gemini' | 'openrouter' (forzado)
+  llmBaseUrl: process.env.LLM_BASE_URL || null, // API compatible propia (Groq, Cerebras, Ollama…)
+  llmApiKey: process.env.LLM_API_KEY || null,
+  llmModel: process.env.LLM_MODEL || null,
+  // Google Gemini (AI Studio) — tier gratuito. La llave también se acepta en GOOGLE_API_KEY.
+  geminiApiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || null,
+  geminiBaseUrl: process.env.GEMINI_BASE_URL || null,
+  geminiModel: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
+  geminiVisionModel: process.env.GEMINI_VISION_MODEL || process.env.GEMINI_MODEL || 'gemini-2.5-flash',
   // OpenRouter (API compatible con OpenAI). La clave también se acepta en OPENAI_API_KEY.
   openrouterApiKey: process.env.OPENROUTER_API_KEY || process.env.OPENAI_API_KEY || null,
   openrouterModel: process.env.OPENROUTER_MODEL || 'meta-llama/llama-3.3-70b-instruct',
+  openrouterVisionModel: process.env.OPENROUTER_VISION_MODEL || 'meta-llama/llama-3.2-11b-vision-instruct',
   useLocalAi: bool(process.env.USE_LOCAL_AI, false), // true → fuerza el motor local de reglas
+  // --- IA #11 Probador Virtual (Cloudflare Workers AI · FLUX.1-schnell) ---
+  cloudflareAccountId: process.env.CLOUDFLARE_ACCOUNT_ID || null,
+  cloudflareApiToken: process.env.CLOUDFLARE_API_TOKEN || null,
 };

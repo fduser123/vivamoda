@@ -1,5 +1,5 @@
 /* Catálogo en vivo: render desde /api/products con filtros locales */
-(function () {    const { api, fmtUSD, esc, qs, toast, addToCart, refreshCartBadge, paintUserChip, getUser, modelChipHtml } = window.VM;
+(function () {    const { api, fmtUSD, esc, qs, toast, addToCart, refreshCartBadge, paintUserChip, getUser, modelChipHtml, aiChat, aiExtrasHtml, aiTypingHtml } = window.VM;
 
   // ---------- ruta → filtros iniciales ----------
   function initialFromPath() {
@@ -323,21 +323,29 @@
       row.textContent = text.replace(/\*\*/g, '');
       area.appendChild(row);
       area.scrollTop = area.scrollHeight;
+      return row;
     }
     async function send() {
       const msg = input.value.trim();
       if (!msg) return;
       appendMsg('user', msg);
       input.value = '';
-      appendMsg('assistant', 'Escribiendo…');
+      const row = appendMsg('assistant', '');
+      row.innerHTML = aiTypingHtml();
       try {
-        const res = await window.VM.api('/ai/chat', { auth: false, method: 'POST', body: { message: msg, productContext: location.search ? new URLSearchParams(location.search).get('sku') : null } });
-        area.lastChild.remove();
-        appendMsg('assistant', res.reply.replace(/\*\*/g, ''));
+        const res = await aiChat({
+          message: msg,
+          productContext: location.search ? new URLSearchParams(location.search).get('sku') : null,
+          onDelta: (t, total) => { row.textContent = String(total).replace(/\*\*/g, ''); area.scrollTop = area.scrollHeight; },
+        });
+        row.textContent = String(res.reply || row.textContent).replace(/\*\*/g, '');
+        if (res.learned?.length || res.sources?.length) row.insertAdjacentHTML('afterend', aiExtrasHtml(res));
         if (res.suggestions && res.suggestions.length) {
           res.suggestions.forEach((p) => {
             const chip = document.createElement('a');
             chip.setAttribute('href', `/detalle-de-producto?sku=${encodeURIComponent(p.sku)}`);
+            chip.setAttribute('data-vm-sku', p.sku);
+            if (p.reason) chip.title = `Sugerida porque ${p.reason}`;
             chip.textContent = `${p.name} · ${fmtUSD(p.price)}`;
             chip.style.cssText = 'align-self:flex-start;padding:6px 10px;border-radius:10px;border:1px solid #e5c0c9;color:#8f0041;font:600 12px "Plus Jakarta Sans";text-decoration:none;background:#fff';
             area.appendChild(chip);

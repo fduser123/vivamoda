@@ -3,9 +3,13 @@ import { pool } from '../db.js';
 import { requireRole } from '../middleware/auth.js';
 import { orderToJson } from './orders.js';
 import { findProduct } from '../services/products.js';
+import adminAiRoutes from './admin-ai.js';
 
 const router = Router();
 router.use(requireRole('admin'));
+
+// IA administrativa: insights, informe ejecutivo y chat de datos
+router.use('/ai', adminAiRoutes);
 
 function periodRange(period) {
   switch (period) {

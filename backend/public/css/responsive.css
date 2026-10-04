@@ -1,0 +1,121 @@
+/* ==========================================================================
+   VivaModa · Capa global de responsividad
+   Se inyecta en TODAS las páginas (server.js) SIN alterar los diseños:
+   solo añade comportamiento fluido en viewports pequeños/medianos.
+   ========================================================================== */
+
+/* ---------- 1. Base: sin desbordes horizontales ---------- */
+html { -webkit-text-size-adjust: 100%; }
+body { overflow-x: hidden; }
+img, svg, video, canvas { max-width: 100%; }
+
+/* ---------- 2. Tipografía fluida ---------- */
+@media (max-width: 1023.98px) {
+  .font-display-hero, .text-display-hero { font-size: clamp(1.75rem, 6vw, 2.25rem) !important; line-height: 1.15 !important; }
+  .font-headline-lg, .text-headline-lg   { font-size: clamp(1.4rem, 4.5vw, 1.9rem) !important; line-height: 1.22 !important; }
+  .font-headline-md, .text-headline-md   { font-size: clamp(1.15rem, 3vw, 1.5rem) !important; line-height: 1.3 !important; }
+  .font-headline-sm, .text-headline-sm   { font-size: clamp(1rem, 2.6vw, 1.25rem) !important; line-height: 1.35 !important; }
+  .font-price-prominent, .text-price-prominent { font-size: clamp(1.1rem, 3.2vw, 1.375rem) !important; line-height: 1.2 !important; }
+}
+
+/* ---------- 3. Alturas fijas del mockup → fluidas en pantallas chicas ---------- */
+@media (max-width: 1023.98px) {
+  [class*="max-h-[720px]"], [class*="max-h-[921px]"], [class*="min-h-[740px]"] { max-height: none !important; min-height: 0 !important; }
+  [class*="h-[520px]"] { height: auto !important; min-height: 380px; }
+  [class*="max-h-[320px]"] { max-height: 45vh !important; }
+}
+
+/* ---------- 4. Grids y filas flex que no caben en móvil → se apilan ---------- */
+@media (max-width: 420px) {
+  .grid-cols-3 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .grid-cols-2 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+}
+
+/* ---------- 5b. Tienda VR: la barra de cliente baja bajo el header en móvil ---------- */
+@media (max-width: 640px) {
+  #clientBar { top: 7.5rem !important; }
+}
+
+/* ---------- 5. Header y filas de métricas: todo cabe y nada se recorta ---------- */
+header .overflow-x-auto { scrollbar-width: none; }
+header .overflow-x-auto::-webkit-scrollbar { display: none; }
+@media (max-width: 640px) {
+  .flex.items-center.gap-space-xl { flex-wrap: wrap; gap: .75rem 1.25rem !important; }
+  .flex.items-center.gap-space-xl > .flex.items-center { min-width: 0; max-width: 100%; }
+  header .max-w-container-max > .flex.items-center.justify-between { flex-wrap: wrap; }
+  /* El header del catálogo es más alto en móvil (topbar multilínea) → más aire al main */
+  main.pt-36 { padding-top: 10rem !important; }
+  /* Barras de herramientas full-width (búsqueda + orden) → envuelven en vez de desbordar */
+  .flex.items-center.justify-between.w-full { flex-wrap: wrap; }
+  .flex.items-center.justify-between.w-full > * { min-width: 0; }
+}
+
+/* ---------- 6. Tablas (panel admin) → scroll horizontal contenido ---------- */
+@media (max-width: 1023.98px) {
+  table.w-full { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+/* ---------- 7. Modales: ancho seguro en cualquier viewport ---------- */
+@media (max-width: 640px) {
+  .fixed.inset-0 .max-w-lg, .fixed.inset-0 .max-w-xl, .fixed.inset-0 .max-w-2xl {
+    max-width: calc(100vw - 1.5rem) !important;
+  }
+}
+
+/* ---------- 7b. Contenedores flex/grid con hijos anchos → permitir encoger ---------- */
+@media (max-width: 1023.98px) {
+  .pl-64 main .flex.flex-col.w-full > * { min-width: 0 !important; max-width: 100% !important; }
+  .pl-64 main .flex.flex-col.w-full, .pl-64 main .w-full { min-width: 0 !important; overflow-x: clip; }
+}
+
+/* ---------- 8. Espados laterales más compactos en móvil ---------- */
+@media (max-width: 640px) {
+  .px-margin-mobile { padding-left: 1rem !important; padding-right: 1rem !important; }
+}
+
+/* ---------- 9. POS y Panel Admin: sidebar fijo → barra superior colapsada ----------
+   El mockup usa `aside.fixed.w-64` + `pl-64`/`left-64`. En < 1024px el sidebar
+   pasa a flujo normal (barra horizontal) y el contenido recupera su ancho.   */
+@media (max-width: 1023.98px) {
+  body > aside.fixed.left-0.top-0.h-full.w-64 {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    padding: .5rem .75rem;
+    overflow-x: auto;
+  }
+  body > aside.fixed.left-0.top-0.h-full.w-64 > div:first-child {
+    flex-direction: row !important;
+    align-items: center;
+    gap: .75rem;
+  }
+  body > aside.fixed.left-0.top-0.h-full.w-64 nav {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    margin-top: 0 !important;
+    padding: 0 !important;
+  }
+  body > aside.fixed.left-0.top-0.h-full.w-64 nav a {
+    white-space: nowrap;
+    padding: .5rem .75rem !important;
+  }
+  body > aside.fixed.left-0.top-0.h-full.w-64 nav a span.mr-3 { margin-right: .35rem !important; }
+  /* Perfil del cajero (pie del sidebar) → oculto en la barra compacta */
+  body > aside.fixed.left-0.top-0.h-full.w-64 > div:last-child { display: none !important; }
+  /* Ocultar el bloque de estado "Modo Operativo" (decorativo) para ganar espacio */
+  body > aside.fixed.left-0.top-0.h-full.w-64 .px-space-md.py-space-xs { display: none !important; }
+  /* El contenedor que dejaba sitio al sidebar recupera el ancho completo */
+  .pl-64 { padding-left: 0 !important; }
+  header.fixed.left-64 { left: 0 !important; padding-left: 1rem !important; padding-right: 1rem !important; }
+  /* El buscador de 288px y la pill de tienda no caben: se ocultan los adornos */
+  header.fixed.left-64 .relative.w-72 { display: none !important; }
+  main.px-space-xl { padding-left: 1rem !important; padding-right: 1rem !important; padding-top: 4.5rem !important; }
+  /* Tira horizontal de resumen de pedidos (POS) → scroll interno, sin empujar el layout */
+  .flex.items-center.gap-space-xs:has(> .p-2.rounded-lg.bg-primary-fixed) { overflow-x: auto !important; }
+  .p-2.rounded-lg.bg-primary-fixed { overflow-x: visible !important; justify-content: flex-start !important; }
+  .p-2.rounded-lg.bg-primary-fixed > * { flex: 0 0 auto !important; }
+}

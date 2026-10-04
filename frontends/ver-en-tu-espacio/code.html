@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VivaModa · Ver en tu espacio (AR)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.1.0/model-viewer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@master/qrcode.min.js"></script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    model-viewer { width: 100%; height: 100%; background: radial-gradient(circle at 50% 20%, #ffffff 0%, #f1eef4 60%, #e7e3ea 100%); }
+    .ar-chip { background: linear-gradient(135deg, #b60055, #4b41e1); }
+    .card-sel { outline: 3px solid #b60055; outline-offset: 2px; }
+    #vm-ar-bar { transition: width .2s ease; }
+  </style>
+</head>
+<body class="bg-[#fcf8fb] text-[#1c1b1d] min-h-screen">
+
+  <!-- Barra superior -->
+  <header class="bg-white/90 backdrop-blur sticky top-0 z-20 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <a href="/catalogo-de-productos" class="flex items-center gap-2">
+        <span class="ar-chip text-white font-extrabold rounded-xl px-3 py-1.5">VivaModa</span>
+        <span class="hidden sm:inline text-sm text-gray-500">Ver en tu espacio · AR</span>
+      </a>
+      <nav class="flex items-center gap-2 text-sm">
+        <a href="/hub-agente-ia" class="px-3 py-2 rounded-xl hover:bg-[#f6f2f5]">🤖 Hub IA</a>
+        <a href="/tienda-virtual-realidad" class="px-3 py-2 rounded-xl hover:bg-[#f6f2f5]">🏬 Tienda VR</a>
+        <a href="/iniciar-sesion" class="px-3 py-2 rounded-xl hover:bg-[#f6f2f5]">🔐</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-6">
+    <div class="mb-5">
+      <h1 class="text-2xl sm:text-3xl font-extrabold">🧊 Ver en tu espacio <span class="ar-chip text-white text-xs font-bold align-middle rounded-full px-2 py-1 ml-1">AR</span></h1>
+      <p class="text-gray-500 mt-1 max-w-3xl">Coloca el producto en tu mesa o habitación antes de comprarlo: gíralo, cámbiale la escala y —en tu teléfono— ábrelo en <b>realidad aumentada</b> con la cámara. En PC lo exploras como modelo 3D real.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-[380px_1fr] gap-5">
+      <!-- Productos con modelo 3D -->
+      <section>
+        <h2 class="font-bold text-sm uppercase tracking-wide text-gray-400 mb-2">Productos disponibles en 3D</h2>
+        <div id="vm-ar-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-3">
+          <div class="col-span-full text-center text-gray-400 py-8 text-sm">Cargando catálogo…</div>
+        </div>
+        <div class="mt-4 bg-white rounded-2xl shadow p-4 text-xs text-gray-500 leading-relaxed">
+          <b class="text-[#b60055]">¿Cómo abro el AR en el celular?</b> Toca <b>QR</b> arriba del visor, escanea el código con tu teléfono y pulsa el botón <b>“View in your space”</b> que aparece sobre el modelo (Android · ARCore). En iPhone se comparte como archivo USDZ desde el visor del modelo.
+        </div>
+      </section>
+
+      <!-- Visor -->
+      <section class="lg:sticky lg:top-20 self-start w-full">
+        <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
+          <div class="relative" style="height: min(62vh, 560px)">
+            <model-viewer id="vm-ar-model"
+              src="/models/gafas-sol.glb"
+              alt="Producto VivaModa en 3D"
+              ar
+              ar-modes="webxr scene-viewer quick-look"
+              ar-scale="fixed"
+              camera-controls
+              touch-action="pan-y"
+              auto-rotate
+              auto-rotate-delay="800"
+              rotation-per-second="22deg"
+              environment-image="neutral"
+              shadow-intensity="1"
+              exposure="1.05">
+              <button slot="ar-button" class="ar-chip text-white font-bold rounded-xl px-4 py-2.5 shadow-lg"
+                style="position:absolute; bottom:16px; right:16px;">
+                📱 Ver en tu espacio
+              </button>
+            </model-viewer>
+
+            <!-- Progreso de carga -->
+            <div id="vm-ar-loading" class="absolute inset-x-0 top-0 h-1 bg-gray-100">
+              <div id="vm-ar-bar" class="h-full ar-chip" style="width: 0%"></div>
+            </div>
+
+            <!-- QR flotante -->
+            <div id="vm-ar-qr-panel" class="hidden absolute top-3 right-3 bg-white rounded-2xl shadow-xl p-3 text-center z-10">
+              <div id="vm-ar-qr" class="w-40 h-40 mx-auto"></div>
+              <p class="text-[10px] text-gray-400 mt-1 break-all" id="vm-ar-qr-url"></p>
+              <button id="vm-ar-qr-close" class="text-xs text-gray-400 hover:text-gray-600 mt-1">cerrar ✕</button>
+            </div>
+          </div>
+
+          <!-- Toolbar -->
+          <div class="flex flex-wrap items-center gap-2 px-4 py-3 border-t border-gray-100 bg-[#fcf8fb]">
+            <button id="vm-ar-rotate" class="text-sm px-3 py-2 rounded-xl bg-white border hover:bg-white/70 font-semibold">⏸️ Pausar giro</button>
+            <button id="vm-ar-reset" class="text-sm px-3 py-2 rounded-xl bg-white border hover:bg-white/70 font-semibold">↺ Reset</button>
+            <button id="vm-ar-qr-btn" class="text-sm px-3 py-2 rounded-xl bg-white border hover:bg-white/70 font-semibold">🔳 QR para el celular</button>
+            <label class="flex items-center gap-2 text-xs text-gray-500 ml-auto">
+              Escala
+              <input id="vm-ar-scale" type="range" min="40" max="260" value="100" class="w-32 accent-[#b60055]" />
+            </label>
+          </div>
+
+          <!-- Asesora virtual 3D "Viva" -->
+          <div id="vm-ar-stylist" class="border-t border-gray-100 bg-gradient-to-b from-[#fcf8fb] to-[#f4eef4]">
+            <div class="flex gap-0">
+              <div class="relative w-36 sm:w-44 shrink-0 bg-gradient-to-b from-[#efe7f0] to-[#e3d8e6]">
+                <canvas id="vm-ar-stylist-canvas" class="w-full h-44 sm:h-52 block"></canvas>
+                <button id="vm-ar-stylist-mute" class="absolute top-2 right-2 text-xs px-2 py-1 rounded-full bg-white/85 border shadow-sm font-semibold">🔊</button>
+              </div>
+              <div class="flex-1 min-w-0 p-3 sm:p-4">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-black tracking-wide text-[#b60055] uppercase">Viva · asesora virtual</span>
+                  <span id="vm-ar-stylist-state" class="text-[10px] text-gray-400">lista</span>
+                </div>
+                <div id="vm-ar-stylist-bubble" class="mt-1.5 bg-white rounded-2xl rounded-tl-sm shadow-sm px-4 py-3 text-sm text-gray-700 min-h-[3.6rem] border border-[#efe7f0]">¡Hola! Soy Viva 💜 Cuando elijas una prenda te cuento de qué está hecha, cómo cuidarla y más.</div>
+                <div id="vm-ar-stylist-chips" class="mt-2.5 flex flex-wrap gap-1.5"></div>
+                <div id="vm-ar-stylist-extra" class="mt-2 text-[11px] text-gray-500 leading-relaxed"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Info del producto -->
+          <div id="vm-ar-info" class="px-5 py-4 border-t border-gray-100">
+            <div class="text-gray-400 text-sm">Elige un producto para verlo aquí.</div>
+          </div>
+        </div>
+
+        <p id="vm-ar-error" class="hidden mt-3 text-sm text-red-600 bg-red-50 rounded-xl px-4 py-3"></p>
+      </section>
+    </div>
+
+    <footer class="mt-8 text-center text-xs text-gray-400">
+      Modelos 3D: <a class="underline" href="https://poly.pizza" target="_blank" rel="noopener">Poly Pizza (CC-BY)</a> ·
+      <a class="underline" href="https://github.com/KhronosGroup/glTF-Sample-Assets" target="_blank" rel="noopener">Khronos glTF Samples (CC-BY 4.0)</a> ·
+      Detalle de créditos en <code>backend/public/models/ATTRIBUTIONS.md</code>
+    </footer>
+  </main>
+</body>
+</html>

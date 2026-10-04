@@ -11,13 +11,13 @@
 //   translateProducts(items)         → [{ name, description }] en español
 //   localTranslateName(name)         → traducción offline de un nombre
 // =====================================================================
-import { config } from '../config.js';
+import { llmProvider, callChat } from './llm-provider.js';
 
 // ---------------------------------------------------------------
-// 1) Traducción con LLM (OpenRouter, misma key que el estilista)
+// 1) Traducción con LLM (mismo proveedor activo que el estilista)
 // ---------------------------------------------------------------
 export function translatorAvailable() {
-  return Boolean(config.openrouterApiKey);
+  return Boolean(llmProvider());
 }
 
 const TRANSLATE_PROMPT = `Eres un traductor del catálogo de VivaModa, marca de moda premium colombiana.
@@ -31,45 +31,18 @@ REGLAS:
 5. NO traduzcas marcas propias (Calvin Klein, Heshe,…): déjalas tal cual dentro del texto.
 6. Términos de moda: usa "Vestido", "Camisa", "Blusa", "Bolso", "Reloj", "Zapatillas", "Tacones", "Gafas de Sol", "Collar", "Aretes", "Anillo".`;
 
-async function postChatCompletion(payload, timeoutMs = 90_000, attempts = 2) {
-  let lastErr = null;
-  for (let i = 1; i <= attempts; i++) {
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), timeoutMs);
-    try {
-      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${config.openrouterApiKey}`,
-          'Content-Type': 'application/json',
-          'HTTP-Referer': 'http://localhost:3000',
-          'X-Title': 'VivaModa seed-external',
-        },
-        body: JSON.stringify(payload),
-        signal: ctrl.signal,
-      });
-      const raw = await res.text();
-      let body = {};
-      try { body = JSON.parse(raw); } catch { /* respuesta no-JSON */ }
-      return { ok: res.ok, status: res.status, body };
-    } catch (err) {
-      lastErr = err;
-      if (i < attempts) {
-        console.warn(`[translator] intento ${i} falló (${err.cause?.code || err.message}), reintentando…`);
-        await new Promise((r) => setTimeout(r, 1_000 * i));
-      }
-    } finally {
-      clearTimeout(timer);
-    }
-  }
-  throw lastErr;
+/** ¿Hay proveedor de traducción disponible? Delega en el proveedor LLM activo. */
+function translatorProvider() {
+  return llmProvider();
 }
 
 /** Traduce una tanda con LLM. Devuelve [{name, description}] o null si falla. */
 async function llmTranslateBatch(batch) {
+  const provider = translatorProvider();
+  if (!provider) return null;
   try {
-    const { ok, status, body } = await postChatCompletion({
-      model: config.openrouterModel,
+    const { ok, status, body } = await callChat(provider, {
+      model: provider.model,
       messages: [
         { role: 'system', content: TRANSLATE_PROMPT },
         { role: 'user', content: JSON.stringify({ items: batch }) },
@@ -78,7 +51,7 @@ async function llmTranslateBatch(batch) {
       temperature: 0.2,
     });
     if (!ok) {
-      console.warn(`[translator] OpenRouter HTTP ${status}: ${body?.error?.message || 'error'} → uso fallback local`);
+      console.warn(`[translator] ${provider.label} HTTP ${status}: ${body?.error?.message || 'error'} → uso fallback local`);
       return null;
     }
     const text = body?.choices?.[0]?.message?.content?.trim() || '';
@@ -109,12 +82,13 @@ async function llmTranslateBatch(batch) {
  */
 export async function translateProducts(items, { batchSize = 20 } = {}) {
   if (!items.length) return [];
-  if (!translatorAvailable()) {
-    console.log('[translator] sin OPENROUTER_API_KEY → traducción local (diccionario)');
+  const provider = translatorProvider();
+  if (!provider) {
+    console.log('[translator] sin proveedor LLM → traducción local (diccionario)');
     return items.map((it) => ({ name: localTranslateName(it.name, { dropUnknown: Boolean(it.dropUnknown) }), description: it.description }));
   }
 
-  console.log(`[translator] traduciendo ${items.length} productos con ${config.openrouterModel} en lotes de ${batchSize}…`);
+  console.log(`[translator] traduciendo ${items.length} productos con ${provider.label} (${provider.model}) en lotes de ${batchSize}…`);
   const out = new Array(items.length);
   for (let start = 0; start < items.length; start += batchSize) {
     const slice = items.slice(start, start + batchSize);

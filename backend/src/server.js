@@ -65,6 +65,9 @@ const PAGE_SCRIPTS = {
   'frontends/portal-acceso/code.html': 'login.js',
   'frontends/pos-pedidos/code.html': 'pos.js',
   'frontends/panel-almacen/code.html': 'admin.js',
+  'frontends/ver-en-tu-espacio/code.html': 'espacio.js',
+  'frontends/simulador-tienda/code.html': 'simulador.js',
+  'frontends/guia-producto/code.html': 'guia.js',
 };
 
 const PAGES = {
@@ -80,12 +83,15 @@ const PAGES = {
   '/registro': 'frontends/portal-acceso/code.html',
   '/pedidos-y-pos': 'frontends/pos-pedidos/code.html',
   '/panel-de-almacen-y-ventas': 'frontends/panel-almacen/code.html',
+  '/ver-en-tu-espacio': 'frontends/ver-en-tu-espacio/code.html',
+  '/simulador-tienda': 'frontends/simulador-tienda/code.html',
+  '/guia-de-producto': 'frontends/guia-producto/code.html',
 };
 
 const PLACEHOLDER = (name, path) => `<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>VivaModa · ${name}</title>
-<script src="https://cdn.tailwindcss.com"></script></head>
+<script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="/css/responsive.css"/></head>
 <body class="bg-[#fcf8fb] text-[#1c1b1d] min-h-screen flex items-center justify-center p-6" style="font-family: 'Plus Jakarta Sans', sans-serif;">
 <main class="max-w-lg w-full bg-white rounded-2xl shadow-lg p-8 text-center">
 <span style="font-size:40px">🛍️</span>
@@ -107,6 +113,11 @@ function sendPage(req, res, file) {
   const abs = path.join(ROOT, file);
   if (!fs.existsSync(abs)) return res.status(404).type('html').send(PLACEHOLDER('Página no encontrada', req.path));
   let html = fs.readFileSync(abs, 'utf8');
+  // Capa global de responsividad (no altera los diseños originales)
+  const responsive = '<link rel="stylesheet" href="/css/responsive.css"/>';
+  if (html.includes('</head>')) html = html.replace('</head>', responsive + '</head>');
+  else if (html.includes('<body')) html = html.replace('<body', responsive + '<body');
+  else html += responsive;
   const script = PAGE_SCRIPTS[file];
   if (script) {
     const tags =

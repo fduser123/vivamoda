@@ -154,6 +154,43 @@ CREATE TABLE IF NOT EXISTS vr_user_prefs (
   updated_at   TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+-- Memoria de Aria: lo que aprende de cada cliente (talla, colores, presupuesto…)
+-- Puede pertenecer a un usuario registrado o a una sesión anónima (session_key).
+CREATE TABLE IF NOT EXISTS ai_memory (
+  id         SERIAL PRIMARY KEY,
+  user_id    INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  session_key TEXT,
+  key        TEXT NOT NULL,
+  value      TEXT NOT NULL,
+  confidence NUMERIC(3,2) NOT NULL DEFAULT 0.60,
+  hits       INTEGER NOT NULL DEFAULT 1,
+  source     TEXT NOT NULL DEFAULT 'chat',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_ai_memory_owner
+  ON ai_memory (COALESCE(user_id, 0), COALESCE(session_key, ''), key);
+
+-- Señales de interés (prendas recomendadas → vistas/compradas): feedback implícito
+CREATE TABLE IF NOT EXISTS ai_events (
+  id          SERIAL PRIMARY KEY,
+  user_id     INTEGER REFERENCES users(id) ON DELETE SET NULL,
+  session_key TEXT,
+  sku         TEXT,
+  event       TEXT NOT NULL,
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS idx_ai_events_sku ON ai_events(sku);
+CREATE INDEX IF NOT EXISTS idx_ai_events_user ON ai_events(user_id);
+
+-- Caché de búsquedas web de Aria (evita repetir consultas a internet)
+CREATE TABLE IF NOT EXISTS ai_web_cache (
+  id         SERIAL PRIMARY KEY,
+  query_norm TEXT NOT NULL UNIQUE,
+  results    JSONB NOT NULL DEFAULT '[]',
+  fetched_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
 CREATE INDEX IF NOT EXISTS idx_products_gender     ON products(gender);
 CREATE INDEX IF NOT EXISTS idx_products_category   ON products(category);
 CREATE INDEX IF NOT EXISTS idx_products_active     ON products(is_active);
