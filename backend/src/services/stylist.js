@@ -14,13 +14,14 @@ import { canonicalColor, colorsInText, applyColorPreference, buildColorPreferenc
  * que cada producto sale con `colors` canónicos. Si se pasa `colorPref`, los
  * resultados se reordenan y se descartan los colores que el cliente evita.
  */
-async function searchProducts({ gender, category, q, limit = 4, onlyStock = true, visibility = 'store', colorPref = null }) {
+async function searchProducts({ gender, category, categories, q, limit = 4, onlyStock = true, visibility = 'store', colorPref = null }) {
   const where = ['p.is_active = TRUE'];
   const params = [];
   const p = (v) => { params.push(v); return `$${params.length}`; };
   if (visibility) where.push(`p.visibility = ${p(visibility)}`);
   if (gender) where.push(`p.gender = ${p(gender)}`);
-  if (category) where.push(`p.category ILIKE ${p(`%${category}%`)}`);
+  if (categories?.length) where.push(`p.category = ANY(${p(categories)})`);
+  else if (category) where.push(`p.category ILIKE ${p(`%${category}%`)}`);
   if (q) where.push(`(p.name ILIKE ${p(`%${q}%`)} OR p.category ILIKE ${p(`%${q}%`)} OR p.badge ILIKE ${p(`%${q}%`)})`);
   if (onlyStock) where.push(`EXISTS (SELECT 1 FROM product_variants vv JOIN inventory ii ON ii.variant_id = vv.id WHERE vv.product_id = p.id AND ii.qty > 0)`);
 
@@ -72,6 +73,14 @@ const EVENT_MAP = [
   { re: /(hombre|él|caballero|novio)/i, gender: 'caballeros', text: 'sastrería moderna', occasion: 'un look masculino', category: 'Sastrería' },
 ];
 
+// Categorías que son PRENDA (no joyería, bolsos ni relojes). Es el conjunto
+// donde busca el motor de outfits: son justo las que escasean en el catálogo.
+const APPAREL_CATEGORIES = [
+  'Vestidos de Noche', 'Vestidos', 'Blusas y Tops', 'Sastrería', 'Camisería', 'Casual',
+  'Fiesta', 'Oficina', 'Pantalones', 'Abrigos', 'Deportivo', 'Traje de Baño',
+  'Ropa Interior', 'Urbano', 'Athleisure',
+];
+
 export function extractIntent(message) {
   const msg = ` ${String(message).toLowerCase()} `;
   // Intenciones personales: se resuelven con la base de datos del propio cliente.
@@ -88,7 +97,15 @@ export function extractIntent(message) {
   if (/(envío|envio|entrega|llegar|domicilio)/.test(msg)) return 'shipping';
   if (/(devolución|devolucion|cambio|cambiar|reembolso)/.test(msg)) return 'returns';
   if (/(oferta|descuento|flash|rebaja|promo)/.test(msg)) return 'deals';
-  if (/(combinar|accesorio|complement|qué me pongo|que me pongo)/.test(msg)) return 'accessorize';
+  // Accesorios solo si los pide de verdad. Antes bastaba con decir "combinar"
+  // para que "quiero una blusa o top para combinar con falda" devolviera
+  // joyería en vez de la prenda pedida.
+  const pidePrenda = /(blusa|top|vestido|falda|pantal[oó]n|jeans|vaquero|camisa|chaqueta|abrigo|blazer|traje|short|su[eé]ter|jersey|sudadera|camiseta|enterizo)/.test(msg);
+  const pideAccesorio = /(accesorio|complement|joya|bolso|aretes|collar|pulsera|anillo|gafas)/.test(msg);
+  // Si pide accesorios de forma explícita, manda eso; la mención de una prenda
+  // solo desempata cuando lo único que aparece es el verbo "combinar".
+  if (pideAccesorio) return 'accessorize';
+  if (!pidePrenda && /combinar/.test(msg)) return 'accessorize';
   if (/(hola|buenas|buen día|buen dia|saludos)/.test(msg) && msg.length < 40) return 'greeting';
   return 'outfit';
 }
@@ -194,19 +211,33 @@ export async function recommendForIntent(intent, ctx = {}) {
     const ev = EVENT_MAP.find((e) => e.re.test(ctx.raw || ''));
     const gender = ev?.gender || genderGuess;
     const category = ev?.category || null;
-    // Se prioriza la categoría del evento, pero el catálogo de muestra tiene
-    // muy pocas prendas de ropa por categoría (Joyería y Accesorios dominan),
-    // así que si no hay suficientes se completa con el resto del catálogo.
+    // 1) Primero la categoría del evento: si se mezcla con el resto en una sola
+    //    consulta ordenada por popularidad, las prendas con más reseñas
+    //    (chaquetas) desplazan siempre al vestido y la categoría del evento no
+    //    llega ni a entrar en la lista.
     let base = category ? await buscar({ gender, category, limit: 4 }) : [];
+    const vistos = new Set(base.map((p) => p.sku));
+    // 2) Relleno VARIADO con el resto de categorías de ropa: una prenda por
+    //    categoría distinta, para no acabar con tres chaquetas iguales.
     if (base.length < 4) {
-      const vistos = new Set(base.map((p) => p.sku));
+      const resto = await buscar({ gender, categories: APPAREL_CATEGORIES, limit: 30 });
+      const porCategoria = new Map();
+      for (const p of resto) {
+        if (vistos.has(p.sku) || porCategoria.has(p.category)) continue;
+        porCategoria.set(p.category, p);
+      }
+      for (const p of porCategoria.values()) {
+        if (base.length >= 4) break;
+        base.push(p); vistos.add(p.sku);
+      }
+    }
+    // 3) Si aún falta (catálogo muy corto), se completa con el catálogo general.
+    if (base.length < 4) {
       const extra = await buscar({ gender, limit: 4 });
       base = base.concat(extra.filter((p) => !vistos.has(p.sku)));
     }
-    // La preferencia de color se reaplica sobre la lista ya combinada: si la
-    // categoría del evento solo tiene una prenda (p. ej. "Vestidos de Noche"
-    // tiene 1), esa prenda llegaría siempre primera aunque su color sea el
-    // contrario al pedido.
+    // La preferencia de color se aplica al final: manda el color pedido y, a
+    // igualdad de encaje, se respeta la prioridad de categoría de arriba.
     products = applyColorPreference(base, colorPref).slice(0, 4);
     const anchorName = products[0]?.name || 'esta pieza';
     const sizeNote = facts.talla ? ` En tu talla **${facts.talla}** tengo disponibilidad confirmada.` : '';

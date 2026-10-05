@@ -1,6 +1,6 @@
 // =====================================================================
-// Carga masiva de catálogo desde DummyJSON (https://dummyjson.com/products)
-// y FakeStore API (https://fakestoreapi.com).
+// Carga masiva de catálogo desde DummyJSON (https://dummyjson.com/products),
+// FakeStore API (https://fakestoreapi.com) y un dataset CSV de SHEIN.
 // - Fuentes gratuitas, sin API key: prendas y accesorios con imágenes reales.
 // - Importa a products / product_images / product_variants / inventory,
 //   respetando el esquema y las convenciones de SKU de VivaModa.
@@ -9,16 +9,22 @@
 //   automáticamente a USD (ver services/currency.js) al ejecutar este script.
 //
 // Uso:
-//   npm run seed:external              → 60 productos (12 por categoría, defecto)
+//   npm run seed:external              → 12 por categoría de DummyJSON + TODO el CSV de SHEIN
 //   npm run seed:external -- --limit 30
 //   npm run seed:external -- --all     → importa TODO lo disponible por categoría
+//   npm run seed:external -- --shein 80      → limita el dataset de SHEIN a 80 prendas
 //   npm run seed:external -- --dry-run       → muestra el plan sin escribir en la base
 //   npm run seed:external -- --no-translate  → conserva nombres/descripciones en inglés
 //
+// OJO con el costo: --dry-run NO evita la traducción, así que también gasta
+// tokens del proveedor LLM. Usa --no-translate para una pasada sin costo.
+//
 // Es idempotente: re-ejecutar no duplica productos (sku ON CONFLICT, imágenes
 // y variantes se limpian antes de reinsertar). Los nombres y descripciones se
-// traducen al español (LLM con OPENROUTER_API_KEY, o diccionario local sin red;
-// usa --no-translate para mantener el inglés original).
+// traducen al español con el proveedor LLM ACTIVO (el mismo de Aria: hoy
+// DEEPSEEK_API_KEY; antes se documentaba OPENROUTER_API_KEY) y, si no hay
+// proveedor o falla, con un diccionario local sin red.
+// Las imágenes se descargan a public/img/ext para no depender del CDN ajeno.
 // =====================================================================
 import { pool, tx, waitForDb } from './db.js';
 import { translateProducts, translatorAvailable } from './services/translator.js';
@@ -49,7 +55,6 @@ const CATEGORY_MAP = {
 
 const BADGE_POOL = [null, null, null, 'Nuevo', 'Trending', 'Top Ventas', 'Flash'];
 const SKIP_TRANSLATION = process.argv.includes('--no-translate');
-const DOWNLOAD_IMAGES = process.argv.includes('--download-images');
 const SIZES = {
   ropa: ['XS', 'S', 'M', 'L', 'XL'],
   calzado: ['36', '37', '38', '39', '40', '41'],
@@ -69,7 +74,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 // Rescate de red: en algunos equipos el resolver del sistema no entrega
 // registros A (solo IPv6 de Cloudflare, sin ruta). Ante un fallo de fetch
 // se recurre a curl + DNS-over-HTTPS (1.1.1.1) para el JSON de la API y
-// para descargar imágenes a local (--download-images).
+// para descargar las imágenes del catálogo a local.
 // ---------------------------------------------------------------
 const execFile = promisify(execFileCb);
 const dohCache = new Map();

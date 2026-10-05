@@ -151,7 +151,12 @@ export function rankProducts(products, ctx) {
       if (interestScore) { score += interestScore; reasons.push('lo miró antes'); }
       return { ...p, score, reason: reasons.join(' · ') || null };
     })
-    .sort((a, b) => (b.score - a.score) || (b.review_count - a.review_count));
+    // Orden ESTABLE: solo por lo aprendido. El desempate anterior por
+    // `review_count` pisaba la relevancia que ya había calculado el motor
+    // (prioridad de categoría según el evento, color pedido…), y por eso una
+    // boda acababa encabezada por la prenda con más reseñas, no por un vestido.
+    // `searchProducts` ya ordena por popularidad dentro de cada categoría.
+    .sort((a, b) => b.score - a.score);
 }
 
 // ---------------------------------------------------------------
