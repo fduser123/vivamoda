@@ -11,7 +11,7 @@ export const config = {
   // Proveedor LLM activo (ver services/llm-provider.js). Cualquiera de estos
   // habla la API compatible con OpenAI, así que cambiar de proveedor es solo
   // cuestión de variables de entorno.
-  llmProvider: process.env.LLM_PROVIDER || null, // 'gemini' | 'openrouter' (forzado)
+  llmProvider: process.env.LLM_PROVIDER || null, // 'gemini' | 'deepseek' | 'openrouter' (forzado)
   llmBaseUrl: process.env.LLM_BASE_URL || null, // API compatible propia (Groq, Cerebras, Ollama…)
   llmApiKey: process.env.LLM_API_KEY || null,
   llmModel: process.env.LLM_MODEL || null,
@@ -24,6 +24,12 @@ export const config = {
   openrouterApiKey: process.env.OPENROUTER_API_KEY || process.env.OPENAI_API_KEY || null,
   openrouterModel: process.env.OPENROUTER_MODEL || 'meta-llama/llama-3.3-70b-instruct',
   openrouterVisionModel: process.env.OPENROUTER_VISION_MODEL || 'meta-llama/llama-3.2-11b-vision-instruct',
+  // DeepSeek (API compatible con OpenAI). Ojo: solo deepseek-flash acepta imágenes;
+  // deepseek-v4-pro es solo texto, así que no debe usarse como visionModel.
+  deepseekApiKey: process.env.DEEPSEEK_API_KEY || null,
+  deepseekBaseUrl: process.env.DEEPSEEK_BASE_URL || null,
+  deepseekModel: process.env.DEEPSEEK_MODEL || 'deepseek-flash',
+  deepseekVisionModel: process.env.DEEPSEEK_VISION_MODEL || 'deepseek-flash',
   useLocalAi: bool(process.env.USE_LOCAL_AI, false), // true → fuerza el motor local de reglas
   // --- IA #11 Probador Virtual (Cloudflare Workers AI · FLUX.1-schnell) ---
   cloudflareAccountId: process.env.CLOUDFLARE_ACCOUNT_ID || null,
