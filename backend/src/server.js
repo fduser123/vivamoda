@@ -68,6 +68,7 @@ const PAGE_SCRIPTS = {
   'frontends/ver-en-tu-espacio/code.html': 'espacio.js',
   'frontends/simulador-tienda/code.html': 'simulador.js',
   'frontends/guia-producto/code.html': 'guia.js',
+  'frontends/asesor-de-prendas/code.html': 'asesor.js',
 };
 
 const PAGES = {
@@ -86,6 +87,7 @@ const PAGES = {
   '/ver-en-tu-espacio': 'frontends/ver-en-tu-espacio/code.html',
   '/simulador-tienda': 'frontends/simulador-tienda/code.html',
   '/guia-de-producto': 'frontends/guia-producto/code.html',
+  '/asesor-de-prendas': 'frontends/asesor-de-prendas/code.html',
 };
 
 const PLACEHOLDER = (name, path) => `<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"/>
@@ -101,6 +103,7 @@ const PLACEHOLDER = (name, path) => `<!DOCTYPE html><html lang="es"><head><meta 
 <li><a class="flex justify-between items-center bg-[#f6f2f5] rounded-xl px-4 py-3 hover:bg-[#eae7ea]" href="/catalogo-de-productos"><span>🛍️ Tienda &amp; Catálogo</span><span>→</span></a></li>
 <li><a class="flex justify-between items-center bg-[#f6f2f5] rounded-xl px-4 py-3 hover:bg-[#eae7ea]" href="/detalle-de-producto"><span>👗 Detalle de producto + Estilista IA</span><span>→</span></a></li>
 <li><a class="flex justify-between items-center bg-[#f6f2f5] rounded-xl px-4 py-3 hover:bg-[#eae7ea]" href="/hub-agente-ia"><span>🤖 Hub Agentes IA</span><span>→</span></a></li>
+<li><a class="flex justify-between items-center bg-[#f6f2f5] rounded-xl px-4 py-3 hover:bg-[#eae7ea]" href="/asesor-de-prendas"><span>🧍‍♀️ Asesora 3D de prendas</span><span>→</span></a></li>
 <li><a class="flex justify-between items-center bg-[#f6f2f5] rounded-xl px-4 py-3 hover:bg-[#eae7ea]" href="/pedidos-y-pos"><span>🧾 Consola POS &amp; Pedidos</span><span>→</span></a></li>
 <li><a class="flex justify-between items-center bg-[#f6f2f5] rounded-xl px-4 py-3 hover:bg-[#eae7ea]" href="/panel-de-almacen-y-ventas"><span>📦 Panel Almacén &amp; Ventas</span><span>→</span></a></li>
 <li><a class="flex justify-between items-center bg-[#f6f2f5] rounded-xl px-4 py-3 hover:bg-[#eae7ea]" href="/iniciar-sesion"><span>🔐 Portal de Acceso</span><span>→</span></a></li>
@@ -174,6 +177,7 @@ async function main() {
     console.log(`  Detalle      → http://localhost:${config.port}/detalle-de-producto`);
     console.log(`  Hub IA       → http://localhost:${config.port}/hub-agente-ia`);
     console.log(`  Tienda VR    → http://localhost:${config.port}/tienda-virtual-realidad`);
+    console.log(`  Asesora 3D   → http://localhost:${config.port}/asesor-de-prendas`);
     console.log(`  POS          → http://localhost:${config.port}/pedidos-y-pos`);
     console.log(`  Admin        → http://localhost:${config.port}/panel-de-almacen-y-ventas`);
     console.log(`  Login        → http://localhost:${config.port}/iniciar-sesion`);

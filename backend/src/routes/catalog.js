@@ -34,17 +34,26 @@ const escHtml = (v) => String(v ?? '').replace(/[&<>"']/g, (c) =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 /**
- * GET /api/products/:sku/qr
+ * GET /api/products/:sku/qr?to=guia|asesor
  * Genera el QR de etiqueta/cuidado del producto (PNG). Al escanearlo abre la
  * página guía con el uso, cuidado y combinaciones de la prenda.
  * Usa la IP de red local para que el QR funcione desde el celular (misma WiFi).
+ *
+ * `to=asesor` apunta a la asesora 3D con esa prenda ya cargada
+ * (/asesor-de-prendas?sku=…), para la experiencia con audio.
  */
 router.get('/products/:sku/qr', async (req, res) => {
   try {
     const { rows } = await pool.query('SELECT sku, name FROM products WHERE sku = $1', [req.params.sku]);
     if (!rows[0]) return res.status(404).json({ error: 'Producto no encontrado' });
     const base = publicBaseUrl(req);
-    const url = `${base}/guia-de-producto?sku=${encodeURIComponent(rows[0].sku)}`;
+    const sku = encodeURIComponent(rows[0].sku);
+    // Por defecto la guía de producto: es el comportamiento que ya usan las
+    // etiquetas impresas y no debe cambiar.
+    const destino = String(req.query.to || 'guia').toLowerCase() === 'asesor'
+      ? `/asesor-de-prendas?sku=${sku}`
+      : `/guia-de-producto?sku=${sku}`;
+    const url = `${base}${destino}`;
     const png = await QRCode.toBuffer(url, { width: 512, margin: 2, errorCorrectionLevel: 'M' });
     res.set('Content-Type', 'image/png');
     res.set('Content-Disposition', `inline; filename="qr-${rows[0].sku}.png"`);

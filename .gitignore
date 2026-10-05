@@ -28,6 +28,11 @@ backend/public/models/**/*.bin
 backend/public/models/sponza/
 backend/public/models/_cand/
 
+# Excepción a la regla anterior: el avatar de la asesora 3D (/asesor-de-prendas)
+# es un .glb de 1,7 MB, o sea de los "pequeños" que la nota de arriba dice
+# versionar. Sin él la página se queda sin modelo en un clon nuevo.
+!backend/public/models/asesor/asesor-vivamoda.glb
+
 # Originales de diseño
 _originals/
 
