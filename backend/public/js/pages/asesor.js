@@ -41,13 +41,13 @@
     Chest:      { pose: { x: 0.02 }, wave: [{ a: 'x', amp: 0.025, hz: 0.24 }] },
     Neck:       { pose: {}, wave: [{ a: 'x', amp: 0.05, hz: 0.55, ph: 0.3 }] },
     Head:       { pose: { x: 0.03 }, wave: [{ a: 'x', amp: 0.085, hz: 0.52, ph: 0.3 }, { a: 'y', amp: 0.10, hz: 0.21, ph: 1.4 }] },
-    'Shoulder.R': { pose: { x: -0.03 }, wave: [{ a: 'x', amp: 0.04, hz: 0.42 }] },
-    'UpperArm.R': { pose: { x: -0.12, z: 0.10 }, wave: [{ a: 'x', amp: 0.09, hz: 0.34, ph: 0.2 }, { a: 'z', amp: 0.07, hz: 0.21, ph: 1.1 }] },
-    'LowerArm.R': { pose: { x: -0.70 }, wave: [{ a: 'x', amp: 0.20, hz: 0.46, ph: 0.5 }, { a: 'y', amp: 0.12, hz: 0.33, ph: 2.0 }] },
-    'Wrist.R':    { pose: { x: -0.06 }, wave: [{ a: 'x', amp: 0.15, hz: 0.58, ph: 1.0 }] },
-    'Shoulder.L': { pose: { x: -0.02 }, wave: [{ a: 'x', amp: 0.03, hz: 0.38 }] },
-    'UpperArm.L': { pose: { x: -0.08, z: -0.05 }, wave: [{ a: 'x', amp: 0.06, hz: 0.29, ph: 1.7 }] },
-    'LowerArm.L': { pose: { x: -0.45 }, wave: [{ a: 'x', amp: 0.12, hz: 0.40, ph: 2.4 }] },
+    'Shoulder.R': { pose: { x: -0.02 }, wave: [{ a: 'x', amp: 0.02, hz: 0.42 }] },
+    'UpperArm.R': { pose: { x: -0.08, z: 0.06 }, wave: [{ a: 'x', amp: 0.06, hz: 0.34, ph: 0.2 }, { a: 'z', amp: 0.05, hz: 0.21, ph: 1.1 }] },
+    'LowerArm.R': { pose: { x: -0.40 }, wave: [{ a: 'x', amp: 0.13, hz: 0.46, ph: 0.5 }, { a: 'y', amp: 0.08, hz: 0.33, ph: 2.0 }] },
+    'Wrist.R':    { pose: { x: -0.05 }, wave: [{ a: 'x', amp: 0.10, hz: 0.58, ph: 1.0 }] },
+    'Shoulder.L': { pose: { x: -0.015 }, wave: [{ a: 'x', amp: 0.02, hz: 0.38 }] },
+    'UpperArm.L': { pose: { x: -0.05, z: -0.04 }, wave: [{ a: 'x', amp: 0.04, hz: 0.29, ph: 1.7 }] },
+    'LowerArm.L': { pose: { x: -0.26 }, wave: [{ a: 'x', amp: 0.08, hz: 0.40, ph: 2.4 }] },
     Hips:       { pose: {}, wave: [{ a: 'y', amp: 0.035, hz: 0.16 }] },
   };
 
@@ -330,10 +330,15 @@
   // ── Motor del gesto "explicando" ─────────────────────────────────────
   /** Resuelve los huesos del rig por nombre (una sola vez, tras cargar). */
   function recogerHuesos() {
+    // three.js sanea los nombres de nodo del glTF y elimina los caracteres
+    // reservados, entre ellos el punto: "UpperArm.R" llega como "UpperArmR".
+    // Comparando en crudo solo enganchaban los huesos sin punto (Chest, Neck,
+    // Head, Hips) y los brazos se quedaban quietos.
+    const norm = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
     const porNombre = new Map();
-    scene.model.traverse((o) => { if (o.isBone) porNombre.set(o.name, o); });
+    scene.model.traverse((o) => { if (o.isBone) porNombre.set(norm(o.name), o); });
     for (const nombre of Object.keys(GESTO)) {
-      const hueso = porNombre.get(nombre);
+      const hueso = porNombre.get(norm(nombre));
       if (hueso) scene.gesto.bones.set(nombre, hueso);
     }
     if (!scene.gesto.tmp) {

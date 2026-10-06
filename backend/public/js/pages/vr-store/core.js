@@ -229,10 +229,34 @@ window.VRStore = (function () {
 
   // ── Inicio ──────────────────────────────────────────────
   S.init = function () {
-    // fotos reales desde la API (se rellenan en el catálogo)
+    // Precios, nombres, tallas y fotos REALES desde la API.
+    // OJO: los valores de S.CATALOG son heredados de cuando la tienda operaba
+    // en pesos (el vestido Atelier figuraba en 189.900 y su precio real es
+    // 48,99 USD), así que hay que sobrescribirlos o la tarjeta mentiría sobre
+    // lo que luego cobra el carrito.
     fetch('/api/products?limit=100')
       .then((r) => r.json())
-      .then((j) => { (j.items || []).forEach((p) => { const v = S.bySku(p.sku); if (v && p.image) v.image = p.image; }); })
+      .then((j) => {
+        const vistos = new Set();
+        (j.items || []).forEach((p) => {
+          const v = S.bySku(p.sku);
+          if (!v) return;
+          vistos.add(v.sku);
+          v.image = p.image || v.image;
+          v.name = p.name || v.name;
+          v.category = p.category || v.category;
+          if (Number.isFinite(Number(p.price))) v.price = Number(p.price);
+          v.compareAt = Number.isFinite(Number(p.compareAt)) ? Number(p.compareAt) : null;
+          v.sizes = Array.isArray(p.sizes) ? p.sizes : [];
+          v.stockTotal = Number(p.stockTotal || 0);
+          v.badge = p.badge || v.badge;
+        });
+        // SKUs del catálogo VR que ya no existen en la tienda: no se pueden
+        // comprar, así que la tarjeta desactiva el botón en vez de fallar.
+        S.CATALOG.forEach((v) => { if (!vistos.has(v.sku)) v.missing = true; });
+        const faltan = S.CATALOG.filter((v) => v.missing).length;
+        if (faltan) console.warn(`[TiendaVR] ${faltan} SKU(s) del catálogo no existen en la tienda y no se podrán comprar`);
+      })
       .catch(() => {});
     S.build();
     animate();

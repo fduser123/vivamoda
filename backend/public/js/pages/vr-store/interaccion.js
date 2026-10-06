@@ -453,9 +453,56 @@ VRStore.part('interaccion', function (S, g) {
     card.classList.remove('hidden');
     markChip(prod.zone);
     showPhoto(prod);
+    pintarCompra(prod);
   }
+
+  // ── Compra desde la tarjeta: talla + añadir a la bolsa ───
+  const cardSize = document.getElementById('cardSize');
+  const cardAdd = document.getElementById('cardAdd');
+  const cardStock = document.getElementById('cardStock');
+  const cardNoStock = document.getElementById('cardNoStock');
+
+  function pintarCompra(prod) {
+    if (!cardSize || !cardAdd) return;
+    const tallas = Array.isArray(prod.sizes) ? prod.sizes : [];
+    cardSize.innerHTML = tallas.length
+      ? tallas.map((t) => `<option value="${esc(t)}">${esc(t)}</option>`).join('')
+      : '<option value="">—</option>';
+
+    // Sin tallas con stock (o sin ficha en la tienda) no se puede comprar
+    const sinStock = !tallas.length || prod.missing;
+    cardAdd.disabled = sinStock;
+    cardAdd.classList.toggle('opacity-40', sinStock);
+    cardAdd.classList.toggle('cursor-not-allowed', sinStock);
+    if (cardStock) {
+      cardStock.textContent = prod.missing
+        ? ''
+        : (tallas.length ? `${tallas.length} talla(s) con stock` : '');
+    }
+    if (cardNoStock) {
+      cardNoStock.classList.toggle('hidden', !sinStock);
+      cardNoStock.textContent = prod.missing
+        ? 'Esta prenda ya no está en la tienda, no se puede comprar.'
+        : 'Sin tallas con stock en este momento.';
+    }
+    cardAdd.dataset.sku = prod.sku;
+  }
+
+  if (cardAdd) {
+    cardAdd.onclick = () => {
+      const prod = S.bySku(cardAdd.dataset.sku);
+      if (!prod || !S.bag) return;
+      S.bag.add(prod, cardSize ? cardSize.value : '');
+    };
+  }
+
+  const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
   function hideCard() { card.classList.add('hidden'); hidePhoto(); }
   document.getElementById('cardClose').onclick = hideCard;
+  // El avatar en 3ª persona abre la tarjeta al señalar una prenda
+  S.showCard = showCard;
 
   // ── Pantalla completa ────────────────────────────────────
   document.getElementById('fsBtn').onclick = () => {

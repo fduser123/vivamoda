@@ -1,17 +1,21 @@
 /* ============================================================
    MODO DE INTERACCIÓN VR
-   Permite alternar entre:
-   - Catálogo / mirada orbital (OrbitControls)
-   - Primera persona (FPS) tipo videojuego → mover con WASD / flechas,
-     mirar con el mouse/tacto, interactuar apretando clic.
+   Alterna entre tres formas de recorrer la tienda:
+   - Avatar   → personaje en 3ª persona que se pasea con WASD y
+                señala las prendas (modo por defecto)
+   - Catálogo → cámara orbital libre (OrbitControls)
+   - FPS      → primera persona, mirar con el ratón y avanzar
    ============================================================ */
 (function () {
   'use strict';
 
-  const FPS_HEIGHT = 1.7;
   const STORE_KEY_MODE = 'vivamoda_vr_mode';
 
-  let currentMode = 'orbit'; // 'orbit' | 'fps'
+  // Orden del ciclo al pulsar el botón
+  const ORDEN = ['avatar', 'orbit', 'fps'];
+  const ETIQUETA = { avatar: 'Avatar', orbit: 'Catálogo', fps: 'FPS' };
+
+  let currentMode = null;
 
   const modeBtn = (function () {
     const b = document.createElement('button');
@@ -29,66 +33,63 @@
     const s = document.createElement('span');
     s.id = 'modeLabel';
     s.className = 'text-[11px] font-extrabold uppercase tracking-wider text-white/80';
-    s.textContent = 'Catálogo';
+    s.textContent = 'Avatar';
     modeBtn.appendChild(s);
     return s;
   })();
 
+  // Cada modo se apaga antes de encender el siguiente, para que no queden
+  // dos controladores moviendo la cámara a la vez.
+  function apagar(mode) {
+    const V = window.VRStore;
+    if (mode === 'fps') V.exitFPSession && V.exitFPSession();
+    if (mode === 'avatar') V.exitAvatarSession && V.exitAvatarSession();
+  }
+
+  function encender(mode) {
+    const V = window.VRStore;
+    if (mode === 'fps') V.startFPSession && V.startFPSession();
+    else if (mode === 'avatar') V.startAvatarSession && V.startAvatarSession();
+    else V.exitFPSession && V.exitFPSession();
+  }
+
   function setMode(mode) {
     if (mode === currentMode) return;
+    const anterior = currentMode;
     currentMode = mode;
-    window.VRStore.mode = mode; // expone para que otros módulos lo consulten
+    window.VRStore.mode = mode;
     try { localStorage.setItem(STORE_KEY_MODE, mode); } catch (_) {}
 
-    if (mode === 'fps') {
-      window.VRStore.startFPSession && window.VRStore.startFPSession();
-      modeLabel.textContent = 'FPS';
-      modeBtn.classList.add('active');
-      modeBtn.classList.remove('inactive');
-    } else {
-      window.VRStore.exitFPSession && window.VRStore.exitFPSession();
-      modeLabel.textContent = 'Catálogo';
-      modeBtn.classList.remove('active');
-      modeBtn.classList.add('inactive');
-    }
+    if (anterior) apagar(anterior);
+    encender(mode);
+
+    modeLabel.textContent = ETIQUETA[mode] || mode;
+    modeBtn.classList.toggle('active', mode !== 'orbit');
   }
 
   function init() {
-    // Cargar modo preferido desde localStorage
     let stored = null;
-    try {
-      stored = localStorage.getItem(STORE_KEY_MODE);
-    } catch (_) {}
-    const initial = (stored === 'fps') ? 'fps' : 'orbit';
+    try { stored = localStorage.getItem(STORE_KEY_MODE); } catch (_) {}
+    // ?modo=avatar|orbit|fps fuerza el modo (útil para enlazar o probar)
+    const url = new URLSearchParams(location.search).get('modo');
+    // El avatar es el modo por defecto: es el que permite ver e interactuar
+    // con las prendas.
+    const initial = ORDEN.indexOf(url) >= 0
+      ? url
+      : (ORDEN.indexOf(stored) >= 0 ? stored : 'avatar');
 
     modeBtn.addEventListener('click', () => {
-      if (currentMode === 'orbit') {
-        setMode('fps');
-      } else {
-        setMode('orbit');
-      }
+      const i = ORDEN.indexOf(currentMode);
+      setMode(ORDEN[(i + 1) % ORDEN.length]);
     });
 
-    // Exponer controladores en VRStore
-    window.VRStore.startFPSession = (function () {
-      let started = false;
-      return function () {
-        if (started) return;
-        started = true;
-        if (typeof window.VRStore.interaccionStartFPSession === 'function') {
-          window.VRStore.interaccionStartFPSession();
-        }
-      };
-    })();
+    // Envoltorios que espera el resto del código
+    const V = window.VRStore;
+    V.startFPSession = function () { V.interaccionStartFPSession && V.interaccionStartFPSession(); };
+    V.exitFPSession = function () { V.interaccionExitFPSession && V.interaccionExitFPSession(); };
 
-    window.VRStore.exitFPSession = (function () {
-      return function () {
-        if (typeof window.VRStore.interaccionExitFPSession === 'function') {
-          window.VRStore.interaccionExitFPSession();
-        }
-      };
-    })();
-
+    // Arranca directamente en el modo elegido (sin animación intermedia)
+    currentMode = null;
     setMode(initial);
   }
 
