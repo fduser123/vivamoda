@@ -153,6 +153,32 @@ CALLOUT('Detalle crítico aprendido en la implementación',
         'parecía responder "en blanco" cuando en realidad el modelo había gastado los tokens '
         'pensando. Se corrigió desactivándolo y subiendo el límite a 1200 tokens.', fill='FFF8E1')
 
+
+# ---------------------------------------------------------------- DIAGRAMA
+doc.add_heading('Diagrama de arquitectura y flujo', level=2)
+P('El diagrama siguiente muestra las tres capas del sistema, los seis módulos de IA dentro del '
+  'backend, los servicios que comparten y los dos proveedores externos a los que se conectan.')
+_diag = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'diagrama_arquitectura_ia.png')
+if os.path.exists(_diag):
+    doc.add_picture(_diag, width=Inches(6.8))
+    doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
+    P('Figura 1. Arquitectura y flujo de las seis IA. Las flechas indican el sentido de las '
+      'peticiones: del navegador al backend, y de este a los proveedores y a la base de datos.',
+      size=9, italic=True, color=MUTED, align=WD_ALIGN_PARAGRAPH.CENTER, space_after=10)
+else:
+    P('(No se encontró diagrama_arquitectura_ia.png: ejecuta generar_diagrama_ia.py)',
+      size=9, italic=True, color=MUTED)
+
+doc.add_heading('Cómo leer el diagrama', level=2)
+BUL('Capa 1 — Navegador: las cuatro vistas que consumen IA. Ninguna habla directamente con un '
+    'proveedor; todas pasan por el backend con su token de sesión.')
+BUL('Capa 2 — Backend: aloja los seis módulos y los servicios transversales. Las líneas que los '
+    'unen indican que comparten proveedor, telemetría, conocimiento y configuración.')
+BUL('Capa 3 — Datos: PostgreSQL cumple doble función, base relacional y almacén vectorial. Es la '
+    'razón de que no haya un motor vectorial separado.')
+BUL('Proveedores: el LLM externo aporta el lenguaje; el sidecar local aporta la comprensión visual '
+    'sin coste por consulta. Los módulos 2, 3 y 6 dependen del sidecar; el resto, del LLM.')
+
 # ================================================================ 2
 doc.add_heading('2. Infraestructura Compartida', level=1)
 TABLE(['Pieza', 'Archivo / Ubicación', 'Función'],
