@@ -10,7 +10,13 @@
     "start": "node src/server.js",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
-    "seed:external": "node src/seed-external.js"
+    "seed:external": "node src/seed-external.js",
+    "ai:setup": "bash ai/setup.sh",
+    "ai:embed": "ai/.venv/bin/python ai/embed_server.py",
+    "ai:attrs": "ai/.venv/bin/python ai/extract_attrs.py",
+    "ai:embeddings": "ai/.venv/bin/python ai/build_embeddings.py",
+    "ai:validar": "node ai/validar_fase1.mjs",
+    "ai:probar": "bash ai/probar-endpoints.sh"
   },
   "engines": {
     "node": ">=18"

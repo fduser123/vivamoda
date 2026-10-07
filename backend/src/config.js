@@ -31,6 +31,12 @@ export const config = {
   deepseekModel: process.env.DEEPSEEK_MODEL || 'deepseek-flash',
   deepseekVisionModel: process.env.DEEPSEEK_VISION_MODEL || 'deepseek-flash',
   useLocalAi: bool(process.env.USE_LOCAL_AI, false), // true → fuerza el motor local de reglas
+  // --- Fase 1: asesor de estilismo con RAG y búsqueda visual ---
+  // Sidecar Python que sirve los embeddings de FashionCLIP (ai/embed_server.py).
+  // FashionCLIP sólo existe en Python, así que el modelo vive ahí y Node sólo
+  // consume los vectores por HTTP; el resto del pipeline (filtros, re-ranking,
+  // generación) se queda en Node, junto al catálogo y la autenticación.
+  embedServiceUrl: process.env.EMBED_SERVICE_URL || 'http://127.0.0.1:8001',
   // --- IA #11 Probador Virtual (Cloudflare Workers AI · FLUX.1-schnell) ---
   cloudflareAccountId: process.env.CLOUDFLARE_ACCOUNT_ID || null,
   cloudflareApiToken: process.env.CLOUDFLARE_API_TOKEN || null,

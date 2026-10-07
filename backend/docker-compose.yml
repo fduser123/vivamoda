@@ -1,6 +1,10 @@
 services:
   postgres:
-    image: postgres:16-alpine
+    # pgvector en lugar de postgres:16-alpine: es el MISMO PostgreSQL 16 (el
+    # volumen de datos sigue siendo válido) pero con la extensión vector, que
+    # es la que guarda los embeddings de FashionCLIP para el asistente RAG y la
+    # búsqueda visual. Evita levantar un servicio aparte.
+    image: pgvector/pgvector:pg16
     container_name: vivamoda-postgres
     restart: unless-stopped
     environment:

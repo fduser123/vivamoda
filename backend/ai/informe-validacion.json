@@ -1,0 +1,733 @@
+{
+  "generado": "2026-10-07T13:30:11.249Z",
+  "base": "http://localhost:3001",
+  "cobertura": {
+    "activos": 353,
+    "con_vector": 353,
+    "con_imagen": 334,
+    "con_metadatos": 334,
+    "porcentaje": 100
+  },
+  "rag": {
+    "consultas": 10,
+    "precision_pct": 100,
+    "consultas_sin_invenciones": 10,
+    "latencia_p50_ms": 1946,
+    "latencia_p95_ms": 2890,
+    "latencia_media_ms": 2102,
+    "detalle": [
+      {
+        "q": "¿Qué me pongo para una boda en la playa?",
+        "ms": 2890,
+        "plan": {
+          "genero": null,
+          "categoria": null,
+          "prenda": null,
+          "color": null,
+          "ocasion": [
+            "boda",
+            "playa"
+          ],
+          "precioMax": null,
+          "consulta_semantica": "¿Qué me pongo para una boda en la playa?"
+        },
+        "planSource": "heuristica",
+        "relajado": null,
+        "productos": [
+          "Kaftán Estampado con Aberturas",
+          "Vestido Satinado Fuchsia Night",
+          "Adornos Desmontables Para Zapatos",
+          "Clips Decorativos Para Tacones",
+          "Sandalias de Plataforma con Cuña"
+        ],
+        "citados": [
+          {
+            "sku": "VM-DAM-SH40933025",
+            "name": "Kaftán Estampado con Aberturas"
+          },
+          {
+            "sku": "VM-DAM-8810",
+            "name": "Vestido Satinado Fuchsia Night"
+          },
+          {
+            "sku": "VM-DAM-SH39310128",
+            "name": "Clips Decorativos Para Tacones"
+          },
+          {
+            "sku": "VM-DAM-SH40278970",
+            "name": "Sandalias de Plataforma con Cuña"
+          }
+        ],
+        "inventados": [],
+        "reply": "Para una boda en la playa te propongo:\n\n- **Vestido Satinado Fuchsia Night** ($12.49): elegante para la ocasión, aunque es satén, su color fucsia aporta frescura.\n- **Kaftán Estampado con Aberturas** ($23.99): opción más relajada y veraniega si la boda es informal.\n- **Sandalias de Plataforma con Cuña** ($39.99): doradas, cómodas para arena y con brillo festivo.\n- **Clips Decorativos Para Tacones** ($2.99): para dar un toque de perlas al calzado.\n\nCombinación: kaftán + sandalias doradas + clips. Si prefieres vestido, el satinado con las sandalias. ¿Quieres que ajuste a un estilo más formal?"
+      },
+      {
+        "q": "outfit casual para la oficina",
+        "ms": 1944,
+        "plan": {
+          "genero": null,
+          "categoria": null,
+          "prenda": null,
+          "color": null,
+          "ocasion": [
+            "oficina",
+            "casual"
+          ],
+          "precioMax": null,
+          "consulta_semantica": "outfit casual para la oficina"
+        },
+        "planSource": "heuristica",
+        "relajado": null,
+        "productos": [
+          "Camisa Oxford Cuello Mao",
+          "Chaqueta Lluvia Mujer Rompevientos",
+          "Conjunto Blazer & Pantalón Cobalt",
+          "Blazer Índigo Desestructurado",
+          "Bomber Jacket Stealth Pro"
+        ],
+        "citados": [
+          {
+            "sku": "VM-CAB-8850",
+            "name": "Camisa Oxford Cuello Mao"
+          },
+          {
+            "sku": "VM-DAM-8870",
+            "name": "Conjunto Blazer & Pantalón Cobalt"
+          },
+          {
+            "sku": "VM-CAB-8880",
+            "name": "Bomber Jacket Stealth Pro"
+          }
+        ],
+        "inventados": [],
+        "reply": "Para un look casual de oficina te propongo:\n\n**Camisa Oxford Cuello Mao** ($10.49) en blanco y azul: conjunto de camisa y pantalón de vestir, perfecto para un estilo casual elegante de oficina.\n\nAlternativa más formal: **Conjunto Blazer & Pantalón Cobalt** ($30.99), azul, ideal para oficina.\n\nCombinación completa:\n- Top: **Camisa Oxford Cuello Mao**\n- Bottom: pantalón azul del mismo conjunto\n- Calzado: zapatillas blancas o mocasines\n- Accesorio: cinturón negro discreto\n\nSi hace fresco, añade **Bomber Jacket Stealth Pro** ($17.49) negra para un toque casual de entretiempo.\n\n¿Quieres que ajuste el look a algo más formal o más relajado?"
+      },
+      {
+        "q": "vestido para Nochevieja",
+        "ms": 2253,
+        "plan": {
+          "genero": null,
+          "categoria": null,
+          "prenda": "vestido",
+          "color": null,
+          "ocasion": [
+            "fiesta",
+            "noche"
+          ],
+          "precioMax": null,
+          "consulta_semantica": "vestido para Nochevieja"
+        },
+        "planSource": "heuristica",
+        "relajado": null,
+        "productos": [
+          "Vestido Corto",
+          "Vestido de Gala Negro",
+          "Vestido Satinado Fuchsia Night",
+          "Corset con Falda Negra",
+          "Vestido Plisado Soft Blossom"
+        ],
+        "citados": [
+          {
+            "sku": "VM-DAM-EXT177",
+            "name": "Vestido de Gala Negro"
+          },
+          {
+            "sku": "VM-DAM-8810",
+            "name": "Vestido Satinado Fuchsia Night"
+          },
+          {
+            "sku": "VM-DAM-EXT179",
+            "name": "Corset con Falda Negra"
+          }
+        ],
+        "inventados": [],
+        "reply": "Para Nochevieja te recomiendo:\n\n- **Vestido de Gala Negro** ($129.99): escote palabra de honor y estampado floral, perfecto para noche.\n- **Corset con Falda Negra** ($79.99): corte corsé elegante, ideal para fiesta nocturna.\n- **Vestido Satinado Fuchsia Night** ($12.49): satén con aberturas, un toque atrevido y festivo.\n\nCombinación: vestido + clutch negro + sandalia de tacón dorada + pendientes largos. Si eliges el fucsia, usa accesorios plateados.\n\n¿Quieres que te ayude a elegir según tu estilo?"
+      },
+      {
+        "q": "look playero para hombre",
+        "ms": 1946,
+        "plan": {
+          "genero": "caballeros",
+          "categoria": null,
+          "prenda": null,
+          "color": null,
+          "ocasion": [],
+          "precioMax": null,
+          "consulta_semantica": "look playero para hombre"
+        },
+        "planSource": "heuristica",
+        "relajado": null,
+        "productos": [
+          "Camisa Manga Corta Hombre",
+          "Chaqueta Hombre de Algodón",
+          "Camisa Oxford Cuello Mao",
+          "Bomber Jacket Stealth Pro",
+          "Blazer Índigo Desestructurado"
+        ],
+        "citados": [
+          {
+            "sku": "VM-CAB-EXT86",
+            "name": "Camisa Manga Corta Hombre"
+          },
+          {
+            "sku": "VM-CAB-FS3",
+            "name": "Chaqueta Hombre de Algodón"
+          },
+          {
+            "sku": "VM-CAB-8880",
+            "name": "Bomber Jacket Stealth Pro"
+          }
+        ],
+        "inventados": [],
+        "reply": "Para un look playero te recomiendo:\n\n- **Camisa Manga Corta Hombre** ($19.49): hawaiana floral azul, perfecta para playa y verano.\n- **Bomber Jacket Stealth Pro** ($17.49): para el atardecer fresco junto al mar.\n\nCombinación: camisa hawaiana abierta + short de baño neutro + sandalias o zapatillas + gafas de sol y sombrero de paja.\n\nSi quieres algo más cubierto, la **Chaqueta Hombre de Algodón** ($55.99) beige también funciona para la tarde.\n\n¿Te armo el look completo con alguna de estas?"
+      },
+      {
+        "q": "algo elegante para una cena de noche",
+        "ms": 1787,
+        "plan": {
+          "genero": null,
+          "categoria": null,
+          "prenda": null,
+          "color": null,
+          "ocasion": [
+            "noche",
+            "formal"
+          ],
+          "precioMax": null,
+          "consulta_semantica": "algo elegante para una cena de noche"
+        },
+        "planSource": "heuristica",
+        "relajado": null,
+        "productos": [
+          "Bolso Sobre Cocodrilo Vintage",
+          "Set Joyería Retro Dorado Elegante",
+          "Zapatos Dorados para Mujer",
+          "Bolso Sobre Cocodrilo",
+          "Corset con Falda Negra"
+        ],
+        "citados": [
+          {
+            "sku": "VM-DAM-SH38881687",
+            "name": "Bolso Sobre Cocodrilo Vintage"
+          },
+          {
+            "sku": "VM-DAM-SH41085514",
+            "name": "Set Joyería Retro Dorado Elegante"
+          },
+          {
+            "sku": "VM-CAL-EXT187",
+            "name": "Zapatos Dorados para Mujer"
+          },
+          {
+            "sku": "VM-DAM-SH38876431",
+            "name": "Bolso Sobre Cocodrilo"
+          },
+          {
+            "sku": "VM-DAM-EXT179",
+            "name": "Corset con Falda Negra"
+          }
+        ],
+        "inventados": [],
+        "reply": "Para una cena de noche elegante, te propongo este look completo:\n\n- **Corset con Falda Negra** ($79.99): vestido largo de satén, perfecto para ocasiones nocturnas y formales.\n- **Zapatos Dorados para Mujer** ($49.99): el dorado aporta luz y elegancia al negro.\n- **Bolso Sobre Cocodrilo Vintage** ($2.99): sobre negro con detalles dorados, ideal para eventos de noche.\n- **Set Joyería Retro Dorado Elegante** ($8.49): a juego con los zapatos, realza el conjunto.\n\nTotal: $146.46 USD. Una combinación sofisticada y coordinada en negro y dorado."
+      },
+      {
+        "q": "necesito una blusa para el trabajo por menos de 40 dólares",
+        "ms": 2105,
+        "plan": {
+          "genero": null,
+          "categoria": null,
+          "prenda": "blusa",
+          "color": null,
+          "ocasion": [
+            "oficina"
+          ],
+          "precioMax": 40,
+          "consulta_semantica": "necesito una blusa para el trabajo por menos de 40 dólares"
+        },
+        "planSource": "heuristica",
+        "relajado": null,
+        "productos": [
+          "Prenda Mujer Liso Corto",
+          "Diadema Ancha Rosa Sólida"
+        ],
+        "citados": [
+          {
+            "sku": "VM-DAM-FS18",
+            "name": "Prenda Mujer Liso Corto"
+          },
+          {
+            "sku": "VM-DAM-SH12903227",
+            "name": "Diadema Ancha Rosa Sólida"
+          }
+        ],
+        "inventados": [],
+        "reply": "¡Hola! Tengo justo lo que buscas:\n\n- **Prenda Mujer Liso Corto** ($9.49): blusa blanca de punto, manga corta y fruncido lateral. Perfecta para oficina, tono neutro y fácil de combinar.\n- **Diadema Ancha Rosa Sólida** ($0.99): accesorio delicado que eleva el look laboral.\n\n**Combinación sugerida:** falda lápiz negra + blazer beige + zapatos de tacón nude + la **Prenda Mujer Liso Corto** y la **Diadema Ancha Rosa Sólida**. Look profesional y fresco por menos de $11.\n\n¿Te ayudo con algo más?"
+      },
+      {
+        "q": "busco un bolso para una boda",
+        "ms": 1945,
+        "plan": {
+          "genero": null,
+          "categoria": null,
+          "prenda": "bolso",
+          "color": null,
+          "ocasion": [
+            "boda"
+          ],
+          "precioMax": null,
+          "consulta_semantica": "busco un bolso para una boda"
+        },
+        "planSource": "heuristica",
+        "relajado": null,
+        "productos": [
+          "Bolso de Hombro para Citas",
+          "Bolso de Hombro Cuadrado Casual",
+          "Bolso Sobre Cocodrilo",
+          "Bolso Sobre Cocodrilo Vintage"
+        ],
+        "citados": [
+          {
+            "sku": "VM-DAM-SH37408837",
+            "name": "Bolso de Hombro para Citas"
+          },
+          {
+            "sku": "VM-DAM-SH40237409",
+            "name": "Bolso de Hombro Cuadrado Casual"
+          },
+          {
+            "sku": "VM-DAM-SH38876431",
+            "name": "Bolso Sobre Cocodrilo"
+          },
+          {
+            "sku": "VM-DAM-SH38881687",
+            "name": "Bolso Sobre Cocodrilo Vintage"
+          }
+        ],
+        "inventados": [],
+        "reply": "Para una boda te recomiendo estos bolsos de nuestro catálogo:\n\n- **Bolso de Hombro para Citas** ($5.49): negro de encaje con forma de lazo y cadena, perfecto para looks de noche y eventos.\n- **Bolso Sobre Cocodrilo Vintage** ($2.99): negro con detalles dorados, ideal para ocasiones formales.\n- **Bolso de Hombro Cuadrado Casual** ($9.49): blanco con asa de perlas, elegante para invitada.\n- **Bolso Sobre Cocodrilo** ($2.99): blanco con detalles geométricos dorados, muy formal.\n\n**Combinación:** vestido midi negro + sandalias de tacón nude + los aretes dorados + el **Bolso Sobre Cocodrilo Vintage**. Si prefieres tonos claros, el **Bolso Cuadrado Casual** con vestido pastel.\n\n¿Qué color de vestido usarás?"
+      },
+      {
+        "q": "ropa deportiva para entrenar",
+        "ms": 1844,
+        "plan": {
+          "genero": null,
+          "categoria": null,
+          "prenda": null,
+          "color": null,
+          "ocasion": [
+            "deporte"
+          ],
+          "precioMax": null,
+          "consulta_semantica": "ropa deportiva para entrenar"
+        },
+        "planSource": "heuristica",
+        "relajado": null,
+        "productos": [
+          "Calzoncillos Clásicos Grises Tom Ford",
+          "Top de Bikini Colorblock Hollywood",
+          "Gafas de Sol Deportivas Envolventes",
+          "Diademas Punto Deportivas Surtidas",
+          "Zapatillas Deportivas Off White y Rojo"
+        ],
+        "citados": [
+          {
+            "sku": "VM-CAB-SH41400744",
+            "name": "Calzoncillos Clásicos Grises Tom Ford"
+          },
+          {
+            "sku": "VM-DAM-SH41245285",
+            "name": "Top de Bikini Colorblock Hollywood"
+          },
+          {
+            "sku": "VM-DAM-SH40359348",
+            "name": "Gafas de Sol Deportivas Envolventes"
+          },
+          {
+            "sku": "VM-DAM-SH20560202",
+            "name": "Diademas Punto Deportivas Surtidas"
+          },
+          {
+            "sku": "VM-CAL-EXT91",
+            "name": "Zapatillas Deportivas Off White y Rojo"
+          }
+        ],
+        "inventados": [],
+        "reply": "Para entrenar te propongo esta combinación:\n\n- **Top de Bikini Colorblock Hollywood** ($28.99): top deportivo de licra con espalda abierta, perfecto para entrenamiento.\n- **Calzoncillos Clásicos Grises Tom Ford** ($77.99): algodón cómodo para uso diario y deporte.\n- **Zapatillas Deportivas Off White y Rojo** ($119.99): calzado urbano casual ideal para el gym.\n- **Diademas Punto Deportivas Surtidas** ($1.50): sujetan el cabello durante el ejercicio.\n- **Gafas de Sol Deportivas Envolventes** ($3.99): protegen la vista en actividades al aire libre.\n\nCombinación completa en blanco, negro y rojo. Total: $232.46 USD."
+      },
+      {
+        "q": "un conjunto para una entrevista de trabajo",
+        "ms": 2251,
+        "plan": {
+          "genero": null,
+          "categoria": null,
+          "prenda": "conjunto",
+          "color": null,
+          "ocasion": [
+            "oficina"
+          ],
+          "precioMax": null,
+          "consulta_semantica": "un conjunto para una entrevista de trabajo"
+        },
+        "planSource": "heuristica",
+        "relajado": null,
+        "productos": [
+          "Conjunto Blazer & Pantalón Cobalt",
+          "Blazer Índigo Desestructurado",
+          "Camisa Oxford Cuello Mao"
+        ],
+        "citados": [
+          {
+            "sku": "VM-DAM-8870",
+            "name": "Conjunto Blazer & Pantalón Cobalt"
+          },
+          {
+            "sku": "VM-CAB-8850",
+            "name": "Camisa Oxford Cuello Mao"
+          }
+        ],
+        "inventados": [],
+        "reply": "Para una entrevista de trabajo te recomiendo:\n\n**Conjunto Blazer & Pantalón Cobalt** ($30.99): conjunto de traje azul, formal y de oficina. El azul transmite confianza y seriedad, perfecto para causar buena impresión.\n\n**Combinación completa:**\n- Top: camisa blanca lisa (puedes usar la del **Camisa Oxford Cuello Mao**, $10.49, que incluye pantalón azul de vestir).\n- Bottom: pantalón del conjunto Cobalt.\n- Calzado: zapatos de tacón bajo o mocasines en negro o nude.\n- Accesorio: bolso estructurado y reloj discreto.\n\nAlternativa más económica: **Camisa Oxford Cuello Mao** ($10.49) con su pantalón azul, look casual elegante apto para oficina.\n\n¿Prefieres algo más formal o relajado?"
+      },
+      {
+        "q": "qué me pongo para una fiesta de cumpleaños en tonos fríos",
+        "ms": 2053,
+        "plan": {
+          "genero": null,
+          "categoria": null,
+          "prenda": null,
+          "color": null,
+          "ocasion": [
+            "fiesta"
+          ],
+          "precioMax": null,
+          "consulta_semantica": "qué me pongo para una fiesta de cumpleaños en tonos fríos"
+        },
+        "planSource": "heuristica",
+        "relajado": null,
+        "productos": [
+          "Pinza de Cabello con Lazo",
+          "Collar Personalizado Acero Inoxidable",
+          "Pinzas de Cabello Halloween Gótico",
+          "Tocado de Tul con Lazo y Velo",
+          "Aretes Tropicales"
+        ],
+        "citados": [
+          {
+            "sku": "VM-DAM-SH16596952",
+            "name": "Pinza de Cabello con Lazo"
+          },
+          {
+            "sku": "VM-DAM-SH40446410",
+            "name": "Collar Personalizado Acero Inoxidable"
+          },
+          {
+            "sku": "VM-ACC-EXT184",
+            "name": "Aretes Tropicales"
+          }
+        ],
+        "inventados": [],
+        "reply": "Para una fiesta en tonos fríos, te recomiendo:\n\n- **Pinza de Cabello con Lazo** ($1.50): negro, elegante y combina con paletas frías.\n- **Collar Personalizado Acero Inoxidable** ($6.49): dorado con colgante divertido, ideal para fiesta.\n- **Aretes Tropicales** ($19.49): dorados y llamativos, perfectos para noche.\n\nCombinación: top negro de hombros descubiertos + jeans oscuros o falda negra + botines negros + **Pinza de Cabello con Lazo** y **Collar Personalizado**. Si quieres más brillo, suma los **Aretes Tropicales**.\n\n¿Te armo el look completo con esos tres accesorios?"
+      }
+    ]
+  },
+  "visual": {
+    "probadas": 30,
+    "evaluables": 22,
+    "sin_tipo_claro": 8,
+    "acierto_top3_pct": 95.45,
+    "latencia_p50_ms": 195,
+    "latencia_p95_ms": 215,
+    "latencia_media_ms": 197,
+    "detalle": [
+      {
+        "sku": "VM-ACC-EXT137",
+        "tipo": "no aplica",
+        "evaluado": false
+      },
+      {
+        "sku": "VM-ACC-EXT138",
+        "tipo": "no aplica",
+        "evaluado": false
+      },
+      {
+        "sku": "VM-ACC-EXT139",
+        "tipo": "accesorio",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Pelota de Béisbol (no aplica, 0.5596)",
+          "Balón de Fútbol Americano (no aplica, 0.5518)",
+          "Aro de Baloncesto (accesorio, 0.5361)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT140",
+        "tipo": "no aplica",
+        "evaluado": false
+      },
+      {
+        "sku": "VM-ACC-EXT141",
+        "tipo": "accesorio",
+        "evaluado": true,
+        "hit": false,
+        "top3": [
+          "Balón de Baloncesto (no aplica, 0.6652)",
+          "Balón de Fútbol (no aplica, 0.6037)",
+          "Pelota de Béisbol (no aplica, 0.5953)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT142",
+        "tipo": "no aplica",
+        "evaluado": false
+      },
+      {
+        "sku": "VM-ACC-EXT143",
+        "tipo": "accesorio",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Wicket de Críquet (accesorio, 0.7014)",
+          "Pelota de Béisbol (no aplica, 0.5374)",
+          "Pelota de Críquet (no aplica, 0.5352)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT144",
+        "tipo": null,
+        "evaluado": false
+      },
+      {
+        "sku": "VM-ACC-EXT145",
+        "tipo": "accesorio",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Bate de Críquet (accesorio, 0.7236)",
+          "Pelota de Críquet (no aplica, 0.5907)",
+          "Pelota de Béisbol (no aplica, 0.5755)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT146",
+        "tipo": "no aplica",
+        "evaluado": false
+      },
+      {
+        "sku": "VM-ACC-EXT147",
+        "tipo": "no aplica",
+        "evaluado": false
+      },
+      {
+        "sku": "VM-ACC-EXT148",
+        "tipo": "no aplica",
+        "evaluado": false
+      },
+      {
+        "sku": "VM-ACC-EXT154",
+        "tipo": "gafas",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Gafas Verde y Negro (gafas, 0.7837)",
+          "Gafas de Sol Clásicas (gafas, 0.708)",
+          "Gafas de Fiesta (gafas, 0.556)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT155",
+        "tipo": "gafas",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Gafas Verde y Negro (gafas, 0.7752)",
+          "Gafas de Sol Negras (gafas, 0.7021)",
+          "Gafas de Sol Vintage Marco Grande (gafas, 0.6529)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT156",
+        "tipo": "gafas",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Gafas de Sol Negras (gafas, 0.7732)",
+          "Gafas de Sol Clásicas (gafas, 0.7713)",
+          "Gafas de Sol Vintage Marco Grande (gafas, 0.6184)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT157",
+        "tipo": "gafas",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Gafas de Sol (gafas, 0.6064)",
+          "Gafas Verde y Negro (gafas, 0.5901)",
+          "Gafas de Sol Negras (gafas, 0.5546)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT158",
+        "tipo": "gafas",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Gafas de Sol Vintage Marco Grande (gafas, 0.7049)",
+          "Gafas de Sol Retro Unisex (gafas, 0.6931)",
+          "Gafas de Sol Cuadradas Retro (gafas, 0.656)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT172",
+        "tipo": "bolso",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Bolso de Mano Negro para Mujer (bolso, 0.7474)",
+          "Mochila de Cuero Sintético Blanca (bolso, 0.6569)",
+          "Bolso de Cuero Heshe para Mujer (bolso, 0.6543)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT173",
+        "tipo": "bolso",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Bolso de Mano Negro para Mujer (bolso, 0.7191)",
+          "Bolso Azul para Mujer (bolso, 0.6679)",
+          "Bolso de Hombro Minimalista Pequeño (bolso, 0.6243)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT174",
+        "tipo": "bolso",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Bolso de Mano Negro para Mujer (bolso, 0.5849)",
+          "Bolso Azul para Mujer (bolso, 0.5845)",
+          "Mochila de Cuero Sintético Blanca (bolso, 0.5659)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT175",
+        "tipo": "bolso",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Bolso de Mano Negro para Mujer (bolso, 0.7025)",
+          "Bolso Azul para Mujer (bolso, 0.6506)",
+          "Bolso de Hombro Minimalista Cuadrado (bolso, 0.5963)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT176",
+        "tipo": "bolso",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Bolso Azul para Mujer (bolso, 0.7584)",
+          "Mochila de Cuero Sintético Blanca (bolso, 0.7262)",
+          "Bolso de Cuero Heshe para Mujer (bolso, 0.7181)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT182",
+        "tipo": "joya",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Collar Colgante Zirconia Verde (jjoya, 0.6093)",
+          "Collar de Trébol con Zirconia (joya, 0.4747)",
+          "Set Collar y Aretes Circonita (joya, 0.4687)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT183",
+        "tipo": "joya",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Aretes Corazón Entrelazado Acero (joya, 0.4979)",
+          "Aretes Tropicales (joya, 0.4955)",
+          "20 Cuentas Acrílicas Damero (accesorio, 0.4776)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT184",
+        "tipo": "joya",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Vestido de Verano para Niña (vestido, 0.5412)",
+          "Set Princesa con Varita y Corona (accesorio, 0.5381)",
+          "Aretes Ovalados Verdes (joya, 0.5294)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT190",
+        "tipo": "reloj",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Reloj de Pulsera Dama (reloj, 0.7713)",
+          "Reloj Dorado para Dama (reloj, 0.6827)",
+          "Prenda Longines Master Collection (reloj, 0.6763)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT191",
+        "tipo": "reloj",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Rolex Cellini Fase Lunar (reloj, 0.9898)",
+          "Rolex Cellini Date Esfera Negra (reloj, 0.7668)",
+          "Reloj Correa Cuero Marrón (reloj, 0.6797)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT192",
+        "tipo": "reloj",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Prenda Rolex Datejust (reloj, 0.9945)",
+          "Reloj Rolex Submariner (reloj, 0.7548)",
+          "Rolex Cellini Date Esfera Negra (reloj, 0.6509)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT193",
+        "tipo": "reloj",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Reloj de Pulsera Dama (reloj, 0.7458)",
+          "Prenda Iwc Ingenieur Automatic (reloj, 0.6632)",
+          "Rolex Cellini Date Esfera Negra (reloj, 0.6402)"
+        ]
+      },
+      {
+        "sku": "VM-ACC-EXT194",
+        "tipo": "reloj",
+        "evaluado": true,
+        "hit": true,
+        "top3": [
+          "Prenda Iwc Ingenieur Automatic (reloj, 0.7721)",
+          "Reloj Dorado para Dama (reloj, 0.7604)",
+          "Prenda Longines Master Collection (reloj, 0.6512)"
+        ]
+      }
+    ]
+  },
+  "criterios": {
+    "precision_rag_100": true,
+    "latencia_chat_p95_menor_3s": true,
+    "visual_top3_80": true,
+    "latencia_visual_p95_menor_5s": true,
+    "cobertura_95": true
+  }
+}

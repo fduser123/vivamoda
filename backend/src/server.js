@@ -15,6 +15,7 @@ import orderRoutes from './routes/orders.js';
 import posRoutes from './routes/pos.js';
 import adminRoutes from './routes/admin.js';
 import aiRoutes from './routes/ai.js';
+import styleRagRoutes from './routes/style-rag.js';
 import vrRoutes from './routes/vr.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -45,6 +46,9 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/pos', posRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/ai', aiRoutes);
+// Fase 1: asesor RAG (/style-chat) y búsqueda visual (/visual-search). Se
+// monta sobre el mismo prefijo porque las rutas no se solapan.
+app.use('/api/ai', styleRagRoutes);
 app.use('/api/vr', vrRoutes);
 
 app.use('/api', (_req, res) => res.status(404).json({ error: 'Endpoint no encontrado' }));
@@ -69,6 +73,7 @@ const PAGE_SCRIPTS = {
   'frontends/simulador-tienda/code.html': 'simulador.js',
   'frontends/guia-producto/code.html': 'guia.js',
   'frontends/asesor-de-prendas/code.html': 'asesor.js',
+  'frontends/asesor-estilo/code.html': 'asesor-estilo.js',
 };
 
 const PAGES = {
@@ -88,6 +93,7 @@ const PAGES = {
   '/simulador-tienda': 'frontends/simulador-tienda/code.html',
   '/guia-de-producto': 'frontends/guia-producto/code.html',
   '/asesor-de-prendas': 'frontends/asesor-de-prendas/code.html',
+  '/asesor-estilo': 'frontends/asesor-estilo/code.html',
 };
 
 const PLACEHOLDER = (name, path) => `<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"/>
