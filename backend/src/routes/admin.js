@@ -21,6 +21,9 @@ function periodRange(period) {
       return { start: "date_trunc('month', now())", prev: "date_trunc('month', now()) - INTERVAL '1 month'" };
     case 'quarter':
       return { start: "date_trunc('quarter', now())", prev: "date_trunc('quarter', now()) - INTERVAL '1 quarter'" };
+    case 'total':
+      // Acumulado histórico: sin comparativa (no hay periodo anterior)
+      return { start: "'1970-01-01'::timestamptz", prev: "'1970-01-01'::timestamptz" };
     default:
       return { start: "now() - INTERVAL '7 days'", prev: "now() - INTERVAL '14 days'" };
   }
