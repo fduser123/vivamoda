@@ -635,45 +635,6 @@
   </script>
 
 
-<!-- ═══════════ Fase 5 · Administración de la IA ═══════════ -->
-<section id="ia-panel" class="flex flex-col gap-space-md">
-  <div class="flex items-baseline justify-between gap-space-md flex-wrap">
-    <div>
-      <h2 class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Administración de la IA</h2>
-      <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Rendimiento del proveedor de IA: llamadas, coste y latencia</p>
-    </div>
-    <span id="ia-estado-chip" class="font-label-sm text-label-sm font-bold px-2 py-1 rounded-full bg-surface-container">comprobando…</span>
-  </div>
-
-  <!-- Rendimiento -->
-  <div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg">
-    <div class="flex items-baseline justify-between gap-space-sm flex-wrap mb-space-sm">
-      <h3 class="font-label-lg text-label-lg font-bold">Métricas de rendimiento</h3>
-      <select id="ia-dias" class="font-label-md text-label-md bg-transparent border border-outline-variant rounded-lg px-2 py-1.5">
-        <option value="1">Últimas 24 h</option><option value="7">7 días</option>
-        <option value="30" selected>30 días</option><option value="90">90 días</option>
-      </select>
-    </div>
-    <div id="ia-kpis" class="grid grid-cols-2 lg:grid-cols-5 gap-space-md mb-space-md"></div>
-    <div class="grid xl:grid-cols-2 gap-space-md">
-      <div>
-        <h4 class="font-label-md text-label-md font-bold mb-1">Por tipo de llamada</h4>
-        <table class="w-full font-body-sm text-body-sm">
-          <thead class="font-label-sm text-label-sm uppercase text-on-surface-variant border-b border-outline-variant">
-            <tr><th class="text-left py-1">Etiqueta</th><th class="text-right">Llamadas</th>
-            <th class="text-right">Coste</th><th class="text-right">p95</th><th class="text-right">Err.</th></tr>
-          </thead>
-          <tbody id="ia-por-tag"></tbody>
-        </table>
-      </div>
-      <div>
-        <h4 class="font-label-md text-label-md font-bold mb-1">Errores recientes</h4>
-        <div id="ia-errores" class="font-body-sm text-body-sm"></div>
-      </div>
-    </div>
-  </div>
-
-</section>
 
 <!-- ═══════════ Fase 4 · Previsión de demanda e inventario ═══════════ -->
 <section id="dm-panel" class="flex flex-col gap-space-md">
@@ -743,5 +704,4 @@
 </section>
 </div></main></div><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="/js/pages/admin-demanda.js"></script>
-<script src="/js/pages/admin-ia.js"></script>
 </body></html>
