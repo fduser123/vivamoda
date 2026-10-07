@@ -5,7 +5,11 @@
    ============================================================ */
 (function () {
   'use strict';
-  const { esc, api } = window.VM || {};
+    // Se resuelven en CADA llamada, no al evaluar el módulo: este script se
+    // sirve ANTES que common.js, así que window.VM aún no existe aquí y un
+    // destructuring dejaría esc en undefined para siempre (el catch también
+    // fallaba, por eso la tabla quedaba vacía sin ningún mensaje).
+    const esc = (v) => (window.VM?.esc ? window.VM.esc(v) : String(v ?? ''));
   const $ = (id) => document.getElementById(id);
   const P = 'dm-'; // prefijo de los ids dentro del panel de almacén
   const num = (n, d = 2) => Number(n ?? 0).toLocaleString('es-ES', { minimumFractionDigits: d, maximumFractionDigits: d });
@@ -13,7 +17,10 @@
 
   // Se usa VM.api para que viaje el token de admin: las rutas /api/demand/*
   // están detrás de requireRole('admin').
-  const jget = async (url) => api(url.replace(/^\/api/, ''));
+  const jget = async (url) => {
+    if (!window.VM?.api) throw new Error('La página aún no ha cargado (VM.api no disponible)');
+    return window.VM.api(url.replace(/^\/api/, ''));
+  };
 
   function kpi(titulo, valor, sub, color) {
     return `<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-md">
@@ -169,6 +176,13 @@
     chartMag = barras(P + 'chart-shap-mag', (d.magnitud || []).slice(0, 10), 'rgba(75,65,225,.75)', 'Etapa 2 · ¿cuánto se venderá? (|SHAP| medio)');
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
+  // El arranque espera a que common.js haya definido window.VM: sin esto el
+  // módulo se ejecuta antes y no pinta nada (ni siquiera el mensaje de error).
+  function arrancar(intentos = 0) {
+    if (window.VM?.api) { init(); return; }
+    if (intentos > 120) { console.error('[demanda] window.VM nunca apareció'); return; }
+    setTimeout(() => arrancar(intentos + 1), 50);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => arrancar());
+  else arrancar();
 })();
