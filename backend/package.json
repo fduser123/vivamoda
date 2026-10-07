@@ -22,7 +22,9 @@
     "f4:2stage": "ai/.venv/bin/python ai/train_two_stage.py",
     "f4:nuevos": "ai/.venv/bin/python ai/new_products.py",
     "f4:inventario": "ai/.venv/bin/python ai/inventory.py",
-    "f4:informe": "ai/.venv/bin/python ai/informe_fase4.py"
+    "f4:informe": "ai/.venv/bin/python ai/informe_fase4.py",
+    "f4:drift": "ai/.venv/bin/python ai/drift_y_futuro.py",
+    "f4:pedidos": "ai/.venv/bin/python ai/pedidos_sinteticos.py"
   },
   "engines": {
     "node": ">=18"

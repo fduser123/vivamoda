@@ -701,6 +701,30 @@
       </table>
     </div>
   </div>
+
+  <div class="grid xl:grid-cols-2 gap-space-md">
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg">
+      <h3 class="font-label-lg text-label-lg font-bold mb-1">Previsión a 12 semanas</h3>
+      <p class="text-[11px] text-on-surface-variant mb-2">Unidades previstas por semana para todo el catálogo.</p>
+      <div style="height:220px"><canvas id="dm-chart-futuro"></canvas></div>
+      <div id="dm-futuro-meta" class="font-label-sm text-label-sm text-on-surface-variant mt-2"></div>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg">
+      <div class="flex items-baseline justify-between gap-space-sm flex-wrap">
+        <h3 class="font-label-lg text-label-lg font-bold">Drift de features (PSI)</h3>
+        <span id="dm-drift-resumen" class="font-label-sm text-label-sm text-on-surface-variant"></span>
+      </div>
+      <p class="text-[11px] text-on-surface-variant mt-1 mb-2">&lt;0,10 estable · &lt;0,25 vigilar · ≥0,25 conviene reentrenar.</p>
+      <div class="overflow-y-auto" style="max-height:250px">
+        <table class="w-full font-body-sm text-body-sm">
+          <thead class="font-label-sm text-label-sm uppercase text-on-surface-variant border-b border-outline-variant">
+            <tr><th class="text-left py-1">Feature</th><th class="text-right">PSI</th><th class="text-right">Estado</th></tr>
+          </thead>
+          <tbody id="dm-drift-rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </section>
 </div></main></div><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="/js/pages/admin-demanda.js"></script>

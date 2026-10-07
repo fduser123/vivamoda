@@ -42,6 +42,7 @@
     } catch (e) { /* sin SKUs */ }
     try { pintarInventario(await jget('/api/demand/inventory?limit=25')); } catch (e) { /* noop */ }
     try { pintarShap(await jget('/api/demand/explain')); } catch (e) { /* noop */ }
+    cargarFuturo(); cargarDrift();
   }
 
   function pintarKPIs(s) {

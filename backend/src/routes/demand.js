@@ -184,6 +184,67 @@ router.get('/explain', async (_req, res) => {
   }
 });
 
+/**
+ * GET /api/demand/drift — PSI por feature (entrenamiento vs. reciente).
+ * PSI < 0.10 estable · < 0.25 vigilar · >= 0.25 drift.
+ *
+ * OJO al leerlo: las features de CALENDARIO (semana_iso, mes, trimestre,
+ * antiguedad_semanas) siempre salen con drift alto, porque comparar una
+ * ventana de entrenamiento con otra posterior cambia de estación por
+ * definición. El drift que importa es el de precio, descuento y tendencia.
+ */
+router.get('/drift', async (_req, res) => {
+  try {
+    const { rows } = await pool.query(`
+      SELECT feature, kind, train_mean, prod_mean, psi, drift, created_at
+      FROM drift_metrics WHERE kind = 'psi' ORDER BY psi DESC
+    `);
+    const calendario = ['semana_iso', 'mes', 'trimestre', 'antiguedad_semanas'];
+    res.json({
+      items: rows.map((r) => ({ ...r, es_calendario: calendario.includes(r.feature) })),
+      resumen: {
+        evaluadas: rows.length,
+        con_drift: rows.filter((r) => r.drift).length,
+        con_drift_real: rows.filter((r) => r.drift && !calendario.includes(r.feature)).length,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/** GET /api/demand/futuro — previsión de las próximas N semanas. */
+router.get('/futuro', async (req, res) => {
+  try {
+    const semanas = Math.min(12, Number(req.query.semanas) || 12);
+    const { rows } = await pool.query(`
+      SELECT f.week_start, f.horizon,
+             COUNT(*)::int AS series,
+             ROUND(SUM(f.units_point)::numeric, 0)::float AS unidades,
+             ROUND(AVG(f.p_occurrence)::numeric, 3)::float AS prob
+      FROM demand_forecasts f
+      WHERE f.run_id LIKE 'futuro-%' AND f.horizon <= $1
+      GROUP BY f.week_start, f.horizon ORDER BY f.week_start
+    `, [semanas]);
+
+    const { rows: top } = await pool.query(`
+      SELECT f.sku, p.name, SUM(f.units_point)::numeric(10,1)::float AS unidades
+      FROM demand_forecasts f JOIN products p ON p.sku = f.sku
+      WHERE f.run_id LIKE 'futuro-%' AND f.horizon <= $1
+      GROUP BY f.sku, p.name ORDER BY unidades DESC LIMIT 10
+    `, [semanas]);
+
+    const { rows: [tot] } = await pool.query(`
+      SELECT COUNT(*)::int AS predicciones, COUNT(DISTINCT sku)::int AS skus,
+             MIN(week_start) AS desde, MAX(week_start) AS hasta
+      FROM demand_forecasts WHERE run_id LIKE 'futuro-%'
+    `);
+    res.json({ semanas: rows, top, total: tot });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 /** GET /api/demand/promos — calendario de promociones del historial. */
 router.get('/promos', async (_req, res) => {
   try {
