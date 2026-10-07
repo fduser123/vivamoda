@@ -128,3 +128,22 @@ drift_metrics · model_runs (tracking de experimentos)
 - **Sin Google Trends ni clima**: la feature `tendencia_categoria` se deriva del
   propio historial (está marcada como sustituta en `feature_registry`).
 - **`lag_52` no existe para el 50 % de las filas** (la primera anualidad).
+
+## Historial de pedidos sintético (apoyo al asistente del panel)
+
+`ai/pedidos_sinteticos.py` reconstruye pedidos a partir de `sales_history` para
+que el asistente del panel tenga de qué hablar: analiza `orders` y
+`order_items`, y con los 22 pedidos de demo (35 líneas, 17 SKUs) la
+clasificación ABC no discriminaba nada y no había serie donde buscar anomalías.
+
+- 1.500 pedidos · 3.006 líneas · **351 SKUs** · 24 meses (2024-10 → 2026-10)
+- Todas las filas llevan `notes = '[sintético]'` para poder borrarlas
+- **No toca el inventario**: son pedidos históricos ya cerrados y descontar
+  stock ahora dejaría las existencias actuales sin sentido
+- Efecto medido: anomalías 3 → **10** · ABC pasa a A=5, B=39, C=141
+
+Para revertirlo:
+```sql
+DELETE FROM order_items WHERE order_id IN (SELECT id FROM orders WHERE notes='[sintético]');
+DELETE FROM orders WHERE notes='[sintético]';
+```
