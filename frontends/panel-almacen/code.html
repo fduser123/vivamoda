@@ -632,4 +632,73 @@
       });
     });
   </script>
-</div></main></div></body></html>
+
+<!-- ═══════════ Fase 4 · Previsión de demanda e inventario ═══════════ -->
+<section id="dm-panel" class="flex flex-col gap-space-md">
+  <div class="flex items-baseline justify-between gap-space-md flex-wrap">
+    <div>
+      <h2 class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Previsión de demanda &amp; inventario</h2>
+      <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Two-Stage XGBoost · fusión multimodal · reconciliación MinT · política (s,S)</p>
+    </div>
+    <span class="font-label-sm text-label-sm font-bold uppercase tracking-wider px-2 py-1 rounded-full bg-secondary-container text-on-secondary">Fase 4</span>
+  </div>
+
+  <div class="rounded-xl border-2 border-amber-300 bg-amber-50 px-4 py-3 flex items-start gap-3">
+    <span class="material-symbols-outlined text-amber-600 text-xl">warning</span>
+    <div class="font-body-sm text-body-sm text-amber-900 leading-relaxed">
+      <b>Historial sintético.</b> La orden pedía 12-24 meses de ventas reales y la base sólo tenía 22 pedidos en 4 semanas.
+      Todas las filas llevan <code class="bg-amber-100 px-1 rounded">is_synthetic=TRUE</code>: estas métricas validan que el
+      <b>pipeline</b> funciona, no la capacidad predictiva sobre demanda real.
+    </div>
+  </div>
+
+  <div id="dm-kpis" class="grid grid-cols-2 lg:grid-cols-5 gap-space-md"></div>
+
+  <div class="grid xl:grid-cols-2 gap-space-md">
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg">
+      <div class="flex items-center justify-between gap-space-sm mb-space-sm">
+        <h3 class="font-label-lg text-label-lg font-bold">Forecast vs. real</h3>
+        <select id="dm-sku" class="font-label-md text-label-md bg-transparent border border-outline-variant rounded-lg px-2 py-1.5 max-w-[230px] focus:outline-none"></select>
+      </div>
+      <div style="height:250px"><canvas id="dm-chart-serie"></canvas></div>
+      <p id="dm-serie-meta" class="font-label-sm text-label-sm text-on-surface-variant mt-2"></p>
+    </div>
+
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg">
+      <h3 class="font-label-lg text-label-lg font-bold mb-space-sm">Explicabilidad (SHAP)</h3>
+      <div style="height:200px"><canvas id="dm-chart-shap-oc"></canvas></div>
+      <div style="height:200px;margin-top:12px"><canvas id="dm-chart-shap-mag"></canvas></div>
+    </div>
+  </div>
+
+  <div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg">
+    <h3 class="font-label-lg text-label-lg font-bold mb-space-sm">Criterios de aceptación</h3>
+    <div id="dm-criterios" class="flex flex-col"></div>
+  </div>
+
+  <div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg">
+    <div class="flex items-baseline justify-between gap-space-sm flex-wrap">
+      <h3 class="font-label-lg text-label-lg font-bold">Recomendaciones de inventario</h3>
+      <span id="dm-inv-resumen" class="font-label-sm text-label-sm text-on-surface-variant"></span>
+    </div>
+    <p class="font-body-sm text-body-sm text-on-surface-variant mt-1 mb-space-sm">
+      Ordenadas por cuánto <b>sobreabastece</b> la fórmula dinámica <code>Z·σ·√LT</code> frente al 20 % plano: es el hallazgo de la fase.
+    </p>
+    <div class="overflow-x-auto">
+      <table class="w-full font-body-sm text-body-sm">
+        <thead class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant border-b border-outline-variant">
+          <tr>
+            <th class="text-left py-2">SKU / prenda</th><th class="text-left">Tienda</th>
+            <th class="text-right">Dem/sem</th><th class="text-right">σ error</th>
+            <th class="text-right">SS dinámico</th><th class="text-right">SS plano 20 %</th>
+            <th class="text-right">Punto pedido</th><th class="text-right">Stock</th>
+          </tr>
+        </thead>
+        <tbody id="dm-inv-rows"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+</div></main></div><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="/js/pages/admin-demanda.js"></script>
+</body></html>
