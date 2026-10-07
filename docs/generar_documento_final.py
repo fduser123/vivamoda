@@ -125,14 +125,27 @@ def CALLOUT(title, text, fill='F3E5EE'):
 # ================================================================ PORTADA
 P('DOCUMENTO FINAL — ESPECIFICACIÓN TÉCNICA E INFORME DE VALIDACIÓN',
   size=16.5, bold=True, color=BRAND, align=WD_ALIGN_PARAGRAPH.CENTER, space_after=2)
-P('Sistema Web VivaModa con Integración de IA (Opción 1 — Enfoque Ligero por API Externa)',
+P('Sistema Web VivaModa con Integración de IA — Nivel Avanzado\n'
+  'Modelos locales, recuperación semántica y analítica predictiva sobre el mínimo exigido',
   size=13, bold=True, color=PURPLE, align=WD_ALIGN_PARAGRAPH.CENTER, space_after=10)
 P('Curso: Gobiernos y Gestión de TI / Inteligencia Artificial\t\tEntrega: Examen Parcial (Final)',
   size=10, color=MUTED, space_after=2)
-P('Arquitectura: Node.js + Express + PostgreSQL/pgvector + FashionCLIP + XGBoost + LLM API\t\t'
+P('Arquitectura: Node.js + Express + PostgreSQL/pgvector + FashionCLIP (local) + XGBoost + LLM API\t\t'
   'Semestre Académico 2026-II', size=10, color=MUTED, space_after=2)
 P('Módulos de IA: 1) Chatbot Aria  2) Asesor Visual y RAG  3) Ayudante de Administración  '
   '4) Previsión de Demanda e Inventario', size=10, color=MUTED, space_after=12)
+
+CALLOUT('NIVEL DE COMPLEJIDAD ALCANZADO',
+        'La plantilla de referencia define la Opción 1 como "Enfoque Ligero API", cuyo requisito '
+        'evaluativo es que "al menos las 3 funciones de IA consuman la API externa desde el backend '
+        'y reflejen los datos dinámicamente en la interfaz". VivaModa cumple ese mínimo y lo supera '
+        'en cuatro frentes: (1) ejecuta un modelo de visión-lenguaje LOCAL (FashionCLIP, 150 M de '
+        'parámetros) en lugar de depender solo de la API; (2) almacena y consulta vectores de 512 '
+        'dimensiones en la propia base de datos relacional con pgvector; (3) entrena modelos '
+        'predictivos propios (XGBoost de dos etapas, con SHAP para explicabilidad) en vez de '
+        'limitarse a consumir un LLM; y (4) añade gobierno de IA: telemetría de coste y latencia por '
+        'llamada, reglas de negocio editables sin desplegar y monitorización de drift. El detalle de '
+        'esta comparación está en la sección 9.', fill='EDE7F6')
 
 CALLOUT('ESTADO DE LA ENTREGA',
         'Las tres funciones exigidas en el avance están implementadas, medidas y verificadas con '
@@ -399,8 +412,62 @@ BUL('Inventario: el resultado es un intercambio, no una mejora doble. La políti
     'Z·σ·√LT sobreabastece la cola larga: para un producto con demanda media de 0,3 unidades '
     'semanales, la fórmula pide diez veces más protección que un porcentaje plano.')
 
+
 # ================================================================ 9
-doc.add_heading('9. Conclusiones', level=1)
+doc.add_heading('9. Cumplimiento de los 6 Puntos Evaluativos', level=1)
+P('La plantilla de referencia cierra con un requisito evaluativo: presentar la ejecución funcional '
+  'de 6 puntos, demostrando que al menos las 3 funciones de IA consumen la API externa desde el '
+  'backend y reflejan los datos dinámicamente en la interfaz. La tabla siguiente mapea cada punto '
+  'con su evidencia verificable en este proyecto:')
+TABLE(['#', 'Punto evaluativo', 'Evidencia en VivaModa', 'Estado'],
+      [['1', 'Definición del problema complejo',
+        'Cuatro problemas identificados, incluidos dos que la plantilla no contempla: opacidad de la '
+        'propia IA y demanda intermitente en moda.', 'Cumple'],
+       ['2', 'Definición del aplicativo web básico',
+        'Aplicación web operativa con 12 vistas servidas por Node/Express, autenticación por roles '
+        '(cliente, staff, admin) y sin paso de compilación.', 'Cumple'],
+       ['3', 'Caracterización de requerimientos funcionales con IA',
+        'No 3, sino 4 módulos: chatbot Aria, asesor visual con RAG, ayudante de administración y '
+        'previsión de demanda con optimización de inventario.', 'Supera'],
+       ['4', 'Diagrama de base de datos relacional',
+        'Más de 25 tablas agrupadas en 7 dominios, con extensión vectorial pgvector y registro de '
+        'features con control de fuga de información.', 'Supera'],
+       ['5', 'Procedimiento de integración (API externa)',
+        'Cinco etapas implementadas, más un planificador híbrido que evita la llamada al LLM cuando '
+        'la heurística local basta, y telemetría de consumo por llamada.', 'Supera'],
+       ['6', 'Funcionamiento arquitectónico (backend y frontend)',
+        'Backend proxy con degradación elegante a motor local; frontend con consumo asíncrono, '
+        'renderizado dinámico y streaming por SSE.', 'Cumple']],
+      widths=[0.35, 1.7, 3.7, 0.75])
+
+doc.add_heading('Contraste con el mínimo de la Opción 1', level=2)
+P('El requisito mínimo exige que las funciones de IA consuman una API externa. VivaModa lo cumple, '
+  'pero añade capacidades que la Opción 1 no contempla:')
+TABLE(['Dimensión', 'Mínimo exigido (Opción 1)', 'Implementado en VivaModa'],
+      [['Modelo de IA', 'API externa consumida por HTTP',
+        'API externa (DeepSeek) + modelo local FashionCLIP de 150 M de parámetros ejecutándose en el '
+        'servidor, sin coste por consulta'],
+       ['Recuperación de información', 'Catálogo inyectado completo en el prompt',
+        'Búsqueda vectorial sobre pgvector con embeddings de 512 dimensiones, re-ranking por atributos '
+        'y verificación de grounding posterior'],
+       ['Analítica', 'No contemplada',
+        'Modelo predictivo propio (XGBoost de dos etapas para demanda intermitente) con explicabilidad '
+        'SHAP y auditoría de variables'],
+       ['Gobierno de IA', 'No contemplado',
+        'Telemetría por llamada (tokens, caché, coste, latencia, error), reglas de negocio editables '
+        'sin desplegar y monitorización de drift por PSI'],
+       ['Persistencia del conocimiento', 'Columna ia_log con el JSON de respuesta',
+        'Seis tablas dedicadas: trazas, memoria del cliente, telemetría, configuración, conocimiento '
+        'y registro de experimentos']],
+      widths=[1.35, 1.9, 3.25])
+
+CALLOUT('Resultado del contraste',
+        'El proyecto satisface los 6 puntos evaluativos y supera el mínimo en los puntos 3, 4 y 5, '
+        'además de cubrir dos dimensiones —analítica predictiva y gobierno de IA— que la Opción 1 ni '
+        'plantea. Las métricas de validación de cada módulo están en la sección 8.', fill='E8F5E9')
+
+# ================================================================ 10
+doc.add_heading('10. Conclusiones', level=1)
 P('El proyecto VivaModa integra cuatro módulos de Inteligencia Artificial —chatbot estilista con '
   'memoria, asesor visual con recuperación semántica, ayudante de administración y previsión de '
   'demanda con optimización de inventario— mediante un backend proxy seguro que protege las '
