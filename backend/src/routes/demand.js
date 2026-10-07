@@ -245,6 +245,56 @@ router.get('/futuro', async (req, res) => {
   }
 });
 
+/**
+ * GET /api/demand/proveedores — proveedores, lead times y compras.
+ * Cubre el hueco R3 de la Fase 4: no había lead times por proveedor y el
+ * stock de seguridad se calculó con un supuesto plano de 2 semanas.
+ */
+router.get('/proveedores', async (req, res) => {
+  try {
+    const { rows: proveedores } = await pool.query(`
+      SELECT s.id, s.code, s.name, s.country, s.category_focus,
+             s.lead_time_days, s.min_order_qty, s.payment_terms,
+             s.reliability::float AS reliability,
+             (SELECT COUNT(*) FROM products p
+               WHERE p.supplier_id = s.id AND p.is_active)::int AS skus,
+             (SELECT COUNT(*) FROM purchase_orders po
+               WHERE po.supplier_id = s.id)::int AS pedidos,
+             (SELECT COALESCE(ROUND(SUM(po.total)::numeric, 0), 0)
+                FROM purchase_orders po WHERE po.supplier_id = s.id)::float AS valor,
+             (SELECT ROUND(AVG(po.received_at - po.ordered_at)::numeric, 1)
+                FROM purchase_orders po
+               WHERE po.supplier_id = s.id AND po.received_at IS NOT NULL)::float AS dias_reales
+      FROM suppliers s
+      WHERE s.is_active
+      ORDER BY valor DESC
+    `);
+
+    const { rows: porEstado } = await pool.query(`
+      SELECT status, COUNT(*)::int AS pedidos, ROUND(SUM(total)::numeric,0)::float AS valor
+      FROM purchase_orders GROUP BY status ORDER BY valor DESC
+    `);
+
+    const { rows: porMes } = await pool.query(`
+      SELECT to_char(date_trunc('month', ordered_at), 'YYYY-MM') AS mes,
+             COUNT(*)::int AS pedidos, ROUND(SUM(total)::numeric,0)::float AS valor
+      FROM purchase_orders GROUP BY 1 ORDER BY 1
+    `);
+
+    const { rows: [tot] } = await pool.query(`
+      SELECT COUNT(*)::int AS pedidos, COALESCE(SUM(total),0)::float AS valor,
+             COALESCE(SUM(qty),0)::bigint AS unidades,
+             ROUND(AVG(received_at - ordered_at)::numeric,1)::float AS lead_real
+      FROM purchase_orders
+    `);
+
+    res.json({ proveedores, por_estado: porEstado, por_mes: porMes, total: tot });
+  } catch (err) {
+    console.error('[demand/proveedores]', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 /** GET /api/demand/promos — calendario de promociones del historial. */
 router.get('/promos', async (_req, res) => {
   try {
