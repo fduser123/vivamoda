@@ -12,6 +12,7 @@
 //   6) Sin nada → null (el llamador usa el motor local de reglas)
 // =====================================================================
 import { config } from '../config.js';
+import { registrarUso, leerAjustes } from './ai-admin.js';
 
 const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta/openai';
 const DEEPSEEK_BASE = 'https://api.deepseek.com';
@@ -58,13 +59,37 @@ const KNOWN = {
 
 const ORDER = ['gemini', 'deepseek', 'openrouter'];
 
+// ── Configuración editable desde el panel ────────────────────────────
+// llmProvider() es SÍNCRONO y lo llaman muchos sitios, así que no se puede
+// consultar la base de datos en cada llamada. Se mantiene una copia en memoria
+// que se refresca de forma perezosa (como mucho cada 15 s, que es el TTL que
+// ya aplica leerAjustes) y el respaldo sigue siendo backend/.env.
+let _ajustes = {};
+let _refrescando = false;
+
+function refrescarAjustes() {
+  if (_refrescando) return;
+  _refrescando = true;
+  leerAjustes()
+    .then((a) => { _ajustes = a || {}; })
+    .catch(() => { /* si la BD falla, se usa .env */ })
+    .finally(() => { _refrescando = false; });
+}
+
+/** Ajustes en vigor (para mostrarlos en el panel y depurar). */
+export function ajustesEnVigor() { return _ajustes; }
+
 /**
  * Proveedor activo, o null si no hay ninguno configurado.
  * USE_LOCAL_AI=true fuerza el motor local de reglas aunque haya llaves.
  */
 export function llmProvider() {
-  if (config.useLocalAi) return null;
-  const forced = String(config.llmProvider || '').trim().toLowerCase();
+  refrescarAjustes();
+  // El panel manda sobre el .env cuando hay valor
+  const desdePanel = (v, env) => (v !== undefined && v !== null && String(v).trim() !== '' ? v : env);
+
+  if (String(desdePanel(_ajustes.use_local_ai, String(config.useLocalAi))).toLowerCase() === 'true') return null;
+  const forced = String(desdePanel(_ajustes.llm_provider, config.llmProvider) || '').trim().toLowerCase();
   if (config.llmBaseUrl && config.llmApiKey) {
     const model = config.llmModel || 'gpt-4o-mini';
     return {
@@ -78,9 +103,12 @@ export function llmProvider() {
       extraHeaders: {},
     };
   }
-  if (forced) return KNOWN[forced] ? KNOWN[forced]() : null;
+  const modeloPanel = _ajustes.llm_model;
+  const conModelo = (p) => (p && modeloPanel ? { ...p, model: String(modeloPanel) } : p);
+
+  if (forced) return conModelo(KNOWN[forced] ? KNOWN[forced]() : null);
   for (const name of ORDER) {
-    const provider = KNOWN[name]();
+    const provider = conModelo(KNOWN[name]());
     if (provider) return provider;
   }
   return null;
@@ -131,12 +159,9 @@ export async function callChat(provider, payload, { timeoutMs = 45_000, attempts
       clearTimeout(timer);
     }
   }
-  return {
-    ok: false,
-    status: 0,
-    body: null,
-    networkError: lastErr?.name === 'AbortError' ? 'Timeout esperando al LLM' : (lastErr?.message || 'Error de red'),
-  };
+  const motivo = lastErr?.name === 'AbortError' ? 'Timeout esperando al LLM' : (lastErr?.message || 'Error de red');
+  registrarUso({ tag, provider: provider.name, model: provider.model, ok: false, error: motivo, latencyMs: null });
+  return { ok: false, status: 0, body: null, networkError: motivo };
 }
 
 /** Texto de error del proveedor, normalizado para logs y UI. */
@@ -193,4 +218,10 @@ export function logUsage(tag, provider, usage, latencyMs) {
     ` · salida ${usage.completion_tokens} · total ${usage.total_tokens}` +
     ` · ${money}${rate} · ${Math.round(latencyMs)}ms`
   );
+  // Telemetría persistida: sin esto no hay histórico de rendimiento que
+  // mostrar en el panel (antes sólo se imprimía en consola).
+  registrarUso({
+    tag, provider: provider.name, model: provider.model, usage,
+    latencyMs, costUsd: cost, ok: true,
+  });
 }

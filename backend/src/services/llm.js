@@ -5,6 +5,7 @@
 // presente, el llamador debe usar el motor local de reglas como respaldo.
 // =====================================================================
 import { llmProvider, llmUnavailableReason, callChat, chatErrorReason, estimateCost, logUsage } from './llm-provider.js';
+import { bloqueConocimiento } from './ai-admin.js';
 
 const SYSTEM_PROMPT = `Eres "Aria", la estilista virtual de VivaModa, una marca de moda premium omnicanal (tienda web, POS en tienda y almacén).
 
@@ -74,8 +75,17 @@ export async function llmStatus() {
  * Mensajes que se envían al modelo: persona de Aria + historial reciente +
  * contexto de una sola tirada (memoria del cliente, datos de la BD y web).
  */
-export function buildMessages(ctx) {
+export async function buildMessages(ctx) {
   const messages = [{ role: 'system', content: SYSTEM_PROMPT }];
+  // Reglas de negocio y conocimiento editables desde el panel de administración.
+  // Antes vivían hardcodeadas aquí arriba.
+  try {
+    const conoc = await bloqueConocimiento();
+    if (conoc) {
+      messages.push({ role: 'system', content:
+        `CONOCIMIENTO Y REGLAS VIGENTES DE VIVAMODA (tienen prioridad sobre lo anterior):\n\n${conoc}` });
+    }
+  } catch { /* si falla, se responde con el prompt base */ }
 
   // Historial reciente (máx 6 turnos) para dar coherencia conversacional
   for (const h of (ctx.history || []).slice(-6)) {
@@ -110,7 +120,7 @@ export async function llmStylistStream(ctx, onDelta, { timeoutMs = 60_000 } = {}
   const provider = llmProvider();
   if (!provider) return { error: `LLM no configurado (${llmUnavailableReason()})` };
   const started = Date.now();
-  const messages = buildMessages(ctx);
+  const messages = await buildMessages(ctx);
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), timeoutMs);
   let emitted = 0;
@@ -182,7 +192,7 @@ export async function llmStylistReply(ctx) {
   if (!provider) return { error: `LLM no configurado (${llmUnavailableReason()})` };
   const started = Date.now();
 
-  const messages = buildMessages(ctx);
+  const messages = await buildMessages(ctx);
 
   const { ok, status, body, networkError } = await callChat(provider, {
     model: provider.model,

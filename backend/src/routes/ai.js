@@ -32,6 +32,18 @@ async function engineState() {
 const router = Router();
 router.use(attachUser);
 
+// SEGURIDAD: /memory devuelve lo que Aria recuerda de cada cliente (tallas,
+// presupuestos, preferencias) y /stats expone el uso interno de IA. Estaban
+// accesibles SIN autenticación. Se exige admin en las rutas de lectura interna;
+// el resto del router (chat, tallas, estilos) sigue siendo público porque lo
+// usan clientes anónimos.
+function soloAdmin(req, res, next) {
+  if (!req.user || req.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Solo administradores' });
+  }
+  next();
+}
+
 /**
  * Historial guardado de la sesión: así Aria recuerda la conversación entre
  * mensajes aunque el cliente no reenvíe el historial desde el navegador.
@@ -164,7 +176,7 @@ router.post('/feedback', async (req, res) => {
 });
 
 /** GET /api/ai/memory?sessionKey=… — lo que Aria ha aprendido del cliente */
-router.get('/memory', async (req, res) => {
+router.get('/memory', soloAdmin, async (req, res) => {
   try {
     const memory = await loadMemory({ userId: req.user?.id || null, sessionKey: req.query.sessionKey || null });
     res.json({ facts: memory.rows, total: memory.rows.length });
@@ -237,7 +249,7 @@ router.post('/style-match', async (req, res) => {
 /**
  * GET /api/ai/stats — métricas del hub IA y panel admin
  */
-router.get('/stats', async (_req, res) => {
+router.get('/stats', soloAdmin, async (_req, res) => {
   try {
     const last30 = await pool.query(`SELECT COUNT(*)::int AS sessions FROM ai_sessions WHERE created_at >= now() - interval '30 days'`);
     const csat = await pool.query(`SELECT ROUND(AVG(rating)::numeric, 1) AS avg_rating FROM ai_sessions WHERE rating IS NOT NULL`);

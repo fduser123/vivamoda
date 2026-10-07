@@ -17,6 +17,7 @@ import adminRoutes from './routes/admin.js';
 import aiRoutes from './routes/ai.js';
 import styleRagRoutes from './routes/style-rag.js';
 import demandRoutes from './routes/demand.js';
+import adminIaRoutes from './routes/admin-ia.js';
 import vrRoutes from './routes/vr.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -52,6 +53,8 @@ app.use('/api/ai', aiRoutes);
 app.use('/api/ai', styleRagRoutes);
 // Fase 4: datos para el panel de demanda e inventario
 app.use('/api/demand', demandRoutes);
+// Fase 5: administración de la IA (métricas, configuración y conocimiento)
+app.use('/api/admin/ia', adminIaRoutes);
 app.use('/api/vr', vrRoutes);
 
 app.use('/api', (_req, res) => res.status(404).json({ error: 'Endpoint no encontrado' }));
