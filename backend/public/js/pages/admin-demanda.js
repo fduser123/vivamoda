@@ -39,9 +39,31 @@
         `<option value="${esc(i.sku)}">${esc(i.name).slice(0, 42)} — ${i.unidades} uds</option>`).join('');
       sel.addEventListener('change', () => cargarSerie(sel.value));
       if (sk.items.length) cargarSerie(sk.items[0].sku);
-    } catch (e) { /* sin SKUs */ }
-    try { pintarInventario(await jget('/api/demand/inventory?limit=25')); } catch (e) { /* noop */ }
-    try { pintarShap(await jget('/api/demand/explain')); } catch (e) { /* noop */ }
+    } catch (e) {
+      const sel = $(P + 'sku');
+      if (sel) sel.innerHTML = `<option>Sin SKUs: ${esc(e.message)}</option>`;
+    }
+
+    // OJO: antes estos dos catch se tragaban el error con un /* noop */, así que
+    // cualquier fallo dejaba la tabla y la gráfica VACÍAS sin ningún mensaje.
+    // Ahora el motivo se escribe donde el usuario lo va a ver.
+    try {
+      pintarInventario(await jget('/api/demand/inventory?limit=25'));
+    } catch (e) {
+      const tb = $(P + 'inv-rows');
+      if (tb) tb.innerHTML = `<tr><td colspan="8" class="py-3 text-center text-error">
+        No se pudieron cargar las recomendaciones: <b>${esc(e.message)}</b>
+        ${e.status === 401 || e.status === 403 ? '<br><span class="text-on-surface-variant">Necesitas sesión de administrador.</span>' : ''}
+      </td></tr>`;
+      const rs = $(P + 'inv-resumen');
+      if (rs) rs.textContent = '';
+    }
+
+    try {
+      pintarShap(await jget('/api/demand/explain'));
+    } catch (e) {
+      console.warn('[demanda] SHAP:', e.message);
+    }
     cargarFuturo(); cargarDrift();
   }
 
