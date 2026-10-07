@@ -1,7 +1,7 @@
 {
   "name": "vivamoda-backend",
   "version": "1.0.0",
-  "description": "API REST + servidor de la plataforma omnicanal VivaModa (catálogo, auth, POS, almacén e IA estilista)",
+  "description": "API REST + servidor de la plataforma omnicanal VivaModa (cat\u00e1logo, auth, POS, almac\u00e9n e IA estilista)",
   "type": "module",
   "private": true,
   "main": "src/server.js",
@@ -16,7 +16,13 @@
     "ai:attrs": "ai/.venv/bin/python ai/extract_attrs.py",
     "ai:embeddings": "ai/.venv/bin/python ai/build_embeddings.py",
     "ai:validar": "node ai/validar_fase1.mjs",
-    "ai:probar": "bash ai/probar-endpoints.sh"
+    "ai:probar": "bash ai/probar-endpoints.sh",
+    "f4:synthetic": "ai/.venv/bin/python ai/synthetic_sales.py",
+    "f4:features": "ai/.venv/bin/python ai/features.py",
+    "f4:2stage": "ai/.venv/bin/python ai/train_two_stage.py",
+    "f4:nuevos": "ai/.venv/bin/python ai/new_products.py",
+    "f4:inventario": "ai/.venv/bin/python ai/inventory.py",
+    "f4:informe": "ai/.venv/bin/python ai/informe_fase4.py"
   },
   "engines": {
     "node": ">=18"

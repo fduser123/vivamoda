@@ -1,0 +1,276 @@
+{
+  "generado": "2026-10-07T09:43:28.523884",
+  "aviso": "HISTORIAL SINTÉTICO. Todas las filas de sales_history llevan is_synthetic=TRUE. Estas métricas validan que el PIPELINE funciona; NO son evidencia de capacidad predictiva sobre demanda real.",
+  "datos": {
+    "filas_ventas": 138944,
+    "desde": "2024-10-07",
+    "hasta": "2026-09-28",
+    "pct_semanas_sin_venta": 43.8,
+    "series_sku_tienda": 1336,
+    "features_registradas": 26,
+    "recomendaciones_inventario": 4008
+  },
+  "runs": [
+    {
+      "id": "2stage-20261007-093805",
+      "kind": "two_stage_xgb",
+      "metrics": {
+        "auc": 0.9547668108055123,
+        "mae": 1.9097704612792346,
+        "mape": 57.80891688970885,
+        "wrmsse": 0.6952216260535804,
+        "top10_magnitud": {
+          "color": 0.21860000491142273,
+          "lag_12": 0.19979999959468842,
+          "tienda": 0.24130000174045563,
+          "descuento": 1.0312999486923218,
+          "semana_iso": 0.3560999929904938,
+          "roll_12_std": 0.27889999747276306,
+          "roll_4_mean": 0.4925000071525574,
+          "roll_8_mean": 2.8894999027252197,
+          "tipo_prenda": 0.26840001344680786,
+          "p_ocurrencia": 0.5896000266075134
+        },
+        "top10_ocurrencia": {
+          "color": 0.24819999933242798,
+          "lag_12": 0.11819999665021896,
+          "categoria": 0.0869000032544136,
+          "descuento": 0.1453000009059906,
+          "roll_4_std": 0.10350000113248825,
+          "semana_iso": 0.09950000047683716,
+          "roll_12_std": 0.3260999917984009,
+          "roll_4_mean": 0.3375999927520752,
+          "roll_8_mean": 1.9280999898910522,
+          "tipo_prenda": 0.1476999968290329
+        },
+        "wrmsse_rodante_media": 0.6512252614974586,
+        "baseline_media_wrmsse": 0.7138941295243748
+      },
+      "notes": "Historial SINTÉTICO: las métricas validan el pipeline, no la demanda real",
+      "cuando": "2026-10-07 14:38:05.068509+00:00"
+    },
+    {
+      "id": "nuevos-20261007-093855",
+      "kind": "multimodal_nuevos",
+      "metrics": {
+        "wape_modelo": 81.11651195809245,
+        "mejor_mejora_pct": 2.40465223265734,
+        "mejora_vs_knn_pct": -0.6546879703151401,
+        "wape_baseline_knn": 80.58890608454834,
+        "mejora_vs_categoria_pct": 2.40465223265734,
+        "wape_baseline_categoria": 83.11514207774117
+      },
+      "notes": "Sustituye a Multimodal-T5: no cabe en 4 GB de VRAM. Historial SINTÉTICO.",
+      "cuando": "2026-10-07 14:38:55.146065+00:00"
+    },
+    {
+      "id": "2stage-20261007-094001",
+      "kind": "two_stage_xgb",
+      "metrics": {
+        "auc": 0.9508703737653437,
+        "mae": 1.9894432556121806,
+        "mape": 54.48869846480393,
+        "wrmsse": 0.6688682039981784,
+        "top10_magnitud": {
+          "color": 0.22750000655651093,
+          "lag_1": 0.22759999334812164,
+          "tienda": 0.20520000159740448,
+          "descuento": 1.152500033378601,
+          "semana_iso": 0.45739999413490295,
+          "roll_12_std": 0.4399000108242035,
+          "roll_4_mean": 0.7760999798774719,
+          "roll_8_mean": 3.815000057220459,
+          "tipo_prenda": 0.2777000069618225,
+          "p_ocurrencia": 0.767300009727478
+        },
+        "top10_ocurrencia": {
+          "color": 0.257999986410141,
+          "lag_12": 0.12150000035762787,
+          "tienda": 0.08250000327825546,
+          "categoria": 0.09070000052452087,
+          "descuento": 0.12530000507831573,
+          "roll_4_std": 0.07479999959468842,
+          "roll_12_std": 0.366100013256073,
+          "roll_4_mean": 0.3652999997138977,
+          "roll_8_mean": 1.763700008392334,
+          "tipo_prenda": 0.16660000383853912
+        },
+        "wrmsse_rodante_media": 0.6347769132212776,
+        "baseline_media_wrmsse": 0.6969906731729307
+      },
+      "notes": "Historial SINTÉTICO: las métricas validan el pipeline, no la demanda real",
+      "cuando": "2026-10-07 14:40:01.442073+00:00"
+    },
+    {
+      "id": "nuevos-20261007-094017",
+      "kind": "multimodal_nuevos",
+      "metrics": {
+        "wape_modelo": 81.11830002126483,
+        "mejor_mejora_pct": 0.040176106216128785,
+        "mejora_vs_knn_pct": 0.040176106216128785,
+        "wape_baseline_knn": 81.15090329436772,
+        "mejora_vs_categoria_pct": -8.765717698812947,
+        "wape_baseline_categoria": 74.58076104999594
+      },
+      "notes": "Sustituye a Multimodal-T5: no cabe en 4 GB de VRAM. Historial SINTÉTICO.",
+      "cuando": "2026-10-07 14:40:17.699533+00:00"
+    },
+    {
+      "id": "nuevos-20261007-094046",
+      "kind": "multimodal_nuevos",
+      "metrics": {
+        "wape_modelo": 84.58198827967509,
+        "mejor_mejora_pct": -8.008112953833743,
+        "mejora_vs_knn_pct": -8.008112953833743,
+        "wape_baseline_knn": 78.31077311370882,
+        "mejora_vs_categoria_pct": -13.409929167891871,
+        "wape_baseline_categoria": 74.58076104999594
+      },
+      "notes": "Sustituye a Multimodal-T5: no cabe en 4 GB de VRAM. Historial SINTÉTICO.",
+      "cuando": "2026-10-07 14:40:46.526305+00:00"
+    },
+    {
+      "id": "nuevos-20261007-094120",
+      "kind": "multimodal_nuevos",
+      "metrics": {
+        "wape_modelo": 72.97204468552157,
+        "mejor_mejora_pct": 6.817361412631326,
+        "mejora_vs_knn_pct": 6.817361412631326,
+        "wape_baseline_knn": 78.31077311370882,
+        "mejora_vs_categoria_pct": 2.1570125349028775,
+        "wape_baseline_categoria": 74.58076104999594
+      },
+      "notes": "Sustituye a Multimodal-T5: no cabe en 4 GB de VRAM. Historial SINTÉTICO.",
+      "cuando": "2026-10-07 14:41:20.476065+00:00"
+    },
+    {
+      "id": "inv-20261007-094205",
+      "kind": "reconciliacion_e_inventario",
+      "metrics": {
+        "ms_scoring_13sem": 40.80629348754883,
+        "coherencia_mint_pct": 2.1236239086586856e-06,
+        "faltantes_nuevo_pct": 0.03485230528960768,
+        "faltantes_actual_pct": 0.10912650284161385,
+        "inventario_medio_nuevo": 77.66531477109879,
+        "inventario_medio_actual": 50.0732403391662,
+        "reduccion_faltantes_pct": 68.06247393431796,
+        "reduccion_inventario_pct": -55.10343298144953
+      },
+      "notes": "Lead time supuesto (R3 no lo traía). Historial SINTÉTICO.",
+      "cuando": "2026-10-07 14:42:05.241868+00:00"
+    },
+    {
+      "id": "inv-20261007-094238",
+      "kind": "reconciliacion_e_inventario",
+      "metrics": {
+        "ms_scoring_13sem": 39.014339447021484,
+        "coherencia_mint_pct": 2.1236239086586856e-06,
+        "faltantes_nuevo_pct": 0.03485230528960768,
+        "faltantes_actual_pct": 0.43908411763782645,
+        "inventario_medio_nuevo": 77.66531477109879,
+        "inventario_medio_actual": 73.75069187453241,
+        "reduccion_faltantes_pct": 92.0624992137941,
+        "reduccion_inventario_pct": -5.307913454189821
+      },
+      "notes": "Lead time supuesto (R3 no lo traía). Historial SINTÉTICO.",
+      "cuando": "2026-10-07 14:42:38.151499+00:00"
+    },
+    {
+      "id": "inv-20261007-094301",
+      "kind": "reconciliacion_e_inventario",
+      "metrics": {
+        "ms_scoring_13sem": 86.72785758972168,
+        "coherencia_mint_pct": 2.1236239086586856e-06,
+        "faltantes_nuevo_pct": 0.03485230528960768,
+        "faltantes_actual_pct": 0.43908411763782645,
+        "barrido_politica_plana": [
+          {
+            "factor": 0.2,
+            "inventario": 14.472808286792809,
+            "faltantes_pct": 1.2068619884957725
+          },
+          {
+            "factor": 0.5,
+            "inventario": 17.207907653653226,
+            "faltantes_pct": 0.5962496945548007
+          },
+          {
+            "factor": 1.0,
+            "inventario": 21.862586255949797,
+            "faltantes_pct": 0.3649115868961341
+          },
+          {
+            "factor": 1.5,
+            "inventario": 26.537942139207424,
+            "faltantes_pct": 0.28089556657665443
+          },
+          {
+            "factor": 2.5,
+            "inventario": 35.8924565019739,
+            "faltantes_pct": 0.18501722586433111
+          },
+          {
+            "factor": 4.0,
+            "inventario": 49.93047605413643,
+            "faltantes_pct": 0.10741365565532014
+          },
+          {
+            "factor": 6.0,
+            "inventario": 68.6555185040256,
+            "faltantes_pct": 0.05344368025770548
+          }
+        ],
+        "inventario_medio_nuevo": 77.66531477109879,
+        "inventario_medio_actual": 73.75069187453241,
+        "reduccion_faltantes_pct": 92.0624992137941,
+        "reduccion_inventario_pct": -5.307913454189821,
+        "ahorro_igual_servicio_pct": -13.123193099976241,
+        "igual_servicio_plana_inventario": 68.6555185040256
+      },
+      "notes": "Lead time supuesto (R3 no lo traía). Historial SINTÉTICO.",
+      "cuando": "2026-10-07 14:43:01.346276+00:00"
+    }
+  ],
+  "criterios": [
+    {
+      "criterio": "WRMSSE holdout ≤ 0.35",
+      "valor": 0.6688682039981784,
+      "cumple": false
+    },
+    {
+      "criterio": "Mejora WAPE nuevos ≥ 10 %",
+      "valor": 6.817361412631326,
+      "cumple": false
+    },
+    {
+      "criterio": "Coherencia jerárquica < 1 %",
+      "valor": 2.1236239086586856e-06,
+      "cumple": true
+    },
+    {
+      "criterio": "Reducción inventario −5..−15 %",
+      "valor": -5.307913454189821,
+      "cumple": false
+    },
+    {
+      "criterio": "Reducción faltantes −15..−25 %",
+      "valor": 92.0624992137941,
+      "cumple": false
+    },
+    {
+      "criterio": "Cobertura ≥ 95 %",
+      "valor": 100.0,
+      "cumple": true
+    },
+    {
+      "criterio": "Latencia de scoring < 2 h",
+      "valor": 86.72785758972168,
+      "cumple": true
+    },
+    {
+      "criterio": "Top-10 features documentados (ambas etapas)",
+      "valor": "10 + 10",
+      "cumple": true
+    }
+  ]
+}
