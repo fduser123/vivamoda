@@ -123,6 +123,9 @@
     sel.addEventListener('change', function () {
       const gender = sel.value;
       sendGender(gender);
+      // Se suelta el foco: si el <select> lo retiene, se queda con las teclas
+      // WASD y el avatar deja de responder al movimiento.
+      sel.blur();
     });
 
     // Cargar estado inicial

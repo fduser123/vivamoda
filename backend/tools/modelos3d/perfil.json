@@ -1,0 +1,4610 @@
+{
+ "generado": "2026-10-11T21:44:51.481Z",
+ "total": 354,
+ "incluye_no_vitrina": true,
+ "productos": [
+  {
+   "sku": "VM-DAM-8840",
+   "nombre": "Abrigo Oversized Magenta Wool",
+   "genero": "damas",
+   "categoria": "Abrigos",
+   "precio": 22.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH38947416",
+   "nombre": "Abrigo Acolchado con Capucha",
+   "genero": "damas",
+   "categoria": "Abrigos",
+   "precio": 64.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-006",
+   "nombre": "Cinturón Cuero Magenta",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 12.49,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-007",
+   "nombre": "Cinturón Cuero Fucsia Neón",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 10.49,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-1102",
+   "nombre": "Crossbody Mini Quilted",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.5,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-8812",
+   "nombre": "Clutch Geométrico Brass Doré",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 12.49,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT137",
+   "nombre": "Balón de Fútbol Americano",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 19.49,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT138",
+   "nombre": "Pelota de Béisbol",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 8.49,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT139",
+   "nombre": "Guante de Béisbol",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 24.99,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT140",
+   "nombre": "Balón de Baloncesto",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 14.49,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT141",
+   "nombre": "Aro de Baloncesto",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 39.99,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT142",
+   "nombre": "Pelota de Críquet",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 12.49,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT143",
+   "nombre": "Bate de Críquet",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 29.99,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT144",
+   "nombre": "Casco de Críquet",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 44.99,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT145",
+   "nombre": "Wicket de Críquet",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 29.99,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT146",
+   "nombre": "Volante de Plumas",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 5.49,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT147",
+   "nombre": "Balón de Fútbol",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 17.49,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT148",
+   "nombre": "Pelota de Golf",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 9.49,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT154",
+   "nombre": "Gafas de Sol Negras",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 29.99,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT155",
+   "nombre": "Gafas de Sol Clásicas",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 24.99,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT156",
+   "nombre": "Gafas Verde y Negro",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 34.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT157",
+   "nombre": "Gafas de Fiesta",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 19.49,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT158",
+   "nombre": "Gafas de Sol",
+   "genero": "unisex",
+   "categoria": "Accesorios",
+   "precio": 22.99,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT172",
+   "nombre": "Bolso Azul para Mujer",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 49.99,
+   "color": "#6c5ce7",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT173",
+   "nombre": "Bolso de Cuero Heshe para Mujer",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 129.99,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT174",
+   "nombre": "Bolso Prada para Mujer",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 599.99,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT175",
+   "nombre": "Mochila de Cuero Sintético Blanca",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 39.99,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT176",
+   "nombre": "Bolso de Mano Negro para Mujer",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 59.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT182",
+   "nombre": "Aretes de Cristal Verde",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 29.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT183",
+   "nombre": "Aretes Ovalados Verdes",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 24.99,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT184",
+   "nombre": "Aretes Tropicales",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 19.49,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT190",
+   "nombre": "Prenda Iwc Ingenieur Automatic",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 4999.99,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT191",
+   "nombre": "Prenda Rolex Cellini Moonphase",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 15999.99,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT192",
+   "nombre": "Reloj Rolex Datejust Dama",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 10999.99,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT193",
+   "nombre": "Reloj Dorado para Dama",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 799.99,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT194",
+   "nombre": "Reloj de Pulsera Dama",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 129.99,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT93",
+   "nombre": "Reloj Correa Cuero Marrón",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 89.99,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT94",
+   "nombre": "Prenda Longines Master Collection",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 1499.99,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT95",
+   "nombre": "Rolex Cellini Date Esfera Negra",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 8999.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT96",
+   "nombre": "Rolex Cellini Fase Lunar",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 12999.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT97",
+   "nombre": "Prenda Rolex Datejust",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 10999.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-EXT98",
+   "nombre": "Reloj Rolex Submariner",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 13999.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-FS5",
+   "nombre": "Pulsera Mujer Cadena Dorado Plateado",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 694.99,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-FS6",
+   "nombre": "Anillo Micropavé Liso Petite Dorado",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 167.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-FS7",
+   "nombre": "Anillo Princesa con Baño Blanco Dorado",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 9.49,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-ACC-FS8",
+   "nombre": "Aretes con Baño de Acero Rosa Dorado",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 10.49,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH16385032",
+   "nombre": "Gorra Béisbol Ajustable Unisex",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 5.49,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH16385040",
+   "nombre": "Gorra Béisbol Ajustable Unisex",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 3.99,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH20612825",
+   "nombre": "Gafas Retro Ovaladas Unisex",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 4.5,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH36388951",
+   "nombre": "Gorra Camuflaje Tonal Oglethorpe",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 26.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH39710722",
+   "nombre": "Collar Unisex de Circonita Bicolor",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 3.5,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH39962322",
+   "nombre": "Cinturón Grueso de Cuero Italiano",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 20.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH40256028",
+   "nombre": "Gorra de Béisbol con Letras Retro",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 5.49,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH40302708",
+   "nombre": "Gorra Jack Daniels Negro y Gris",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 48.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH40543900",
+   "nombre": "Pulsera de Cuero Cadena Bicicleta",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 2.5,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH41000443",
+   "nombre": "Gorra Trucker Malla Estampada",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 2.99,
+   "color": "#6c5ce7",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH41080113",
+   "nombre": "Cinturón De Cuero Unisex",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 7.49,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH41264869",
+   "nombre": "Gorra Snapback Jurassic Park Camo",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 20.99,
+   "color": "#6c5ce7",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH41275316",
+   "nombre": "Guantes de Punto sin Dedos",
+   "genero": "caballeros",
+   "categoria": "Accesorios",
+   "precio": 3.5,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH12903227",
+   "nombre": "Diadema Ancha Rosa Sólida",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 0.99,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH16596952",
+   "nombre": "Pinza de Cabello con Lazo",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.5,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH16596997",
+   "nombre": "Pinza de Cabello con Lazo",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH1685563",
+   "nombre": "Pinzas de Cabello con Flores Boho",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.5,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH17828593",
+   "nombre": "20 Pinzas para Cabello Sólidas",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 0.99,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH1861660",
+   "nombre": "20 Pinzas De Cabello Boho",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.5,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH19731879",
+   "nombre": "Set Sombrero y Bolso Boho",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 3.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH20513584",
+   "nombre": "20 Pinzas De Cabello Rosa",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 3.5,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH20560202",
+   "nombre": "Diademas Punto Deportivas Surtidas",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.5,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH22151349",
+   "nombre": "Diadema DAZY Color Sólido",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.5,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH26024053",
+   "nombre": "20 Pinzas De Cabello Rosa",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 2.5,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH26024700",
+   "nombre": "Clips de Pelo Dibujo Azul",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 2.99,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH27583299",
+   "nombre": "Set 14 Cuentas de Pelo Rosas",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.5,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH28539372",
+   "nombre": "Conjunto Sombrero y Bolso Khaki",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 7.49,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH28539376",
+   "nombre": "Set Sombrero Playa y Bolso Tejido",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 7.49,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH30317540",
+   "nombre": "Set de Cuentas para Trenzas",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.5,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH33294093",
+   "nombre": "Pinza Moño Satinado Cabello",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.5,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH33307455",
+   "nombre": "Pinza de Cabello Lazo Satinado",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.5,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH33315240",
+   "nombre": "Lazo de Pelo Satinado Grande",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.5,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH33317261",
+   "nombre": "Pinza Moño Satinado Cabello",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.5,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH34102786",
+   "nombre": "Set Sombrero y Bolso Playa",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 7.49,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH36041185",
+   "nombre": "Gafas de Sol Infantiles Ray-Ban Jr",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 89.99,
+   "color": "#6c5ce7",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH36041801",
+   "nombre": "Gafas de Sol Ray-Ban",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 184.99,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH36770303",
+   "nombre": "Conjunto de Sombrero y Bolso de Paja",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 7.49,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH37229759",
+   "nombre": "Diademas Deportivas Boho Elasticadas",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 7.49,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH37982260",
+   "nombre": "10 Pinzas Pelo Lazo Satén Surtidas",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 5.49,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH38618189",
+   "nombre": "Pinzas Rosa Terciopelo Vintage",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.5,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH38807272",
+   "nombre": "Pinzas de Cabello Plásticas Planas",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 2.5,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH38881903",
+   "nombre": "Pinza para Cabello con Flor de Cerámica",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 2.5,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH38924897",
+   "nombre": "Tocado de Tul con Lazo y Velo",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 4.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39030574",
+   "nombre": "Pinzas de Cabello Halloween Gótico",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 2.99,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39075088",
+   "nombre": "Gafas de Sol Vintage Marco Grande",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 4.5,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39735935",
+   "nombre": "Llavero Mini Guitarra Silicona",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.99,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39867255",
+   "nombre": "Ganchos Llavero Estrella Metal",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 2.5,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39940178",
+   "nombre": "Peluca Cosplay K-Pop Adulto",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 12.49,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39962171",
+   "nombre": "Gafas de Sol Retro Unisex",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 3.5,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40014388",
+   "nombre": "Aplicador de Tinte para Raíz",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.5,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40178377",
+   "nombre": "Brazalete de Cuero Marrón Unisex",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 3.5,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40211168",
+   "nombre": "20 Pinzas de Cabello Lazo Satén",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.99,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40290122",
+   "nombre": "Llavero Flor de Aleación",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.5,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40359348",
+   "nombre": "Gafas de Sol Deportivas Envolventes",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 3.99,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40419623",
+   "nombre": "Set Sombrero y Bolso Paja Khaki",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 8.49,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40637891",
+   "nombre": "Llavero Plástico Muñequera y Silbato",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 43.99,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40640861",
+   "nombre": "Llavero Electrónico Acura",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 14.49,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40718759",
+   "nombre": "9 Máscaras de Encaje Fiesta",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 3.99,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40721254",
+   "nombre": "Gafas de Sol Polarizadas Sin Montura",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 3.5,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40746292",
+   "nombre": "Gorro Tejido Jacquard Y2K",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 2.99,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40770660",
+   "nombre": "Gafas de Sol Cuadradas Retro",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 2.5,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40782087",
+   "nombre": "Anillos Pelo Ojos Demonio Y2K",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 0.99,
+   "color": "#6c5ce7",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40784375",
+   "nombre": "Set 20 Pinzas de Pelo Estrella",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.5,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40847251",
+   "nombre": "Gafas Inteligentes LED Unisex",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 25.99,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41035887",
+   "nombre": "Sombrero Pescador Reversible Estampado",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 2.5,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41097454",
+   "nombre": "Gafas de Sol Balenciaga Rosa",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 293.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41136575",
+   "nombre": "Clips de Pelo Estrella Surtidos",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 0.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41230898",
+   "nombre": "Arnés Cinturón Ajustable Punk",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 2.99,
+   "color": "#6c5ce7",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41245064",
+   "nombre": "10 Máscaras de Encaje Venecianas",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 3.5,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41248212",
+   "nombre": "20 Pinzas Pelo Estrella Surtidas",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.99,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41334696",
+   "nombre": "Liguero Cinturón Punk Ajustable",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 3.99,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41456724",
+   "nombre": "Set Sombrero Playa y Bolso Paja",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 8.49,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41545034",
+   "nombre": "20 Pinzas Estrella Y2K",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.99,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41545036",
+   "nombre": "Pinzas Pelo Estrella Pentágono",
+   "genero": "damas",
+   "categoria": "Accesorios",
+   "precio": 1.99,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-NIN-SH20572812",
+   "nombre": "Set Princesa con Varita y Corona",
+   "genero": "ninos",
+   "categoria": "Accesorios",
+   "precio": 3.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-NIN-SH38780674",
+   "nombre": "Gafas de Sol Polarizadas para Niños",
+   "genero": "ninos",
+   "categoria": "Accesorios",
+   "precio": 3.5,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-NIN-SH39965381",
+   "nombre": "Gafas de Esquí Niños Juli",
+   "genero": "ninos",
+   "categoria": "Accesorios",
+   "precio": 29.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-NIN-SH39966554",
+   "nombre": "Gafas de Esquí Infantiles Juli",
+   "genero": "ninos",
+   "categoria": "Accesorios",
+   "precio": 29.99,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-NIN-SH40741149",
+   "nombre": "Cinturón con Tachuelas de Strass",
+   "genero": "ninos",
+   "categoria": "Accesorios",
+   "precio": 2.99,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-NIN-SH40785873",
+   "nombre": "Gafas Moda Marco Negro Infantil",
+   "genero": "ninos",
+   "categoria": "Accesorios",
+   "precio": 2.5,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-8880",
+   "nombre": "Bomber Jacket Stealth Pro",
+   "genero": "caballeros",
+   "categoria": "Athleisure",
+   "precio": 17.49,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-004",
+   "nombre": "Blusa Seda Neón",
+   "genero": "damas",
+   "categoria": "Blusas",
+   "precio": 28.99,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40883479",
+   "nombre": "Blusa Kaftán con Abertura Lateral",
+   "genero": "damas",
+   "categoria": "Blusas",
+   "precio": 21.99,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-EXT162",
+   "nombre": "Vestido Azul",
+   "genero": "damas",
+   "categoria": "Blusas y Tops",
+   "precio": 29.99,
+   "color": "#6c5ce7",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-EXT163",
+   "nombre": "Vestido de Verano para Niña",
+   "genero": "damas",
+   "categoria": "Blusas y Tops",
+   "precio": 19.49,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-EXT164",
+   "nombre": "Vestido Gris",
+   "genero": "damas",
+   "categoria": "Blusas y Tops",
+   "precio": 34.99,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-EXT165",
+   "nombre": "Vestido Corto",
+   "genero": "damas",
+   "categoria": "Blusas y Tops",
+   "precio": 24.99,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-EXT166",
+   "nombre": "Vestido de Tartán",
+   "genero": "damas",
+   "categoria": "Blusas y Tops",
+   "precio": 39.99,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH13051530",
+   "nombre": "Bolso Bandolera Multifuncional",
+   "genero": "caballeros",
+   "categoria": "Bolsos",
+   "precio": 2.99,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH40374435",
+   "nombre": "Bolso de Viaje Térmico Jumbo",
+   "genero": "caballeros",
+   "categoria": "Bolsos",
+   "precio": 21.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH12087718",
+   "nombre": "Bolso Tote de Hombro a Cuadros",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 9.49,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH12439408",
+   "nombre": "Bolso Tote a Cuadros con Colgante",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 8.49,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH12439409",
+   "nombre": "Bolso Tote A Cuadros Con Charm",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 8.49,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH13715011",
+   "nombre": "Bolso Tote Jacquard Bordado",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 12.49,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH14311657",
+   "nombre": "Bolso de Hombro Casual Color Sólido",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 8.49,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH15880382",
+   "nombre": "Bolso Luna Vintage con Cadena",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 10.49,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH22978208",
+   "nombre": "Bolso Cruzado Casual para Mujer",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 5.49,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH22988378",
+   "nombre": "Bolso Tote Estampado Pájaro Mil",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 6.49,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH24117708",
+   "nombre": "Bolso Bandolera Pana Negro",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 5.49,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH25300916",
+   "nombre": "Bolso Tote de Hombro a Cuadros",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 8.49,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH25474489",
+   "nombre": "Bolso Tote Cuadros Mil Pájaros",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 6.49,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH30403834",
+   "nombre": "Bolso Tote Jacquard Bordado Primavera",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 10.49,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH31121322",
+   "nombre": "Bolso de Hombro Minimalista Pequeño",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 8.49,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH31296603",
+   "nombre": "Bolso Cruzado Floral Verano",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 6.49,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH31533801",
+   "nombre": "Bolso Bandolera Color Sólido",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 9.49,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH32068179",
+   "nombre": "Bolso Tote Gran Capacidad Ratán",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 5.49,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH33293256",
+   "nombre": "Bolso Tote Clásico Bicolor",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 9.49,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH33392373",
+   "nombre": "Bolso Burbuja Plisado Color Sólido",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 5.49,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH33792605",
+   "nombre": "Mini Bolso con Cadena Retro",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 9.49,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH33943228",
+   "nombre": "Bolso Tote Cuadros Mil Pájaros",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 7.49,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH34665141",
+   "nombre": "Bolso de Mano Pequeño Estilo Coreano",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 7.49,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH35331901",
+   "nombre": "Bolso Hombro Burbuja Plisado",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 3.99,
+   "color": "#6c5ce7",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH36316512",
+   "nombre": "Bolso de Hombro Cuadrado Minimalista",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 6.49,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH36525371",
+   "nombre": "Bolso Tote Leopardo Gran Capacidad",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 5.49,
+   "color": "#6c5ce7",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH36558953",
+   "nombre": "Bolso Tote Jacquard Bordado",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 10.49,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH36609465",
+   "nombre": "Bolso Tote Jacquard Bordado",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 5.49,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH37408837",
+   "nombre": "Bolso de Hombro para Citas",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 5.49,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH37532591",
+   "nombre": "Bolso Tote de Nylon Gran Capacidad",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 10.49,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH37987010",
+   "nombre": "Bolso de Hombro Plisado Burbuja",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 5.49,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH38013344",
+   "nombre": "Bolso De Mano Marc Jacobs Blanco",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 381.99,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH38876431",
+   "nombre": "Bolso Sobre Cocodrilo",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 2.99,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH38881687",
+   "nombre": "Bolso Sobre Cocodrilo Vintage",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 2.99,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39628675",
+   "nombre": "Bolso de Hombro Minimalista Cuadrado",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 10.49,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39824691",
+   "nombre": "Bolso Tote Lienzo Fresas",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 5.49,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39914289",
+   "nombre": "Bolso Tote Jacquard Bordado Primavera",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 12.49,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40237409",
+   "nombre": "Bolso de Hombro Cuadrado Casual",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 9.49,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40246376",
+   "nombre": "Bolso Sobre Estampado Cocodrilo",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 4.5,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40301504",
+   "nombre": "Bolso de Ganchillo a Cuadros",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 12.49,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40596564",
+   "nombre": "Bolso Tote Casual Gran Capacidad",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 5.49,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40596771",
+   "nombre": "Bolso Tote Gran Capacidad Estampado",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 6.49,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40604017",
+   "nombre": "Bolso Sobre Cocodrilo Diseño Niche",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 4.5,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40746514",
+   "nombre": "Bolso de Hombro Cuadrado Urbano",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 7.49,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40746549",
+   "nombre": "Bolso De Hombro Color Sólido",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 6.49,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40749680",
+   "nombre": "Bolso de Hombro Plisado Burbuja",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 6.49,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41097151",
+   "nombre": "Bolso de Mano Marni Blanco",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 570.99,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41097305",
+   "nombre": "Bolso de Mano Marc Jacobs Rosa",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 337.99,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41122801",
+   "nombre": "Bolso de Hombro Color Sólido",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 9.49,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41122803",
+   "nombre": "Bolso de Hombro Casual Color Sólido",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 10.49,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41242399",
+   "nombre": "Bolso Luna Creciente Transformable",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 11.49,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41670073",
+   "nombre": "Bolso Luna Cadena Mini",
+   "genero": "damas",
+   "categoria": "Bolsos",
+   "precio": 10.49,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-NIN-SH41265532",
+   "nombre": "Bolso Cruzado Osito de Peluche",
+   "genero": "ninos",
+   "categoria": "Bolsos",
+   "precio": 3.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAL-8811",
+   "nombre": "Stiletto Vernice Noir 95mm",
+   "genero": "damas",
+   "categoria": "Calzado",
+   "precio": 19.99,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAL-9910",
+   "nombre": "Sneakers Platform Cyber",
+   "genero": "unisex",
+   "categoria": "Calzado",
+   "precio": 3.5,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAL-EXT185",
+   "nombre": "Zapatillas Negras y Marrones",
+   "genero": "damas",
+   "categoria": "Calzado",
+   "precio": 19.49,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAL-EXT186",
+   "nombre": "Tacones Calvin Klein",
+   "genero": "damas",
+   "categoria": "Calzado",
+   "precio": 79.99,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAL-EXT187",
+   "nombre": "Zapatos Dorados para Mujer",
+   "genero": "damas",
+   "categoria": "Calzado",
+   "precio": 49.99,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAL-EXT188",
+   "nombre": "Zapatos Pampi",
+   "genero": "damas",
+   "categoria": "Calzado",
+   "precio": 29.99,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAL-EXT189",
+   "nombre": "Zapatos Rojos",
+   "genero": "damas",
+   "categoria": "Calzado",
+   "precio": 34.99,
+   "color": "#6c5ce7",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAL-EXT88",
+   "nombre": "Nike Air Jordan 1 Rojo y Negro",
+   "genero": "caballeros",
+   "categoria": "Calzado",
+   "precio": 149.99,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAL-EXT89",
+   "nombre": "Nike Tacos de Béisbol",
+   "genero": "caballeros",
+   "categoria": "Calzado",
+   "precio": 79.99,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAL-EXT90",
+   "nombre": "Puma Future Rider Zapatillas",
+   "genero": "caballeros",
+   "categoria": "Calzado",
+   "precio": 89.99,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAL-EXT91",
+   "nombre": "Zapatillas Deportivas Off White y Rojo",
+   "genero": "caballeros",
+   "categoria": "Calzado",
+   "precio": 119.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAL-EXT92",
+   "nombre": "Zapatillas Deportivas Off White Rojo",
+   "genero": "caballeros",
+   "categoria": "Calzado",
+   "precio": 109.99,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH33593076",
+   "nombre": "Zapatillas Nike Flex Experience Run 11",
+   "genero": "damas",
+   "categoria": "Calzado",
+   "precio": 84.99,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39310128",
+   "nombre": "Clips Decorativos Para Tacones",
+   "genero": "damas",
+   "categoria": "Calzado",
+   "precio": 2.99,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39598728",
+   "nombre": "Zapatillas Asics Gel Kayano 30",
+   "genero": "damas",
+   "categoria": "Calzado",
+   "precio": 162.99,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39752689",
+   "nombre": "Adornos Desmontables Para Zapatos",
+   "genero": "damas",
+   "categoria": "Calzado",
+   "precio": 2.99,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40278970",
+   "nombre": "Sandalias de Plataforma con Cuña",
+   "genero": "damas",
+   "categoria": "Calzado",
+   "precio": 39.99,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40427648",
+   "nombre": "Zapatillas Nike Jordan 13 Retro Low",
+   "genero": "damas",
+   "categoria": "Calzado",
+   "precio": 339.99,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41375404",
+   "nombre": "Botines Tacón Kitten Punta Fina",
+   "genero": "damas",
+   "categoria": "Calzado",
+   "precio": 26.99,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-002",
+   "nombre": "Camisa Slim Cobalto",
+   "genero": "caballeros",
+   "categoria": "Camisas",
+   "precio": 32.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-010",
+   "nombre": "Camisa Slim Caballero Azul Cobalto",
+   "genero": "caballeros",
+   "categoria": "Camisas",
+   "precio": 35.99,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH41427950",
+   "nombre": "Camisa de Franela a Rayas Supreme",
+   "genero": "caballeros",
+   "categoria": "Camisas",
+   "precio": 217.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-EXT83",
+   "nombre": "Camisa Cuadros Azul y Negro",
+   "genero": "caballeros",
+   "categoria": "Camisería",
+   "precio": 29.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-EXT84",
+   "nombre": "Camiseta Gigabyte Aorus Hombre",
+   "genero": "caballeros",
+   "categoria": "Camisería",
+   "precio": 24.99,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-EXT85",
+   "nombre": "Camisa Escocesa Hombre",
+   "genero": "caballeros",
+   "categoria": "Camisería",
+   "precio": 34.99,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-EXT86",
+   "nombre": "Camisa Manga Corta Hombre",
+   "genero": "caballeros",
+   "categoria": "Camisería",
+   "precio": 19.49,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-EXT87",
+   "nombre": "Camisa Cuadros Hombre",
+   "genero": "caballeros",
+   "categoria": "Camisería",
+   "precio": 27.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-8850",
+   "nombre": "Camisa Oxford Cuello Mao",
+   "genero": "caballeros",
+   "categoria": "Casual",
+   "precio": 10.49,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-FS1",
+   "nombre": "Mochila Plegable Fit Portátil",
+   "genero": "caballeros",
+   "categoria": "Casual",
+   "precio": 109.99,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-FS2",
+   "nombre": "Camisa Hombre Casual Slim",
+   "genero": "caballeros",
+   "categoria": "Casual",
+   "precio": 21.99,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-FS3",
+   "nombre": "Chaqueta Hombre de Algodón",
+   "genero": "caballeros",
+   "categoria": "Casual",
+   "precio": 55.99,
+   "color": "#6c5ce7",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-FS4",
+   "nombre": "Prenda Hombre Casual Slim",
+   "genero": "caballeros",
+   "categoria": "Casual",
+   "precio": 15.49,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-FS15",
+   "nombre": "Chaqueta Abrigo Mujer Snowboard Invierno",
+   "genero": "damas",
+   "categoria": "Casual",
+   "precio": 56.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-FS16",
+   "nombre": "Chaqueta Mujer Desmontable con Capucha",
+   "genero": "damas",
+   "categoria": "Casual",
+   "precio": 29.99,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-FS17",
+   "nombre": "Chaqueta Lluvia Mujer Rompevientos",
+   "genero": "damas",
+   "categoria": "Casual",
+   "precio": 39.99,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-FS18",
+   "nombre": "Prenda Mujer Liso Corto",
+   "genero": "damas",
+   "categoria": "Casual",
+   "precio": 9.49,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-FS19",
+   "nombre": "Prenda Mujer Corto Manga",
+   "genero": "damas",
+   "categoria": "Casual",
+   "precio": 7.49,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-FS20",
+   "nombre": "Camisa Mujer Casual de Algodón",
+   "genero": "damas",
+   "categoria": "Casual",
+   "precio": 12.49,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-008",
+   "nombre": "Chaqueta Bomber Satinada",
+   "genero": "caballeros",
+   "categoria": "Chaquetas",
+   "precio": 50.99,
+   "color": "#6c5ce7",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-3109",
+   "nombre": "Bomber Jacket Cobalt Neo",
+   "genero": "caballeros",
+   "categoria": "Chaquetas",
+   "precio": 2.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-NIN-7721",
+   "nombre": "Conjunto Active Warm",
+   "genero": "ninos",
+   "categoria": "Conjuntos",
+   "precio": 0.99,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH39910069",
+   "nombre": "Jersey De Práctica Fútbol Unbeatablesale",
+   "genero": "caballeros",
+   "categoria": "Deportivo",
+   "precio": 30.99,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH39919397",
+   "nombre": "Camiseta de Fútbol Práctica Granate",
+   "genero": "caballeros",
+   "categoria": "Deportivo",
+   "precio": 21.99,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH39952822",
+   "nombre": "Sudadera Nike con Capucha y Cierre",
+   "genero": "caballeros",
+   "categoria": "Deportivo",
+   "precio": 29.99,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41215504",
+   "nombre": "Camisa Polo Piqué Kariban Mujer",
+   "genero": "damas",
+   "categoria": "Deportivo",
+   "precio": 17.49,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-8810",
+   "nombre": "Vestido Satinado Fuchsia Night",
+   "genero": "damas",
+   "categoria": "Fiesta",
+   "precio": 12.49,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH18142300",
+   "nombre": "Aretes Redondos Grandes Blancos",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH30051973",
+   "nombre": "Set Brazalete y Gargantilla Dorado",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.5,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH31303567",
+   "nombre": "Set de 32 Aros Redondos de Aleación",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH35506120",
+   "nombre": "Set Pulseras Cerámica Suave",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 6.49,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH35771897",
+   "nombre": "Collar de Cadena Fossil Hazel Dorado",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 61.99,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH36887682",
+   "nombre": "Aretes Sol Rojo Dorado",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH36898976",
+   "nombre": "Set Brazalete y Aretes Espiral",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.99,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH37804500",
+   "nombre": "Aretes Sol Dorado y Verde",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH37804661",
+   "nombre": "Aretes Sol Dorado y Verde",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH37804937",
+   "nombre": "Aretes Colgantes Sol Verde",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH37813337",
+   "nombre": "Aretes Sol Dorado y Verde",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH37813359",
+   "nombre": "Aretes Sol Dorado y Verde ROMWE",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH37830689",
+   "nombre": "Aretes Sol Dorado Verde ROMWE",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH37830713",
+   "nombre": "Aretes Sol Dorado y Verde",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH38453313",
+   "nombre": "Aretes Largos Borla Lila ROMWE",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 0.99,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH38701055",
+   "nombre": "Aretes Dorados Forma Única ROMWE",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 0.99,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH38703244",
+   "nombre": "Arete Sol Dorado y Verde",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 0.99,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH38926461",
+   "nombre": "Set 14 Tobilleras Bohemias",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39104994",
+   "nombre": "Set Collar y Aretes Leopardo",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.5,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39138969",
+   "nombre": "Set Aretes Perla 2024",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39323775",
+   "nombre": "Set Tobilleras Corazón Mariposa",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 5.49,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39375134",
+   "nombre": "Collar de Conchas y Turquesa",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39413131",
+   "nombre": "20 Cuentas Acrílicas Damero",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.5,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39487466",
+   "nombre": "Pinza Pelo Turquesa Oeste",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.5,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39515441",
+   "nombre": "Falso Piercing Nariz Acero",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 0.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39580264",
+   "nombre": "Collar Inicial Z Acero Blanco",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 12.49,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39580301",
+   "nombre": "Cuentas Flor Aleación Surtidas",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.5,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39690686",
+   "nombre": "Cuenta de Plata Esterlina S925",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 4.5,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39759179",
+   "nombre": "Broche Caballito de Mar Cristal",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39764445",
+   "nombre": "Cuenta de Plata 925 para DIY",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 9.49,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39846031",
+   "nombre": "10 Cuentas Cuadradas Azul Marino",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 3.5,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39851695",
+   "nombre": "Kit de Pulseras Arcilla Polimérica",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 5.49,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39863453",
+   "nombre": "Set Pulseras Arcilla Polimérica",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 6.49,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39931688",
+   "nombre": "Set de Joyería con Mariposas y Perlas",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 3.99,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39973259",
+   "nombre": "Set Brazalete y Collar Dorado",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.99,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39974813",
+   "nombre": "Set Joyería Minimalista Dorado Ajustable",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH39993026",
+   "nombre": "Decoraciones de Uñas Osito Resina",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.99,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40016176",
+   "nombre": "Aretes Largos con Circonita y Perlas",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 14.49,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40022923",
+   "nombre": "Cuentas Flor Acrílico Escarchado",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 0.99,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40023295",
+   "nombre": "30 Campanitas Decorativas con Caja",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 3.99,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40054108",
+   "nombre": "Aretes Largos de Terciopelo con Lazo",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40054226",
+   "nombre": "Collar de Conchas con Estrella de Mar",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.99,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40054686",
+   "nombre": "Aretes de Cristal Pétalo",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40054772",
+   "nombre": "Set de Pegatinas de Uñas con Garras de Gato",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40072856",
+   "nombre": "10 Dijes de Chocolate con Leche",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.5,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40267255",
+   "nombre": "Llave de Matraca Flexible KD Tools",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 43.99,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40268264",
+   "nombre": "Set de Aretes de Zirconia y Ópalo",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 3.99,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40283596",
+   "nombre": "Anillo Abierto Forma De Margarita",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 8.49,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40289198",
+   "nombre": "Collar Multicapa con Colgante Retro",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#6c5ce7",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40289649",
+   "nombre": "Aretes De Aro Rectangulares PHNIBIRD",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 9.49,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40291247",
+   "nombre": "Collar de Trébol con Zirconia",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 10.49,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40336493",
+   "nombre": "Set de 15 Anillos Asimétricos",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 6.49,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40351123",
+   "nombre": "Cristal Amarillo Arcoíris Natural",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.99,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40364066",
+   "nombre": "Set Anillos Gruesos Gota",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 7.49,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40364114",
+   "nombre": "Set de Anillos Asimétricos",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 6.49,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40433496",
+   "nombre": "Colgante Unbeatablesale Oro 14K Bicolor",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 87.99,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40442882",
+   "nombre": "Hilo de Cuentas de Cuarzo Negro",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.99,
+   "color": "#6c5ce7",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40446410",
+   "nombre": "Collar Personalizado Acero Inoxidable",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 6.49,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40508996",
+   "nombre": "Collar De Cadena Fossil Harlow",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 53.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40525812",
+   "nombre": "Collar Myra de Rodio Multicapa",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 22.99,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40540088",
+   "nombre": "Adorno de Cristal de Selenita Halloween",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 3.5,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40540771",
+   "nombre": "Collar Barra Acero Rodio Luck",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 15.49,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40579234",
+   "nombre": "Collar Inicial U Acero Rosado",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 15.49,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40612831",
+   "nombre": "Collar de Cruz de Acero Inoxidable",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.99,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40616982",
+   "nombre": "Collar Cruz de Cristal Punk",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 0.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40624265",
+   "nombre": "Piercing Corporal Acrílico Efecto Perla",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 4.5,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40629032",
+   "nombre": "Collar Colgante Zirconia Verde",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.5,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40655038",
+   "nombre": "Set Collar y Aretes Circonita",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.5,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40732725",
+   "nombre": "Aretes Estrella de Mar Zirconia",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 3.5,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40735089",
+   "nombre": "Set de 30 Scrunchies Dorados",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40735093",
+   "nombre": "Set de Scrunchies Estrella Dorada",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40766114",
+   "nombre": "35 Coleteros Dorados Surtidos",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40856443",
+   "nombre": "Cuentas de Chile en Forma Hueca",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 1.5,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40895427",
+   "nombre": "Dijes Acrílico Neón Hexágono Estrella",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.5,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40925262",
+   "nombre": "Pulsera Ajustable de Perlas Turquesa",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 3.5,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40931034",
+   "nombre": "Set Pulseras Vidrio Facetado Multicolor",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 10.49,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41052822",
+   "nombre": "Set Brazalete y Anillo Geométrico",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 0.99,
+   "color": "#6c5ce7",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41065820",
+   "nombre": "Aretes Corazón Entrelazado Acero",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 0.99,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41085514",
+   "nombre": "Set Joyería Retro Dorado Elegante",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 8.49,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41146182",
+   "nombre": "Set Collar y Brazalete Dorado",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.5,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41148506",
+   "nombre": "Pulsera de Alas de Ángel con Pedrería",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 0.99,
+   "color": "#d4af37",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41268833",
+   "nombre": "Pulsera de Serpiente Ajustable de Acero",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.5,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41302658",
+   "nombre": "Set Pulsera y Aretes Espiral",
+   "genero": "damas",
+   "categoria": "Joyería",
+   "precio": 2.5,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-8870",
+   "nombre": "Conjunto Blazer & Pantalón Cobalt",
+   "genero": "damas",
+   "categoria": "Oficina",
+   "precio": 30.99,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-003",
+   "nombre": "Pantalón Chino Beige",
+   "genero": "caballeros",
+   "categoria": "Pantalones",
+   "precio": 36.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-011",
+   "nombre": "Pantalón Chino Khaki",
+   "genero": "caballeros",
+   "categoria": "Pantalones",
+   "precio": 37.99,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40243485",
+   "nombre": "Jean Recto de Tiro Alto",
+   "genero": "damas",
+   "categoria": "Pantalones",
+   "precio": 54.99,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH22293605",
+   "nombre": "Reloj de Pulsera Hombre Acero Inoxidable",
+   "genero": "caballeros",
+   "categoria": "Relojes",
+   "precio": 14.49,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH39845576",
+   "nombre": "Reloj POEDAGAR Hombre Acero Inoxidable",
+   "genero": "caballeros",
+   "categoria": "Relojes",
+   "precio": 12.49,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH39854120",
+   "nombre": "Reloj POEDAGAR Cronógrafo de Cuero",
+   "genero": "caballeros",
+   "categoria": "Relojes",
+   "precio": 16.49,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH40023173",
+   "nombre": "Reloj PAGANI DESIGN Cuarzo de Lujo",
+   "genero": "caballeros",
+   "categoria": "Relojes",
+   "precio": 63.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH40787913",
+   "nombre": "Reloj de Estilo Motociclista",
+   "genero": "caballeros",
+   "categoria": "Relojes",
+   "precio": 10.49,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH38164771",
+   "nombre": "Correa De Reloj Con Flores",
+   "genero": "damas",
+   "categoria": "Relojes",
+   "precio": 5.49,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH38417927",
+   "nombre": "Reloj de Cuarzo con Correa de Silicona",
+   "genero": "damas",
+   "categoria": "Relojes",
+   "precio": 2.99,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH38507082",
+   "nombre": "Reloj KKY Cuadrado Dorado Mujer",
+   "genero": "damas",
+   "categoria": "Relojes",
+   "precio": 20.99,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-NIN-SH38797611",
+   "nombre": "Reloj Infantil Con Diseño De Carro",
+   "genero": "ninos",
+   "categoria": "Relojes",
+   "precio": 1.99,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-NIN-SH38798699",
+   "nombre": "Reloj Infantil con Diseño de Auto",
+   "genero": "ninos",
+   "categoria": "Relojes",
+   "precio": 1.99,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-NIN-005",
+   "nombre": "Chaqueta Denim Kids",
+   "genero": "ninos",
+   "categoria": "Ropa Exterior",
+   "precio": 23.99,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH29284636",
+   "nombre": "Set 20 Pares Calcetines Cortos Hombre",
+   "genero": "caballeros",
+   "categoria": "Ropa Interior",
+   "precio": 8.49,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-SH41400744",
+   "nombre": "Calzoncillos Clásicos Grises Tom Ford",
+   "genero": "caballeros",
+   "categoria": "Ropa Interior",
+   "precio": 77.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH37647840",
+   "nombre": "Medias Veladas de Colores",
+   "genero": "damas",
+   "categoria": "Ropa Interior",
+   "precio": 1.99,
+   "color": "#4b41e1",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40433938",
+   "nombre": "Bodystocking de Encaje Sexy",
+   "genero": "damas",
+   "categoria": "Ropa Interior",
+   "precio": 1.99,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40570459",
+   "nombre": "14 Pares Calcetines Tobilleros Mujer",
+   "genero": "damas",
+   "categoria": "Ropa Interior",
+   "precio": 11.49,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40973451",
+   "nombre": "Bodystocking Plus Transparente Sexy",
+   "genero": "damas",
+   "categoria": "Ropa Interior",
+   "precio": 2.5,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41082366",
+   "nombre": "Cadena Corporal con Corazón de Cristal",
+   "genero": "damas",
+   "categoria": "Ropa Interior",
+   "precio": 1.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-CAB-8820",
+   "nombre": "Blazer Índigo Desestructurado",
+   "genero": "caballeros",
+   "categoria": "Sastrería",
+   "precio": 19.99,
+   "color": "#2f54d0",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-8813",
+   "nombre": "Blazer Cropped Smoking Noir",
+   "genero": "damas",
+   "categoria": "Sastrería",
+   "precio": 32.99,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-NIN-8890",
+   "nombre": "Hoodie Colorblock Active Kids",
+   "genero": "ninos",
+   "categoria": "Streetwear",
+   "precio": 7.49,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH40933025",
+   "nombre": "Kaftán Estampado con Aberturas",
+   "genero": "damas",
+   "categoria": "Traje de Baño",
+   "precio": 23.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-SH41245285",
+   "nombre": "Top de Bikini Colorblock Hollywood",
+   "genero": "damas",
+   "categoria": "Traje de Baño",
+   "precio": 28.99,
+   "color": "#5b8dd6",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-NIN-8830",
+   "nombre": "Chaqueta Utility Terra Kids",
+   "genero": "ninos",
+   "categoria": "Urbano",
+   "precio": 8.49,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-001",
+   "nombre": "Vestido Coctel Magenta",
+   "genero": "damas",
+   "categoria": "Vestidos",
+   "precio": 48.99,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-8942",
+   "nombre": "Vestido Satinado Drapeado",
+   "genero": "damas",
+   "categoria": "Vestidos",
+   "precio": 2.5,
+   "color": "#f0a832",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-EXT177",
+   "nombre": "Vestido de Gala Negro",
+   "genero": "damas",
+   "categoria": "Vestidos",
+   "precio": 129.99,
+   "color": "#a02a5e",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-EXT178",
+   "nombre": "Corset de Cuero con Falda",
+   "genero": "damas",
+   "categoria": "Vestidos",
+   "precio": 89.99,
+   "color": "#e07a5f",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-EXT179",
+   "nombre": "Corset con Falda Negra",
+   "genero": "damas",
+   "categoria": "Vestidos",
+   "precio": 79.99,
+   "color": "#e4006c",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-EXT180",
+   "nombre": "Vestido Estampado de Guisantes",
+   "genero": "damas",
+   "categoria": "Vestidos",
+   "precio": 49.99,
+   "color": "#6c5ce7",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-EXT181",
+   "nombre": "Traje Marni Rojo y Negro",
+   "genero": "damas",
+   "categoria": "Vestidos",
+   "precio": 179.99,
+   "color": "#00b894",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-NIN-009",
+   "nombre": "Conjunto Niña + Moño",
+   "genero": "ninos",
+   "categoria": "Vestidos",
+   "precio": 40.99,
+   "color": "#8e44ad",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-NIN-8860",
+   "nombre": "Vestido Plisado Soft Blossom",
+   "genero": "ninos",
+   "categoria": "Vestidos",
+   "precio": 7.49,
+   "color": "#2f9e73",
+   "composition": [
+    "95% Fibra principal",
+    "5% Elastano"
+   ],
+   "fit": "Calce estándar de la marca. Revisa la guía de tallas para más detalle."
+  },
+  {
+   "sku": "VM-DAM-ATELIER",
+   "nombre": "Vestido Asimétrico Magenta Atelier",
+   "genero": "damas",
+   "categoria": "Vestidos de Noche",
+   "precio": 48.99,
+   "color": "#e07a5f",
+   "composition": [
+    "78% Crepe de Seda Mulberry",
+    "18% Poliamida Reciclada",
+    "4% Elastano Invisible"
+   ],
+   "fit": "Corte columna con drapeado sesgado y abertura lateral de 42 cm. Cierre cremallera invisible lateral YKK."
+  }
+ ]
+}

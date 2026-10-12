@@ -10,11 +10,11 @@ VRStore.part('mobiliario', function (S, g) {
   // ── Mesas de exhibición ──────────────────────────────────
   function table(x, z) {
     const grp = new THREE.Group();
-    const top = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.07, 1.05), mat(0xf6f2f5, { roughness: 0.7 }));
+    const top = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.07, 1.05), mat(0x3d3442, { roughness: 0.7 }));
     top.position.y = 0.78; top.receiveShadow = true;
     grp.add(top);
     for (const [dx, dz] of [[-0.9, -0.42], [0.9, -0.42], [-0.9, 0.42], [0.9, 0.42]]) {
-      const leg = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.76, 0.09), mat(0x4a3a4d, { metalness: 0.4 }));
+      const leg = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.76, 0.09), mat(0x332a37, { metalness: 0.4 }));
       leg.position.set(dx, 0.38, dz);
       grp.add(leg);
     }
@@ -29,7 +29,7 @@ VRStore.part('mobiliario', function (S, g) {
   // ── Maniquí ──────────────────────────────────────────────
   function mannequin(x, z, outfitColor, opts = {}) {
     const grp = new THREE.Group();
-    const bodyMat = mat(0xf3ede9, { roughness: 0.55, metalness: 0.05 });
+    const bodyMat = mat(0x2e2733, { roughness: 0.55, metalness: 0.05 });
     const base = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.42, 0.1, 20), mat(0x2a2030, { metalness: 0.5 }));
     base.position.y = 0.05;
     grp.add(base);
@@ -55,10 +55,10 @@ VRStore.part('mobiliario', function (S, g) {
     if (opts.rotY) grp.rotation.y = opts.rotY;
     g.add(grp);
   }
-  mannequin(-2.4, -5.2, 0x2447c9, { rotY: Math.PI / 3 }); // Caballeros (índigo)
-  mannequin(2.4, -5.2, 0xe4006c, { rotY: -Math.PI / 3 }); // Damas (magenta)
-  mannequin(-4.8, 6.4, 0xf0a832, { rotY: Math.PI / 4 }); // Entrada
-  mannequin(4.8, 6.4, 0x4b41e1, { rotY: -Math.PI / 4 }); // Entrada
+  mannequin(-2.4, -5.2, 0x1a337f, { rotY: Math.PI / 3 }); // Caballeros (índigo)
+  mannequin(2.4, -5.2, 0xa30047, { rotY: -Math.PI / 3 }); // Damas (magenta)
+  mannequin(-4.8, 6.4, 0xb87a24, { rotY: Math.PI / 4 }); // Entrada
+  mannequin(4.8, 6.4, 0x322a9e, { rotY: -Math.PI / 4 }); // Entrada
 
   // ── Mostrador de caja ────────────────────────────────────
   (function cashier() {
@@ -66,7 +66,7 @@ VRStore.part('mobiliario', function (S, g) {
     const body = new THREE.Mesh(new THREE.BoxGeometry(2.4, 1.0, 1.0), mat(0x2a2030, { roughness: 0.5, metalness: 0.3 }));
     body.position.y = 0.5;
     grp.add(body);
-    const top = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.08, 1.1), mat(0xf6f2f5, { roughness: 0.4 }));
+    const top = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.08, 1.1), mat(0x3d3442, { roughness: 0.4 }));
     top.position.y = 1.04;
     grp.add(top);
     // registradora con pantalla
@@ -97,19 +97,19 @@ VRStore.part('mobiliario', function (S, g) {
     side.rotation.y = Math.PI / 2;
     grp.add(side);
     // cortina
-    const curtainMat = new THREE.MeshStandardMaterial({ color: 0xe4006c, roughness: 0.9, side: THREE.DoubleSide, transparent: true, opacity: 0.92 });
+    const curtainMat = new THREE.MeshStandardMaterial({ color: 0xa30047, roughness: 0.9, side: THREE.DoubleSide, transparent: true, opacity: 0.92 });
     const curtain = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 2.1), curtainMat);
     curtain.position.set(0.05, 1.1, -0.6);
     grp.add(curtain);
     // riel
-    const rod = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 1.55, 8), mat(0x999999, { metalness: 0.7 }));
+    const rod = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 1.55, 8), mat(0x6e6a72, { metalness: 0.7 }));
     rod.rotation.z = Math.PI / 2;
     rod.position.set(0, 2.25, -0.62);
     grp.add(rod);
     grp.position.set(x, 0, z);
     g.add(grp);
     // espejo interior (reutiliza el módulo de espejos)
-    if (S.addMirror) S.addMirror(x, z - 0.66, { w: 0.5, h: 1.4, frame: 0xe4006c });
+    if (S.addMirror) S.addMirror(x, z - 0.66, { w: 0.5, h: 1.4, frame: 0xa30047 });
   }
   fittingRoom(-10.6, -8.6, -1);
   fittingRoom(10.6, -8.6, 1);
@@ -120,7 +120,7 @@ VRStore.part('mobiliario', function (S, g) {
   // ── Banco ────────────────────────────────────────────────
   (function bench() {
     const grp = new THREE.Group();
-    const seat = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.09, 0.5), mat(0x6b556f, { roughness: 0.7 }));
+    const seat = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.09, 0.5), mat(0x4a3d4f, { roughness: 0.7 }));
     seat.position.y = 0.46;
     grp.add(seat);
     for (const dx of [-0.72, 0.72]) {

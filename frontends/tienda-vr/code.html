@@ -88,10 +88,19 @@
 
 <!-- ═══════════ Ayuda inferior ═══════════ -->
 <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 glass rounded-full px-4 py-2 text-[11px] font-semibold text-white/75 whitespace-nowrap overflow-x-auto max-w-[94vw]">
+  <span class="material-symbols-outlined text-[14px] align-[-2px] text-[#ff8ab5]">directions_walk</span> Camina: W A S D ·
   <span class="material-symbols-outlined text-[14px] align-[-2px] text-[#ff8ab5]">pan_tool_alt</span> Arrastra para mirar ·
   <span class="material-symbols-outlined text-[14px] align-[-2px] text-[#ff8ab5]">zoom_in</span> Rueda para acercar ·
-  <span class="material-symbols-outlined text-[14px] align-[-2px] text-[#ff8ab5]">ads_click</span> Toca un producto para verlo
+  <span class="material-symbols-outlined text-[14px] align-[-2px] text-[#ff8ab5]">ads_click</span> Toca un producto para verlo ·
+  <span class="material-symbols-outlined text-[14px] align-[-2px] text-[#ff8ab5]">auto_awesome</span> Toca el espejo Probador IA para probártelo
 </div>
+
+<!-- ═══════════ Pestaña de la selección (siempre visible) ═══════════ -->
+<button id="bagTab" class="fixed left-0 top-1/2 -translate-y-1/2 z-[55] glass rounded-r-2xl pl-1.5 pr-2 py-3 flex flex-col items-center gap-1.5 hover:bg-white/10 transition-colors" title="Ver mi selección">
+  <span class="material-symbols-outlined text-lg text-[#ff8ab5]">shopping_bag</span>
+  <span class="text-[10px] font-extrabold uppercase text-white/85" style="writing-mode: vertical-rl; text-orientation: mixed; letter-spacing: .12em;">Mi selección</span>
+  <span id="bagTabCount" class="hidden min-w-[18px] h-[18px] px-1 rounded-full bg-[#e4006c] text-[10px] font-extrabold text-white items-center justify-center">0</span>
+</button>
 
 <!-- ═══════════ Tarjeta de producto ═══════════ -->
 <div id="productCard" class="fixed bottom-6 right-4 z-50 w-[320px] max-w-[calc(100vw-2rem)] hidden">
@@ -127,6 +136,15 @@
         </div>
         <button id="cardAdd" class="w-full mt-2.5 rounded-xl bg-[#b60055] hover:bg-[#e4006c] text-white text-sm font-bold py-2.5 transition-colors flex items-center justify-center gap-1.5">
           <span class="material-symbols-outlined text-base">add_shopping_cart</span>Añadir a la bolsa
+        </button>
+        <button id="cardGoBag" class="w-full mt-2 rounded-xl bg-[#1c1b1d] hover:bg-black text-white text-sm font-bold py-2.5 transition-colors flex items-center justify-center gap-1.5">
+          <span class="material-symbols-outlined text-base">shopping_bag</span><span id="cardGoBagLabel">Ver mi selección</span>
+        </button>
+        <button id="cardAvatarTryOn" class="w-full mt-2 rounded-xl bg-[#4b41e1] hover:bg-[#6c63ff] text-white text-sm font-bold py-2.5 transition-colors flex items-center justify-center gap-1.5">
+          <span class="material-symbols-outlined text-base">checkroom</span>Probar en mi avatar
+        </button>
+        <button id="cardTryOn" class="w-full mt-2 rounded-xl bg-[#eeebfc] hover:bg-[#e3defa] text-[#4b41e1] text-sm font-bold py-2.5 transition-colors flex items-center justify-center gap-1.5">
+          <span class="material-symbols-outlined text-base">auto_awesome</span>Probar con IA (mi foto)
         </button>
         <p id="cardStock" class="mt-1.5 text-[11px] text-[#5c3f45]"></p>
         <p id="cardNoStock" class="mt-1.5 text-[11px] font-bold text-[#b60055] hidden"></p>
@@ -207,6 +225,76 @@
   </div>
 </aside>
 
+<!-- ═══════════ Probador virtual con IA (espejo de la escena) ═══════════ -->
+<div id="tryonModal" class="fixed inset-0 z-[70] hidden">
+  <div class="absolute inset-0 bg-black/60" data-tryon-close="1"></div>
+  <div class="relative max-w-md w-[92vw] mx-auto mt-[8vh] glass rounded-2xl p-5 text-white shadow-2xl fade-in overflow-y-auto max-h-[84vh]">
+    <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-[#ff8ab5]">auto_awesome</span>
+        <h3 class="font-extrabold">Probador virtual con IA</h3>
+      </div>
+      <button id="tryonClose" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors" title="Cerrar">
+        <span class="material-symbols-outlined text-base">close</span>
+      </button>
+    </div>
+    <p class="text-[12px] text-white/70 mt-1">Pruébate la prenda elegida en tu avatar 3D (sin foto) o genera una vista previa con IA a partir de una foto. La foto no se almacena.</p>
+    <p id="tryonGarment" class="mt-3 text-[13px] font-bold text-[#ff8ab5]"></p>
+
+    <div class="mt-3 flex items-center gap-2">
+      <button id="tryonTabAvatar" class="chip active glass rounded-full px-3 py-1.5 text-[11px] font-bold text-white/85 border border-white/15">En mi avatar</button>
+      <button id="tryonTabPhoto" class="chip glass rounded-full px-3 py-1.5 text-[11px] font-bold text-white/85 border border-white/15">Con mi foto (IA)</button>
+    </div>
+
+    <!-- Modo 1 · vestir al avatar 3D de la tienda -->
+    <div id="tryonAvatarPane" class="mt-3">
+      <p id="tryonAvatarMsg" class="text-[12px] text-white/75"></p>
+      <div class="flex gap-2 mt-2.5">
+        <button id="tryonWear" class="flex-1 rounded-xl bg-[#e4006c] hover:bg-[#ff2d86] text-white text-sm font-bold py-2.5 transition-colors flex items-center justify-center gap-1.5">
+          <span class="material-symbols-outlined text-base">checkroom</span>Ponérsela al avatar
+        </button>
+        <button id="tryonRemove" class="rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-white text-sm font-bold px-3 py-2.5 transition-colors flex items-center justify-center gap-1.5">
+          <span class="material-symbols-outlined text-base">delete</span>Quitar
+        </button>
+      </div>
+      <button id="tryonMirror" class="w-full mt-2 rounded-xl bg-[#4b41e1] hover:bg-[#6c63ff] text-white text-sm font-bold py-2.5 transition-colors flex items-center justify-center gap-1.5">
+        <span class="material-symbols-outlined text-base">photo_camera_front</span>Ver en el espejo
+      </button>
+      <p class="mt-2 text-[11px] text-white/55">El espejo del probador (junto a la entrada) muestra tu avatar con la prenda puesta. Camina con el modo Avatar para verte de cuerpo entero.</p>
+    </div>
+
+    <!-- Modo 2 · vista previa con IA a partir de una foto -->
+    <div id="tryonPhotoPane" class="hidden mt-3">
+      <div class="flex items-center gap-3">
+        <input id="tryonFile" type="file" accept="image/*" capture="user" class="hidden"/>
+        <button id="tryonPick" class="flex-1 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 px-3 py-2.5 text-sm font-bold flex items-center justify-center gap-2 transition-colors">
+          <span class="material-symbols-outlined text-base">photo_camera</span>Subir mi foto
+        </button>
+        <div id="tryonThumbWrap" class="hidden w-14 h-14 rounded-xl bg-white/10 border border-white/15 overflow-hidden items-center justify-center">
+          <img id="tryonThumb" class="w-full h-full object-cover" alt="Tu foto"/>
+        </div>
+      </div>
+
+      <button id="tryonGo" disabled class="w-full mt-3 rounded-xl bg-[#e4006c] hover:bg-[#ff2d86] disabled:opacity-40 disabled:cursor-not-allowed text-white font-extrabold py-3 transition-colors flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-base">auto_awesome</span>Generar vista previa
+      </button>
+
+      <div id="tryonLoading" class="hidden mt-3">
+        <div class="flex items-center gap-2 text-[12px] text-white/80">
+          <span class="w-4 h-4 rounded-full border-2 border-white/20 border-t-[#ff8ab5] animate-spin"></span>
+          <span>La IA está probándote la prenda… puede tardar hasta ~30 s</span>
+        </div>
+      </div>
+      <p id="tryonMsg" class="mt-2 text-[12px] text-white/70"></p>
+
+      <div id="tryonResultWrap" class="hidden mt-3">
+        <img id="tryonResult" class="w-full rounded-xl border border-white/15" alt="Vista previa generada por IA"/>
+        <p class="mt-1.5 text-[11px] text-white/55">Vista previa generada por IA · orientativa · mírate también en el espejo</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -223,6 +311,7 @@
 <script src="/js/pages/vr-store/mk-ropa.js"></script>
 <script src="/js/pages/vr-store/interaccion.js"></script>
 <script src="/js/pages/vr-store/carrito.js"></script>
+<script src="/js/pages/vr-store/probador.js"></script>
 <script src="/js/pages/vr-store/avatar.js"></script>
 <script src="/js/pages/vr-store/avatar-client.js"></script>
 <script src="/js/pages/vr-store/mode-fps.js"></script>

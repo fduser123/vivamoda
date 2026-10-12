@@ -25,6 +25,10 @@ window.VRStore = (function () {
     { id: 'ninos', label: 'Niños', color: '#f0a832', zone: 0xf0a832, pos: { x: 6.8, z: -7.4 }, view: { p: [8.6, 3.0, 8.0], t: [6.8, 1.6, -6.4] } },
     { id: 'novedades', label: 'Novedades', color: '#ff8a3c', zone: 0xff8a3c, pos: { x: -10.8, z: 0.6 }, view: { p: [-12.2, 2.9, 7.4], t: [-10.6, 1.2, 0.9] } },
     { id: 'ofertas', label: 'Ofertas Flash', color: '#ff4d4d', zone: 0xff4d4d, pos: { x: 10.8, z: 0.6 }, view: { p: [12.2, 2.9, 7.4], t: [10.6, 1.2, 0.9] } },
+    // Vitrina del catálogo interno (almacén/POS): productos que NO están en la
+    // vitrina pública. No se cuelga con las demás: mk-ropa le monta su propia
+    // vitrina y corrige aquí `pos`/`view` cuando sabe dónde ha cabido.
+    { id: 'interno', label: 'Catálogo interno', color: '#6c5ce7', zone: 0x6c5ce7, pos: { x: 46.5, z: -6.0 }, view: { p: [43.0, 2.4, -6.0], t: [46.5, 1.6, -6.0] } },
   ];
 
   // ── Catálogo (productos reales del seed VivaModa) ──────
@@ -47,8 +51,18 @@ window.VRStore = (function () {
     { sku: 'VM-NIN-7721', name: 'Conjunto Active Warm', category: 'Conjuntos', color: 'Active Warm', price: 4450, badge: 'Oferta', zone: 'ofertas', c3d: 0xf7a35c, emoji: '🧒' },
     { sku: 'VM-CAL-9910', name: 'Sneakers Platform Cyber', category: 'Calzado', color: 'Cyber', price: 12900, badge: 'Oferta', zone: 'ofertas', c3d: 0xf5f5f5, emoji: '👟' },
   ];
-  S.bySku = (sku) => S.CATALOG.find((p) => p.sku === sku);
-  S.emojiFor = (p) => p.emoji || '🛍️';
+  S.bySku = (sku) => S.CATALOG.find((p) => p.sku === sku) || S.CATALOG_INTERNO.find((p) => p.sku === sku);
+  // Productos fuera de la vitrina pública (almacén/POS y desactivados).
+  // Los llena S.loadInternalCatalog() y los monta la vitrina de mk-ropa.
+  S.CATALOG_INTERNO = [];
+  // Emoji por categoría para los SKU que llegan EN VIVO desde la API (sin emoji propio)
+  const CATEGORY_EMOJI = {
+    'Vestidos': '👗', 'Vestidos de Noche': '👗', 'Blusas': '👚', 'Camisas': '👔',
+    'Pantalones': '👖', 'Denim': '👖', 'Chaquetas': '🧥', 'Abrigos': '🧥',
+    'Sastrería': '🤵', 'Calzado': '👟', 'Accesorios': '👜', 'Ropa Exterior': '🧥',
+    'Conjuntos': '🧥', 'Oficina': '👔', 'Fiesta': '💃', 'Casual': '👕',
+  };
+  S.emojiFor = (p) => p.emoji || CATEGORY_EMOJI[p && p.category] || '🛍️';
 
   // ── Registro de partes ──────────────────────────────────
   S.builders = [];
@@ -64,7 +78,122 @@ window.VRStore = (function () {
   S.tour = false;
   S.tourAngle = 0;
 
-  // ── Motor ───────────────────────────────────────────────
+  // ── Catálogo EN VIVO por zona (tallas + stock reales) ───
+  // La lista S.CATALOG de arriba es el respaldo de demo. Al arrancar se le
+  // pide a la API el catálogo real de cada zona y se reemplaza; si la API no
+  // responde (servidor apagado, sin base), la tienda sigue con el respaldo.
+  S.catalogReady = null; // promesa que resuelve cuando el catálogo en vivo terminó (o falló)
+  const PALETA_C3D = [0xe4006c, 0x2f54d0, 0xf0a832, 0x4b41e1, 0x2f9e73, 0xd4af37, 0xa02a5e, 0x5b8dd6, 0xe07a5f, 0x6c5ce7, 0x00b894, 0x8e44ad];
+  const hash = (s) => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; };
+  const MAX_POR_ZONA = 6, MIN_POR_ZONA = 4;
+
+  // El orden importa: novedades/ofertas son las más curadas y reclaman sus SKU
+  // primero; las zonas por género se llenan con lo que quede (así la misma
+  // prenda no cuelga dos veces salvo que una zona se quede muy corta).
+  const ZONAS_API = [
+    ['novedades', (n) => `novedades=true&sort=news&limit=${n}`],
+    ['ofertas', (n) => `ofertas=true&sort=pop&limit=${n}`],
+    ['damas', (n) => `gender=damas&sort=news&limit=${n}`],
+    ['caballeros', (n) => `gender=caballeros&sort=news&limit=${n}`],
+    ['ninos', (n) => `gender=ninos&sort=news&limit=${n}`],
+  ];
+
+  S.loadRealCatalog = async function () {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 8000);
+    const previos = new Map(S.CATALOG.map((p) => [p.sku, p]));
+    const usados = new Set();
+    const nuevos = [];
+    try {
+      const lotes = await Promise.all(ZONAS_API.map(async ([zone, q]) => {
+        const res = await fetch('/api/products?' + q(MAX_POR_ZONA * 3), { signal: ctrl.signal });
+        if (!res.ok) throw new Error('API ' + res.status);
+        const j = await res.json();
+        return { zone, items: Array.isArray(j.items) ? j.items : [] };
+      }));
+      for (const { zone, items } of lotes) {
+        const sel = [];
+        for (const it of items) {         // primero: sin repetir SKU entre zonas
+          if (sel.length >= MAX_POR_ZONA) break;
+          if (usados.has(it.sku)) continue;
+          sel.push(it); usados.add(it.sku);
+        }
+        if (sel.length < MIN_POR_ZONA) {  // zona corta: se admite reuso de SKU
+          for (const it of items) {
+            if (sel.length >= MIN_POR_ZONA) break;
+            if (!sel.includes(it)) sel.push(it);
+          }
+        }
+        for (const it of sel) {
+          const prev = previos.get(it.sku) || {};
+          nuevos.push({
+            sku: it.sku,
+            name: it.name || prev.name || it.sku,
+            category: it.category || prev.category || 'Moda',
+            color: (Array.isArray(it.colors) && it.colors[0]) || prev.color || 'VivaModa',
+            price: Number.isFinite(Number(it.price)) ? Number(it.price) : (prev.price || 0),
+            compareAt: it.compareAt != null ? Number(it.compareAt) : (prev.compareAt != null ? prev.compareAt : null),
+            badge: it.badge || null,
+            zone,
+            c3d: prev.c3d || PALETA_C3D[hash((it.category || '') + '|' + (it.name || '')) % PALETA_C3D.length],
+            emoji: prev.emoji || S.emojiFor(it),
+            image: it.image || prev.image || null,
+            sizes: Array.isArray(it.sizes) ? it.sizes : [],
+            stockBySize: it.stockBySize && typeof it.stockBySize === 'object' ? it.stockBySize : {},
+            stockTotal: Number.isFinite(Number(it.stockTotal)) ? Number(it.stockTotal) : null,
+          });
+        }
+      }
+      if (nuevos.length >= 8) {
+        S.CATALOG = nuevos;
+        console.info(`[TiendaVR] catálogo en vivo: ${nuevos.length} prendas repartidas en ${ZONAS_API.length} zonas`);
+      } else {
+        console.warn('[TiendaVR] la API devolvió muy pocas prendas; se conserva el catálogo local');
+      }
+    } finally {
+      clearTimeout(timer);
+    }
+  };
+
+  // ── Catálogo interno (almacén/POS) ──────────────────────
+  // Los productos que no están en la vitrina pública no pueden colgarse en los
+  // 5 rieles, pero tampoco se quedan sin ver: la tienda les monta su propia
+  // vitrina. El endpoint los sirve aparte para no cambiar el catálogo público
+  // (web, buscador, estilista y POS siguen viendo lo mismo).
+  S.loadInternalCatalog = async function () {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 8000);
+    try {
+      const res = await fetch('/api/vr/catalogo-interno?limit=40', { signal: ctrl.signal });
+      if (!res.ok) throw new Error('API ' + res.status);
+      const j = await res.json();
+      const items = Array.isArray(j.items) ? j.items : [];
+      S.CATALOG_INTERNO = items.map((it) => ({
+        sku: it.sku,
+        name: it.name || it.sku,
+        category: it.category || 'Moda',
+        color: (Array.isArray(it.colors) && it.colors[0]) || 'VivaModa',
+        price: Number.isFinite(Number(it.price)) ? Number(it.price) : 0,
+        compareAt: it.compareAt != null ? Number(it.compareAt) : null,
+        badge: it.badge || null,
+        zone: 'interno',
+        c3d: PALETA_C3D[hash((it.category || '') + '|' + (it.name || '')) % PALETA_C3D.length],
+        emoji: S.emojiFor(it),
+        image: it.image || null,
+        sizes: Array.isArray(it.sizes) ? it.sizes : [],
+        stockBySize: it.stockBySize && typeof it.stockBySize === 'object' ? it.stockBySize : {},
+        stockTotal: Number.isFinite(Number(it.stockTotal)) ? Number(it.stockTotal) : null,
+        // Un producto desactivado se expone pero no se puede comprar.
+        missing: it.isActive === false,
+      }));
+      console.info(`[TiendaVR] catálogo interno: ${S.CATALOG_INTERNO.length} productos fuera de la vitrina pública`);
+    } catch (err) {
+      console.warn('[TiendaVR] catálogo interno no disponible:', err.message);
+    } finally {
+      clearTimeout(timer);
+    }
+  };
+
   const canvas = document.getElementById('sceneCanvas');
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -229,35 +358,15 @@ window.VRStore = (function () {
 
   // ── Inicio ──────────────────────────────────────────────
   S.init = function () {
-    // Precios, nombres, tallas y fotos REALES desde la API.
-    // OJO: los valores de S.CATALOG son heredados de cuando la tienda operaba
-    // en pesos (el vestido Atelier figuraba en 189.900 y su precio real es
-    // 48,99 USD), así que hay que sobrescribirlos o la tarjeta mentiría sobre
-    // lo que luego cobra el carrito.
-    fetch('/api/products?limit=100')
-      .then((r) => r.json())
-      .then((j) => {
-        const vistos = new Set();
-        (j.items || []).forEach((p) => {
-          const v = S.bySku(p.sku);
-          if (!v) return;
-          vistos.add(v.sku);
-          v.image = p.image || v.image;
-          v.name = p.name || v.name;
-          v.category = p.category || v.category;
-          if (Number.isFinite(Number(p.price))) v.price = Number(p.price);
-          v.compareAt = Number.isFinite(Number(p.compareAt)) ? Number(p.compareAt) : null;
-          v.sizes = Array.isArray(p.sizes) ? p.sizes : [];
-          v.stockTotal = Number(p.stockTotal || 0);
-          v.badge = p.badge || v.badge;
-        });
-        // SKUs del catálogo VR que ya no existen en la tienda: no se pueden
-        // comprar, así que la tarjeta desactiva el botón en vez de fallar.
-        S.CATALOG.forEach((v) => { if (!vistos.has(v.sku)) v.missing = true; });
-        const faltan = S.CATALOG.filter((v) => v.missing).length;
-        if (faltan) console.warn(`[TiendaVR] ${faltan} SKU(s) del catálogo no existen en la tienda y no se podrán comprar`);
-      })
-      .catch(() => {});
+    // Catálogo REAL por zona (tallas + stock) antes de montar la escena:
+    // mk-ropa espera esta promesa para colgar las prendas en los rieles.
+    // Si la API no responde, la promesa resuelve igual (se usa el respaldo).
+    S.catalogReady = S.loadRealCatalog().catch((err) => {
+      console.warn('[TiendaVR] catálogo en vivo no disponible, uso el respaldo local:', err.message);
+    });
+    // Los productos fuera de la vitrina pública (almacén/POS) se piden aparte;
+    // si la API no responde, la tienda simplemente no monta esa vitrina.
+    S.catalogInternoReady = S.loadInternalCatalog();
     S.build();
     animate();
   };

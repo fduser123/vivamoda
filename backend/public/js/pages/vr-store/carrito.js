@@ -7,6 +7,10 @@
 
    - La bolsa se guarda en localStorage, así que sobrevive a un
      recargado y no exige sesión para ir llenándola.
+   - Se abre desde tres sitios y los tres llevan al MISMO panel: la pestaña
+     lateral «Mi selección» (siempre visible, con el contador), el botón
+     «Bolsa» de arriba y el botón «Ver mi selección (N)» de la tarjeta de
+     producto, que aparece al añadir para no perder de vista lo elegido.
    - Al pagar SÍ hace falta sesión de cliente: el carrito y los
      pedidos de la API están detrás de requireAuth (ver
      src/routes/cart.js y src/routes/orders.js). Es el mismo
@@ -95,6 +99,16 @@
     }
     const pc = $('bagPanelCount');
     if (pc) pc.textContent = n ? `· ${n} ${n === 1 ? 'prenda' : 'prendas'}` : '';
+
+    // Pestaña lateral: queda claro cuántas prendas llevas elegidas
+    const badgeTab = $('bagTabCount');
+    if (badgeTab) {
+      badgeTab.textContent = String(n);
+      badgeTab.classList.toggle('hidden', n === 0);
+      badgeTab.classList.toggle('flex', n > 0);
+    }
+    const etiqueta = $('cardGoBagLabel');
+    if (etiqueta) etiqueta.textContent = n ? `Ver mi selección (${n})` : 'Ver mi selección';
 
     const hay = items.length > 0;
     $('bagEmpty')?.classList.toggle('hidden', hay);
@@ -201,6 +215,8 @@
   // ── Cableado de la interfaz ──────────────────────────────
   function wire() {
     $('bagBtn')?.addEventListener('click', alternar);
+    $('bagTab')?.addEventListener('click', alternar);
+    $('cardGoBag')?.addEventListener('click', abrir);
     $('bagClose')?.addEventListener('click', cerrar);
     $('bagCheckout')?.addEventListener('click', checkout);
 

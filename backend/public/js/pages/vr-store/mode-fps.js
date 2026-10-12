@@ -67,6 +67,10 @@
     modeBtn.classList.toggle('active', mode !== 'orbit');
   }
 
+  // Expuesto para que otros módulos (p. ej. el probador) puedan pedir el modo
+  // avatar sin depender del ciclo del botón.
+  window.VRStoreSetMode = setMode;
+
   function init() {
     let stored = null;
     try { stored = localStorage.getItem(STORE_KEY_MODE); } catch (_) {}
@@ -81,6 +85,20 @@
     modeBtn.addEventListener('click', () => {
       const i = ORDEN.indexOf(currentMode);
       setMode(ORDEN[(i + 1) % ORDEN.length]);
+    });
+
+    // Pulsar WASD en modo Catálogo (o si la página quedó guardada en ese modo)
+    // enciende el Avatar y empieza a caminar: antes esas teclas no hacían nada
+    // y el usuario no tenía forma de manejar al personaje. En FPS se respeta el
+    // control en primera persona.
+    const WASD = ['KeyW', 'KeyA', 'KeyS', 'KeyD'];
+    document.addEventListener('keydown', (e) => {
+      if (currentMode !== 'orbit' || WASD.indexOf(e.code) < 0) return;
+      const t = e.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+      if (t && t.tagName === 'SELECT') t.blur();
+      setMode('avatar');
+      if (window.VM && VM.toast) VM.toast('Modo Avatar: muévete con W A S D · E para ver la prenda', 'directions_walk');
     });
 
     // Envoltorios que espera el resto del código

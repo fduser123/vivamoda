@@ -19,71 +19,36 @@ VRStore.part('interaccion', function (S, g) {
   scene.add(ring);
   S.ring = ring;
 
-  // ── Panel de foto flotante (holo en la escena) ───────────
-  const photoPanel = new THREE.Sprite(new THREE.SpriteMaterial({ transparent: true, depthWrite: false, opacity: 0 }));
-  photoPanel.scale.set(4, 5, 1);
-  photoPanel.visible = false;
-  photoPanel.position.set(0, 2.6, 9);
-  scene.add(photoPanel);
-  S.photoPanel = photoPanel;
-  let panelShown = false, panelToken = 0;
-  S.panelShown = false;
-
-  function placeholderTexture(prod) {
-    const c = document.createElement('canvas'); c.width = 480; c.height = 600;
-    const x = c.getContext('2d');
-    const col = '#' + prod.c3d.toString(16).padStart(6, '0');
-    const grd = x.createLinearGradient(0, 0, 0, 600);
-    grd.addColorStop(0, col); grd.addColorStop(0.6, '#3a1f3d'); grd.addColorStop(1, '#1c121f');
-    x.fillStyle = grd; x.fillRect(0, 0, 480, 600);
-    x.fillStyle = 'rgba(255,255,255,0.16)'; x.beginPath(); x.arc(240, 235, 130, 0, Math.PI * 2); x.fill();
-    x.font = '120px serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
-    x.fillText(S.emojiFor(prod), 240, 235);
-    x.fillStyle = 'rgba(255,255,255,0.94)'; x.font = '700 34px "Plus Jakarta Sans", Arial, sans-serif';
-    x.fillText('Foto próximamente', 240, 500);
-    const tex = new THREE.CanvasTexture(c); tex.encoding = THREE.sRGBEncoding;
-    return tex;
-  }
-
-  function hidePhoto() {
-    panelShown = false; S.panelShown = false; panelToken++;
-    photoPanel.visible = false;
-    if (photoPanel.material.map) { photoPanel.material.map.dispose(); photoPanel.material.map = null; }
-  }
-
-  function showPhoto(prod) {
-    hidePhoto();
-    const token = panelToken;
-    const apply = (tex, w, h) => {
-      if (token !== panelToken) return;
-      photoPanel.material.map = tex;
-      photoPanel.material.needsUpdate = true;
-      photoPanel.material.opacity = 1;
-      photoPanel.scale.set(w, h, 1);
-      photoPanel.visible = true;
-      panelShown = true; S.panelShown = true;
-    };
-    if (!prod.image) { apply(placeholderTexture(prod), 3.8, 4.75); return; }
-    new THREE.TextureLoader().load(prod.image, (tex) => {
-      tex.encoding = THREE.sRGBEncoding;
-      const a = tex.image && tex.image.height ? tex.image.width / tex.image.height : 0.8;
-      apply(tex, 4.5 * a, 4.5);
-    }, undefined, () => { apply(placeholderTexture(prod), 3.8, 4.75); });
-  }
-  S.showPhoto = showPhoto;
-  S.hidePhoto = hidePhoto;
+  // Aquí vivía el «panel de foto flotante»: un sprite con la foto del producto
+  // que se colocaba delante de la cámara al tocar una prenda. Se eliminó porque
+  // tapaba justo los modelos 3D que se acaban de generar. La foto del producto
+  // sigue estando en la tarjeta (esquina inferior derecha), que es donde se
+  // decide la compra.
 
   // ── Picking (hover y clic) ───────────────────────────────
   const raycaster = new THREE.Raycaster();
   const ndc = new THREE.Vector2();
   let hovered = null, dragStart = null;
 
+  // El rayo entra por las mallas hijas (una prenda es un grupo con mallas
+  // dentro), así que hay que buscar hacia arriba el objeto clicable que lleva
+  // `userData.product`. Antes se devolvía la malla hija y, como el rayo no
+  // bajaba a los hijos (`recursive=false`), tocar una prenda no abría nada.
+  function clicableDe(malla) {
+    let o = malla;
+    while (o) {
+      if (o.userData && o.userData.product) return o;
+      o = o.parent;
+    }
+    return malla;
+  }
+
   function pick(e) {
     const r = canvas.getBoundingClientRect();
     ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     raycaster.setFromCamera(ndc, camera);
-    const hits = raycaster.intersectObjects(S.clickables, false);
-    return hits.length ? hits[0].object : null;
+    const hits = raycaster.intersectObjects(S.clickables, true);
+    return hits.length ? clicableDe(hits[0].object) : null;
   }
 
   function setHover(m) {
@@ -191,8 +156,8 @@ VRStore.part('interaccion', function (S, g) {
   function centerPick() {
     const ndcFPS = new THREE.Vector2(0, 0);
     raycaster.setFromCamera(ndcFPS, S.camera);
-    const hits = raycaster.intersectObjects(S.clickables, false);
-    return hits.length ? hits[0].object : null;
+    const hits = raycaster.intersectObjects(S.clickables, true);
+    return hits.length ? clicableDe(hits[0].object) : null;
   }
 
   // ── Inputs del modo FPS ──────────────────────────────────
@@ -298,8 +263,11 @@ VRStore.part('interaccion', function (S, g) {
     if (S.fps && isPointerDown) {
       const m = centerPick();
       if (m && m.userData.product) {
-        if (m.userData.product) showCard(m.userData.product);
+        showCard(m.userData.product);
         snapLookAt(m.userData.product);
+        isPointerDown = false;
+      } else if (m && m.userData.tryon && S.openTryOn) {
+        S.openTryOn(S.currentProduct || null, 'avatar');
         isPointerDown = false;
       }
     }
@@ -327,6 +295,10 @@ VRStore.part('interaccion', function (S, g) {
       // Si estamos en modo FPS, mostrar la tarjeta un instante y mantener la vista fija
       if (S.fps) snapLookAt(m.userData.product);
       showCard(m.userData.product);
+    } else if (m && m.userData.tryon && S.openTryOn) {
+      // El espejo del Probador Virtual abre la experiencia con la última
+      // prenda elegida (o pide elegir una primero).
+      S.openTryOn(S.currentProduct || null, 'avatar');
     } else {
       hideCard();
     }
@@ -452,7 +424,7 @@ VRStore.part('interaccion', function (S, g) {
     }
     card.classList.remove('hidden');
     markChip(prod.zone);
-    showPhoto(prod);
+    S.currentProduct = prod; // el probador del espejo usa la última prenda abierta
     pintarCompra(prod);
   }
 
@@ -464,27 +436,55 @@ VRStore.part('interaccion', function (S, g) {
 
   function pintarCompra(prod) {
     if (!cardSize || !cardAdd) return;
-    const tallas = Array.isArray(prod.sizes) ? prod.sizes : [];
-    cardSize.innerHTML = tallas.length
-      ? tallas.map((t) => `<option value="${esc(t)}">${esc(t)}</option>`).join('')
+    const tallasTodas = Array.isArray(prod.sizes) ? prod.sizes : [];
+    const sb = prod.stockBySize && typeof prod.stockBySize === 'object' ? prod.stockBySize : null;
+    const conDatos = Boolean(sb && Object.keys(sb).length);
+    // Con datos de stock reales solo se ofrecen las tallas disponibles,
+    // ordenadas como en el resto de la tienda (XS, S, M, L, XL · 36, 37…)
+    const ORDEN_TALLAS = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'U'];
+    const ordenTalla = (a, b) => {
+      const ia = ORDEN_TALLAS.indexOf(a), ib = ORDEN_TALLAS.indexOf(b);
+      if (ia >= 0 && ib >= 0) return ia - ib;
+      if (ia >= 0) return -1;
+      if (ib >= 0) return 1;
+      const na = parseFloat(a), nb = parseFloat(b);
+      if (Number.isFinite(na) && Number.isFinite(nb)) return na - nb;
+      return String(a).localeCompare(String(b));
+    };
+    const disponibles = (conDatos ? tallasTodas.filter((t) => (Number(sb[t]) || 0) > 0) : tallasTodas)
+      .slice().sort(ordenTalla);
+    cardSize.innerHTML = disponibles.length
+      ? disponibles.map((t) => `<option value="${esc(t)}">${esc(t)}${conDatos ? ` · ${Number(sb[t]) || 0} disp.` : ''}</option>`).join('')
       : '<option value="">—</option>';
 
-    // Sin tallas con stock (o sin ficha en la tienda) no se puede comprar
-    const sinStock = !tallas.length || prod.missing;
+    // Sin tallas con stock (o sin ficha en la tienda) no se puede comprar.
+    // Ojo: `false || undefined` es `undefined`, y `classList.toggle(clase,
+    // undefined)` ALTERNA en vez de quitar → el botón aparecía medio
+    // deshabilitado al azar. Con Boolean() el estado es siempre el mismo.
+    const sinStock = Boolean(!disponibles.length || prod.missing);
     cardAdd.disabled = sinStock;
     cardAdd.classList.toggle('opacity-40', sinStock);
     cardAdd.classList.toggle('cursor-not-allowed', sinStock);
-    if (cardStock) {
-      cardStock.textContent = prod.missing
-        ? ''
-        : (tallas.length ? `${tallas.length} talla(s) con stock` : '');
-    }
+
+    const unidades = Number.isFinite(Number(prod.stockTotal)) ? Number(prod.stockTotal) : null;
+    const resumen = [];
+    if (disponibles.length) resumen.push(`${disponibles.length} talla(s) con stock`);
+    if (unidades !== null && unidades > 0) resumen.push(`${unidades} uds. en tiendas`);
+    if (cardStock) cardStock.textContent = prod.missing ? '' : resumen.join(' · ');
     if (cardNoStock) {
       cardNoStock.classList.toggle('hidden', !sinStock);
       cardNoStock.textContent = prod.missing
         ? 'Esta prenda ya no está en la tienda, no se puede comprar.'
         : 'Sin tallas con stock en este momento.';
     }
+
+    // Al cambiar de talla se refresca cuántas unidades quedan de esa talla
+    cardSize.onchange = () => {
+      if (!cardStock || !conDatos) return;
+      const q = Number(sb[cardSize.value]) || 0;
+      cardStock.textContent = `${resumen.join(' · ')} — talla ${cardSize.value}: ${q} uds.`;
+    };
+
     cardAdd.dataset.sku = prod.sku;
   }
 
@@ -496,10 +496,37 @@ VRStore.part('interaccion', function (S, g) {
     };
   }
 
+  // Botón "Probar con IA (mi foto)" de la tarjeta → abre el probador en la pestaña de foto
+  const cardTryOn = document.getElementById('cardTryOn');
+  if (cardTryOn) {
+    cardTryOn.onclick = () => {
+      const prod = S.bySku(cardAdd ? cardAdd.dataset.sku : '') || S.currentProduct || null;
+      if (S.openTryOn) S.openTryOn(prod, 'foto');
+    };
+  }
+
+  // Botón "Probar en mi avatar" → viste la prenda sobre el personaje 3D
+  const cardAvatarTryOn = document.getElementById('cardAvatarTryOn');
+  if (cardAvatarTryOn) {
+    cardAvatarTryOn.onclick = () => {
+      const prod = S.bySku(cardAdd ? cardAdd.dataset.sku : '') || S.currentProduct || null;
+      if (!prod) return;
+      if (!S.wearGarment || !S.wearGarment(prod)) {
+        // el avatar aún no está listo: se abre el probador para reintentarlo ahí
+        if (S.openTryOn) S.openTryOn(prod, 'avatar');
+        return;
+      }
+      if (S.refrescarEspejoAvatar) S.refrescarEspejoAvatar();
+      if (window.VM && window.VM.toast) {
+        window.VM.toast(`${prod.name} puesta en tu avatar — mírate en el espejo 🪞`, 'check_circle');
+      }
+    };
+  }
+
   const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-  function hideCard() { card.classList.add('hidden'); hidePhoto(); }
+  function hideCard() { card.classList.add('hidden'); }
   document.getElementById('cardClose').onclick = hideCard;
   // El avatar en 3ª persona abre la tarjeta al señalar una prenda
   S.showCard = showCard;
@@ -512,13 +539,6 @@ VRStore.part('interaccion', function (S, g) {
 
   // ── Hooks por fotograma ──────────────────────────────────
   S.addAnimate((dt, t) => {
-    // el panel de foto flotante sigue a la cámara
-    if (panelShown) {
-      const dir = camera.getWorldDirection(new THREE.Vector3());
-      const tgt = camera.position.clone().addScaledVector(dir, 6.4);
-      tgt.y -= 0.8;
-      photoPanel.position.lerp(tgt, 0.08);
-    }
     // resplandor del anillo
     if (ring.visible) {
       ring.material.opacity = 0.65 + 0.3 * Math.sin(t * 5);

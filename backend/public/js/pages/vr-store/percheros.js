@@ -8,18 +8,18 @@ VRStore.part('percheros', function (S, g) {
   const rackPoints = {};
 
   function buildRail(x, z, railY, span, n) {
-    const postMat = mat(0x4a3a4d, { metalness: 0.4, roughness: 0.5 });
+    const postMat = mat(0x332a37, { metalness: 0.4, roughness: 0.5 });
     [-span / 2, span / 2].forEach((dx) => {
       const p = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.07, railY, 12), postMat);
       p.position.set(x + dx, railY / 2, z);
       g.add(p);
     });
-    const bar = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, span + 0.2, 12), mat(0x6b556f, { metalness: 0.55, roughness: 0.4 }));
+    const bar = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, span + 0.2, 12), mat(0x4a3d4f, { metalness: 0.55, roughness: 0.4 }));
     bar.rotation.z = Math.PI / 2;
     bar.position.set(x, railY, z);
     g.add(bar);
     // perchas (ganchos) colgando de la barra
-    const hookMat = mat(0x999999, { metalness: 0.75, roughness: 0.3 });
+    const hookMat = mat(0x6e6a72, { metalness: 0.75, roughness: 0.3 });
     for (let i = 0; i < n; i++) {
       const hx = x + (i - (n - 1) / 2) * (span / n);
       const hook = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.34, 8), hookMat);

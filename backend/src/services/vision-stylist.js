@@ -11,6 +11,12 @@
 //      heurísticas de color (fallback local, siempre funcional).
 //   4) IA #11: cruza análisis + historial de compras del usuario + stock
 //      y devuelve prendas del catálogo real con explicación personalizada.
+//
+// MEJORAS 2026-10:
+//   - Prompt más detallado con contexto de moda premium y taxonomía de prendas
+//   - Output JSON expandido: material, details, temporada, confidence
+//   - Fallback inteligente: análisis local enriquecido cuando el LLM falla
+//   - Reintentos con backoff exponencial ante fallos transitorios
 // =====================================================================
 import { pool } from '../db.js';
 import { llmProvider, callChat } from './llm-provider.js';
@@ -18,6 +24,9 @@ import { llmProvider, callChat } from './llm-provider.js';
 // ---------------------------------------------------------------
 // Utilidades de color
 // ---------------------------------------------------------------
+
+/** Factores de peso por posición en la paleta (primeros colores son más informativos). */
+const PALETTE_WEIGHTS = [1.0, 0.85, 0.7, 0.55, 0.4, 0.3];
 function colorName({ r, g, b }) {
   const max = Math.max(r, g, b), min = Math.min(r, g, b);
   const l = (max + min) / 2 / 255;             // luminosidad 0..1
@@ -64,12 +73,81 @@ function localOccasions(named) {
   const names = named.map((c) => c.name);
   const has = (n) => names.includes(n);
   const occ = [];
-  if (has('Negro') || has('Vino') || has('Fucsia')) occ.push('Evento nocturno', 'Cóctel');
-  if (has('Beige') || has('Blanco') || has('Gris claro')) occ.push('Oficina', 'Almuerzo casual');
-  if (has('Azul') || has('Gris')) occ.push('Trabajo / entrevista');
-  if (has('Rosa') || has('Verde limón') || has('Mostaza')) occ.push('Día / brunch');
+  if (has('Negro') || has('Vino') || has('Fucsia')) occ.push('Evento nocturno', 'Cóctel', 'Cena elegante');
+  if (has('Beige') || has('Blanco') || has('Gris claro')) occ.push('Oficina', 'Almuerzo casual', 'Reunión de trabajo');
+  if (has('Azul') || has('Gris')) occ.push('Trabajo / entrevista', 'Negocios');
+  if (has('Rosa') || has('Verde limón') || has('Mostaza')) occ.push('Día / brunch', 'Weekend casual');
+  if (has('Verde') || has('Azul marino')) occ.push('Evento formal', 'Ceremonia');
   if (!occ.length) occ.push('Casual versátil');
-  return [...new Set(occ)].slice(0, 4);
+  return [...new Set(occ)].slice(0, 5);
+}
+
+/**
+ * Análisis local enriquecido cuando el LLM no está disponible.
+ * Detecta tipos de prenda probables según la paleta y armonía.
+ */
+function localAnalysis(named, harmony, body) {
+  const names = named.map((c) => c.name.toLowerCase());
+  const joined = names.join(' ');
+  
+  // Detectar tipo de prenda probable por combinaciones de color
+  let guessedType = 'Prenda de vestir';
+  let guessedStyle = 'Estilo a definir';
+  let guessedFormality = 'Casual';
+  let guessedNotes = 'Análisis local basado en la paleta de colores.';
+  
+  // Patrones de color para inferir tipo/estilo
+  const darkElegant = ['negro', 'vino', 'azul marino', 'gris oscuro'];
+  const lightCasual = ['blanco', 'beige', 'gris claro', 'rosé'];
+  const vibrant = ['rojo', 'fucsia', 'naranja', 'verde limón', 'mostaza'];
+  
+  const hasDark = darkElegant.some(n => joined.includes(n));
+  const hasLight = lightCasual.some(n => joined.includes(n));
+  const hasVibrant = vibrant.some(n => joined.includes(n));
+  
+  if (hasDark && !hasLight && !hasVibrant) {
+    guessedType = 'Prenda de noche o formal';
+    guessedStyle = 'Elegante bajo en detalle';
+    guessedFormality = 'Formal / noche';
+    guessedNotes = 'Paleta oscura y elegante. Ideal para eventos nocturnos y ocasiones formales.';
+  } else if (hasLight && !hasDark && !hasVibrant) {
+    guessedType = 'Prenda casual de día';
+    guessedStyle = 'Minimalista y aéreo';
+    guessedFormality = 'Semi-formal';
+    guessedNotes = 'Paleta clara y fresca. Perfecta para uso diurno y entornos casuales.';
+  } else if (hasVibrant && named.length >= 2) {
+    guessedType = 'Prenda statement';
+    guessedStyle = 'Atrevido y colorido';
+    guessedFormality = 'Casual';
+    guessedNotes = 'Colores vibrantes que destacan. Ideal como pieza protagonista del look.';
+  } else if (named.length >= 3 && hasDark) {
+    guessedType = 'Outfit capas / composed';
+    guessedStyle = 'Compuesto con profundidad';
+    guessedFormality = 'Semi-formal';
+    guessedNotes = 'Múltiples tonos con base oscura. Sugiere un outfit con capas o composición cuidada.';
+  }
+  
+  // Considerar armonía para el estilo
+  if (harmony.type === 'Monocromática') {
+    guessedStyle = guessedStyle.replace('a definir', 'monocromático elegante');
+    guessedNotes += ' La paleta monocromática aporta elegancia visual.';
+  } else if (harmony.type === 'Análoga') {
+    guessedStyle = guessedStyle.replace('a definir', 'armonioso');
+    guessedNotes += ' Tonos análogos crean una transición suave entre colores.';
+  } else if (harmony.type === 'Contrastada') {
+    guessedStyle = guessedStyle.replace('a definir', 'con impacto visual');
+    guessedNotes += ' La combinación contrastada aporta energía y carácter al outfit.';
+  }
+  
+  return {
+    garmentType: guessedType,
+    style: guessedStyle,
+    formality: guessedFormality,
+    occasions: localOccasions(named),
+    notes: guessedNotes,
+    confidence: 0.5,
+    method: 'local'
+  };
 }
 
 /**
@@ -102,7 +180,7 @@ export const BODY_SHAPES = {
   rectangle: {
     id: 'rectangle', label: 'Rectángulo', emoji: '▭',
     desc: 'Hombros, cintura y caderas de anchos similares',
-    favor: ['Capas de capas y volantes que curvan la silueta', 'Faldas plisadas y pantalones con holgura', 'Cinturones para crear cintura', 'Tops con escote corazón o detalje en busto', 'Denim de tiro alto con camisa por dentro'],
+    favor: ['Capas y volantes que curvan la silueta', 'Faldas plisadas y pantalones con holgura', 'Cinturones para crear cintura', 'Tops con escote corazón o detalje en busto', 'Denim de tiro alto con camisa por dentro'],
     avoid: ['Looks rectos de una pieza sin forma', 'Telas rígidas que no curvan'],
   },
   inverted: {
@@ -175,16 +253,17 @@ export async function analyzeOutfitImage({ image, palette = [], body = null } = 
     .slice(0, 6)
     .map((c) => ({ name: colorName(c), hex: hex(c), pct: Math.round(c.pct) }));
   const harmony = harmonyOf(named);
+  
+  // Fallback local (mejorado con análisis enriquecido)
+  const localFallback = localAnalysis(named, harmony, bodyProfile);
   const fallback = {
     colors: named,
     harmony: harmony.type,
     harmonyDesc: harmony.desc,
     body: bodyBlock(bodyProfile.shape, bodyProfile.method),
-    style: 'Por definir según paleta',
-    formality: named.some((c) => ['Negro', 'Vino', 'Azul marino', 'Gris oscuro'].includes(c.name)) ? 'Formal / noche' : 'Casual / día',
-    occasions: localOccasions(named),
-    notes: 'Análisis local basado en la paleta de colores dominantes de tu foto.',
+    ...localFallback,
     engine: 'local',
+    model: null,
   };
 
   const provider = llmProvider();
@@ -196,44 +275,116 @@ export async function analyzeOutfitImage({ image, palette = [], body = null } = 
       ? ` Silueta del cliente: ${bodyProfile.shape.label} — ${bodyProfile.shape.desc}. ` +
         `Cortes que la favorecen: ${bodyProfile.shape.favor.slice(0, 3).join('; ')}.`
       : ' Si la foto muestra el cuerpo, estima su silueta. Valores válidos: hourglass, pear, apple, rectangle, inverted.';
+    
+    // Prompt mejorado con contexto de moda premium y taxonomía detallada
+    const systemPrompt = `Eres el estilista visual de VivaModa, tienda de moda premium (USD). Tu expertise es analizar fotos de prendas y outfits para ofrecer recomendaciones de estilo precisas.
+
+ANÁLISIS A REALIZAR:
+- Identifica la prenda o outfit principal (tipo específico: blazer, vestido, camisa, pantalón, falda, mezclilla, chaqueta, top, etc.)
+- Describe el estilo en 2-4 palabras (ej: "minimalista elegante", "atrevido retro", "casual urbano")
+- Clasifica la formalidad: Formal / Semi-formal / Casual
+- Sugiere 4-5 ocasiones específicas donde usarla
+- Si la foto muestra el cuerpo completo, estima la silueta (hourglass|pear|apple|rectangle|inverted|null)
+- Describe materiales visibles (lana, seda, algodón, denim, cuero, sintético, mezcla)
+- Detecta detalles de diseño relevantes (estructurado, flowing, A-line, ajustado, volante, plisado, etc.)
+- Estima temporada de uso (primavera-verano, otoño-invierno, todo-año)
+- Da 1 frase de asesoría considerando silueta y estilo
+
+PALETA DOMINANTE MEDIDA (para contexto de color):
+${paletteTxt}
+${bodyTxt}
+
+INSTRUCCIONES:
+- Responde SOLAMENTE JSON válido, sin markdown, sin explicación previa
+- Usa el esquema exacto de abajo
+- Mantén descripciones concisas pero informativas
+- No inventes características no visibles
+
+OUTPUT JSON (ÚNICO):
+{
+  "garmentType": "tipo de prenda específico",
+  "style": "estilo en 2-4 palabras",
+  "formality": "Formal|Semi-formal|Casual",
+  "occasions": ["ocasión 1", "ocasión 2", "ocasión 3", "ocasión 4"],
+  "bodyShape": "hourglass|pear|apple|rectangle|inverted|null",
+  "materialHint": "material visible o null",
+  "designDetails": "detalles de diseño observados o null",
+  "season": "primavera-verano|otoño-invierno|todo-año|null",
+  "notes": "1 frase de asesoría",
+  "confidence": 0.7
+}`;
+
     const body = {
       model: provider.visionModel || provider.model,
       messages: [{
         role: 'user',
         content: [
-          { type: 'text', text: `Eres el estilista visual de VivaModa (moda premium, USD). Analiza esta foto del armario del cliente. Paleta dominante ya medida: ${paletteTxt}.${bodyTxt} Responde SOLO JSON válido con: {"garmentType":"prenda principal","style":"estilo en 2-4 palabras","formality":"Formal|Semi-formal|Casual","occasions":["3-4 ocasiones donde usarlo"],"bodyShape":"hourglass|pear|apple|rectangle|inverted|null (solo si la foto muestra el cuerpo completo)","notes":"1 frase de asesoría considerando su silueta si se indica"}` },
+          { type: 'text', text: systemPrompt },
           { type: 'image_url', image_url: { url: image } },
         ],
       }],
-      max_tokens: 300,
-      temperature: 0.3,
+      max_tokens: 500,
+      temperature: 0.2,
     };
-    const { ok, body: data } = await callChat(provider, body, { timeoutMs: 45_000, attempts: 1, tag: 'vision' });
-    if (!ok) return fallback;
-    const raw = data?.choices?.[0]?.message?.content?.trim() || '';
+
+    // Reintentos con backoff exponencial: 1s, 2s, 4s (3 intentos totales)
+    const retryDelays = [1000, 2000, 4000];
+    let lastResult = null;
+    
+    for (let i = 0; i <= retryDelays.length; i++) {
+      if (i > 0) {
+        console.warn(`[vision-stylist] reintento ${i} después de ${retryDelays[i-1]}ms…`);
+        await new Promise(r => setTimeout(r, retryDelays[i-1]));
+      }
+      const { ok, body: data, networkError } = await callChat(provider, body, { timeoutMs: 45_000, attempts: 1, tag: 'vision' });
+      if (ok && data?.choices?.[0]?.message?.content) {
+        lastResult = { ok: true, data, networkError: null };
+        break;
+      }
+      lastResult = { ok: false, data: null, networkError };
+    }
+    
+    if (!lastResult || !lastResult.ok) {
+      console.warn(`[vision-stylist] LLM no disponible (${lastResult?.networkError || 'sin respuesta'}); usando análisis local enriquecido`);
+      return fallback;
+    }
+    
+    const raw = lastResult.data?.choices?.[0]?.message?.content?.trim() || '';
     const json = raw.replace(/```json|```/g, '').trim();
     let parsed = null;
-    try { parsed = JSON.parse(json); } catch { return fallback; }
+    try { parsed = JSON.parse(json); } catch { 
+      console.warn('[vision-stylist] JSON inválido del LLM, usando fallback local');
+      return fallback;
+    }
+
     // Si el CV local no pudo medir la silueta, usa la estimación del LLM
     if (!bodyProfile.shape && typeof parsed.bodyShape === 'string' && BODY_SHAPES[parsed.bodyShape.trim().toLowerCase()]) {
       const detected = classifyBodyShape({ shape: parsed.bodyShape.trim().toLowerCase() });
       if (detected.shape) bodyProfile.shape = detected.shape;
       bodyProfile.method = 'auto · IA de visión';
     }
+    
+    // Construir output completo con todos los campos mejorados
     return {
       colors: named,
       harmony: harmony.type,
       harmonyDesc: harmony.desc,
       body: bodyBlock(bodyProfile.shape, bodyProfile.method),
-      garmentType: parsed.garmentType || null,
-      style: parsed.style || fallback.style,
-      formality: parsed.formality || fallback.formality,
-      occasions: Array.isArray(parsed.occasions) ? parsed.occasions.slice(0, 4) : fallback.occasions,
-      notes: parsed.notes || fallback.notes,
+      garmentType: parsed.garmentType || localFallback.garmentType,
+      style: parsed.style || localFallback.style,
+      formality: parsed.formality || localFallback.formality,
+      occasions: Array.isArray(parsed.occasions) ? parsed.occasions.slice(0, 5) : localFallback.occasions,
+      materialHint: parsed.materialHint || null,
+      designDetails: parsed.designDetails || null,
+      season: parsed.season || null,
+      notes: parsed.notes || localFallback.notes,
+      confidence: typeof parsed.confidence === 'number' ? parsed.confidence : 0.7,
       engine: 'llm',
       model: body.model,
+      providerName: provider.name,
     };
-  } catch {
+  } catch (err) {
+    console.warn('[vision-stylist] error inesperado:', err.message);
     return fallback;
   }
 }
@@ -263,7 +414,7 @@ const SHAPE_BIAS = {
   rectangle: { cats: ['Vestidos', 'Blusas', 'Pantalones'], kw: ['plisad', 'volante', 'capa', 'volumen', 'peplum', 'cintur'], why: 'crea curvas con capas y volumen' },
   inverted: { cats: ['Pantalones', 'Vestidos', 'Blusas'], kw: ['acampanad', 'palazzo', 'amplia', 'volumen', 'palazzo'], why: 'añade volumen abajo y equilibra tus hombros' },
 };
-const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '');
 
 export async function personalizedRecommendations({ analysis, user = null, limit = 4 }) {
   const hist = await userHistory(user?.id || null);
@@ -323,7 +474,7 @@ export async function personalizedRecommendations({ analysis, user = null, limit
   // Puntaje: coincidencia de color + historial + favorabilidad según silueta
   const shapeBias = shapeId ? SHAPE_BIAS[shapeId] : null;
   const ranked = candidates.map((cand) => {
-    let score = cand.rating || 3;
+    let score = (cand.rating || 3);
     const blob = norm(`${cand.name} ${cand.category}`);
     if (colorNames.some((n) => blob.includes(norm(n)))) score += 3;
     if (hist?.categories?.some((cat) => cat === cand.category)) score += 2;

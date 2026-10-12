@@ -4,7 +4,7 @@
    La tienda solo tenía una cámara orbital y un modo FPS sin
    cuerpo. Aquí se añade un personaje real —el mismo avatar
    riggeado de la asesora, con sus clips Idle/Walk— que el cliente
-   pasea con WASD y que SEÑALA la prenda que tiene delante para
+   pasea con WASD y que avisa de la prenda que tiene delante para
    poder verla y añadirla a la bolsa.
 
    Decisiones:
@@ -15,36 +15,43 @@
    - El movimiento se valida contra S.mkNav (el navmesh que ya
      extrae los obstáculos del propio GLB), de modo que el avatar no
      atraviesa paredes, mesas ni percheros.
-   - El gesto de señalar se genera por código sobre los huesos,
-     igual que el "explicando" de la asesora: el GLB no trae ningún
-     clip de señalar que no sea con pistola.
+   - El giro se suaviza: al cambiar de dirección el modelo rota hacia
+     donde camina en lugar de saltar de golpe (antes giraba hasta 180°
+     en un solo fotograma y se veía como un teletransporte).
+   - Al pararse el avatar no gira solo: la única rotación del personaje
+     viene de caminar. Sí mantiene el aviso de la prenda más cercana,
+     para poder abrirla con E.
    ============================================================ */
 VRStore.part('avatar', function (S, g) {
   const MODEL_URL = '/models/asesor/asesor-vivamoda.glb';
   const IDLE = 'Idle_Neutral';
   const WALK = 'Walk';
   const SPEED = 3.1;          // m/s
-  const GIRO = 9;             // suavizado del giro
+  const GIRO = 11;            // rad/s de giro hacia la dirección de avance (media vuelta ≈ 0,4 s)
   const RADIO = 0.34;         // margen de colisión del cuerpo
   const ALCANCE = 3.8;        // distancia a la que señala una prenda
   const ALTURA_CAMARA = 1.15; // a qué altura mira la cámara del avatar
+  // El GLB del asesor mira hacia +Z, no hacia -Z (el frente por defecto de
+  // three.js). Todas las cuentas de orientación llevan por eso media vuelta de
+  // más: sin ella el personaje caminaba mirando al lado contrario de su marcha
+  // y el espejo lo fotografiaba de espaldas.
+  const MEDIA_VUELTA = Math.PI;
 
-  // Pose de señalar (radianes, sobre ejes del MUNDO → se convierte al
-  // espacio local de cada hueso con el cuórum de su padre).
-  const SENALA = {
-    Chest:        { x: 0.0, y: -0.12 },
-    Head:         { x: 0.05 },
-    'UpperArm.R': { x: -0.95, z: 0.10 },
-    'LowerArm.R': { x: -0.10 },
-    'Wrist.R':    { x: 0.0 },
-  };
+  // Nombres de hueso normalizados (three.js quita los puntos: "UpperArm.R" → "UpperArmR")
+  const normName = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 
   const A = {
     root: null, mixer: null, actions: {}, current: null,
     pos: new THREE.Vector3(), yaw: 0, ready: false,
-    moving: false, target: null, senala: 0, objetivoSenala: 0,
-    bones: new Map(), tmp: null, lastClip: null,
+    moving: false, target: null, lastClip: null,
+    allBones: new Map(),   // todos los huesos (para colgar la prenda que se prueba)
+    altura: 1.7, escala: 1, // medidas reales del modelo cargado
+    prenda: null,          // { prod, tipo, partes } de la prenda puesta
+    readyPromise: null, resolveReady: null,
   };
+
+  // Resuelve cuando el GLB del avatar terminó (cargue o falle)
+  A.readyPromise = new Promise((res) => { A.resolveReady = res; });
 
   // El grupo de la parte se añade a la escena YA: el modelo llega por red y
   // para entonces S.build() ya habría decidido no añadir un grupo vacío.
@@ -106,42 +113,42 @@ VRStore.part('avatar', function (S, g) {
     g.add(model);
     A.root = model;
 
+    // Medidas reales del modelo: la ropa del probador se dimensiona con esto
+    const caja = new THREE.Box3().setFromObject(model);
+    const alto = caja.max.y - caja.min.y;
+    A.altura = (alto > 0.6 && alto < 3) ? alto : 1.7;
+    A.escala = A.altura / 1.7;
+
     A.mixer = new THREE.AnimationMixer(model);
     (gltf.animations || []).forEach((clip) => {
       A.actions[clip.name] = A.mixer.clipAction(clip);
     });
 
-    // Huesos que mueve el gesto de señalar.
+    // Se indexan todos los huesos: los usa el probador para colgar la prenda
+    // elegida y para escalarla al cuerpo real del modelo.
     // OJO: three.js sanea los nombres de nodo al cargar el glTF (elimina los
     // caracteres reservados, entre ellos el punto), así que "UpperArm.R" llega
-    // como "UpperArmR". Se comparan los nombres normalizados o solo enganchan
-    // los que no llevan punto (Chest, Head) y el brazo no se mueve.
-    const norm = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-    const porNombre = new Map();
-    model.traverse((o) => { if (o.isBone) porNombre.set(norm(o.name), o); });
-    Object.keys(SENALA).forEach((n) => {
-      const b = porNombre.get(norm(n));
-      if (b) A.bones.set(n, b);
+    // como "UpperArmR": se guardan siempre normalizados.
+    const norm = normName;
+    model.traverse((o) => {
+      if (o.isBone) A.allBones.set(norm(o.name), o);
     });
-    A.tmp = {
-      q: new THREE.Quaternion(), off: new THREE.Quaternion(),
-      padre: new THREE.Quaternion(), world: new THREE.Quaternion(),
-      eje: new THREE.Vector3(),
-    };
 
     // Posición inicial: un punto libre cerca del centro del local
     const mk = S.MK || { cx: 36.9, cz: -5.7, floorY: 0.3 };
     const spawn = puntoLibre(mk.cx, mk.cz, 0.9);
     A.pos.set(spawn.x, mk.floorY ?? 0.3, spawn.z);
-    A.yaw = Math.PI; // mirando hacia el fondo de la tienda
+    A.yaw = Math.PI + MEDIA_VUELTA; // mirando hacia la entrada de la tienda (+Z)
     model.position.copy(A.pos);
     model.rotation.y = A.yaw;
 
     A.ready = true;
     cambiarClip(IDLE, 0);
-    console.log('[TiendaVR] Avatar listo ·', A.actions[IDLE] ? 'con animaciones' : 'sin clips', '· huesos del gesto:', A.bones.size);
+    console.log('[TiendaVR] Avatar listo ·', A.actions[IDLE] ? 'con animaciones' : 'sin clips', '· huesos:', A.allBones.size);
+    A.resolveReady && A.resolveReady(true);
   }, undefined, (err) => {
     console.error('[TiendaVR] No se pudo cargar el avatar del cliente', err);
+    A.resolveReady && A.resolveReady(false);
   });
 
   function cambiarClip(nombre, fade = 0.25) {
@@ -156,25 +163,242 @@ VRStore.part('avatar', function (S, g) {
     A.lastClip = nombre;
   }
 
-  // ── Gesto de señalar (generado por código) ───────────────
-  function aplicarSenala(dt) {
-    if (!A.bones.size) return;
-    A.senala += (A.objetivoSenala - A.senala) * Math.min(1, dt * 6);
-    if (A.senala < 0.002) return;
-    const T = A.tmp;
-    for (const [nombre, spec] of Object.entries(SENALA)) {
-      const hueso = A.bones.get(nombre);
-      if (!hueso || !hueso.parent) continue;
-      T.q.identity();
-      for (const [eje, ang] of Object.entries(spec)) {
-        T.eje.set(eje === 'x' ? 1 : 0, eje === 'y' ? 1 : 0, eje === 'z' ? 1 : 0);
-        T.q.multiply(T.off.setFromAxisAngle(T.eje, ang * A.senala));
+  // ══════════════════════════════════════════════════════
+  //  PROBADOR: la prenda elegida se viste sobre el avatar
+  //  ----------------------------------------------------
+  //  Cada categoría se traduce a una geometría estilizada —igual que las
+  //  prendas de los rieles— del color del producto, colgada del hueso
+  //  correspondiente (pecho, caderas, muslos, pies) para que acompañe el
+  //  caminar. No es un modelo textil real: es una representación.
+  // ══════════════════════════════════════════════════════
+  const PATRONES = [
+    ['vestido', /vestido/],
+    ['falda', /falda/],
+    ['pantalon', /pantal|chino|jean|short|legging|jogger/],
+    ['calzado', /calzado|zapato|sneaker|stiletto|tenis|sandalia|bota|mocasin|zapatilla/],
+    ['chaqueta', /chaqueta|abrigo|bomber|sudadera|hoodie|cardigan|blazer|sastre|parka|trench|chamarra|exterior|sueter|sweater|jersey/],
+    ['accesorio', /accesorio|bolso|mochila|clutch|collar|pulsera|reloj|gafas|sombrero|gorro|cintur|bufanda|corbata|joyeria|aretes|anillo/],
+    ['top', /blusa|camis|top|playera|polo|body|crop|tshirt|chaleco/],
+  ];
+  const tipoDePrenda = (prod) => {
+    const blob = normName(`${prod.category || ''} ${prod.name || ''}`);
+    for (const [tipo, re] of PATRONES) if (re.test(blob)) return tipo;
+    return 'top';
+  };
+
+  function quitarPrenda(recuerda = true) {
+    // OJO: hay que retirar el GRUPO raíz que se añadió al modelo; las piezas
+    // cuelgan de él, no del modelo. Retirar las piezas directamente dejaba el
+    // grupo (y su malla) en escena y las prendas se iban acumulando.
+    if (A.prenda && A.prenda.grupo) {
+      A.root.remove(A.prenda.grupo);
+      A.prenda.grupo.traverse((o) => {
+        if (!o.isMesh) return;
+        if (o.geometry) o.geometry.dispose();
+        const mats = Array.isArray(o.material) ? o.material : [o.material];
+        mats.forEach((m) => m && m.dispose());
+      });
+    }
+    A.prenda = null;
+    if (recuerda) { try { localStorage.removeItem('vivamoda_vr_outfit'); } catch (_) {} }
+  }
+
+  function construirPrenda(prod) {
+    const E = A.escala; // 1.0 = persona de 1,70 m
+    const color = Number.isFinite(Number(prod.c3d)) ? Number(prod.c3d) : 0xe4006c;
+    // envMapIntensity bajo: el entorno blanco de la tienda lavaba el color
+    // del producto (un magenta oscuro se veía casi pastel)
+    const tela = () => S.mat(color, { roughness: 0.9, metalness: 0.02, envMapIntensity: 0.35 });
+    const remate = () => S.mat(0x222227, { roughness: 0.7, metalness: 0.1 });
+    const tipo = tipoDePrenda(prod);
+    const hueso = (n) => A.allBones.get(n) || null;
+    const partes = [];
+
+    const pieza = (bone, mesh, off) => {
+      const grupo = new THREE.Group();
+      mesh.position.set(off.x, off.y, off.z);
+      mesh.castShadow = true;
+      grupo.add(mesh);
+      partes.push({ grupo, bone });
+    };
+
+    switch (tipo) {
+      case 'vestido':
+        // radios holgados: el modelo viste camisa y pantalón propios, la
+        // prenda probada debe quedar por ENCIMA de esa ropa
+        pieza(hueso('chest') || hueso('torso') || hueso('hips'),
+          new THREE.Mesh(new THREE.CylinderGeometry(0.25 * E, 0.42 * E, 1.04 * E, 14), tela()),
+          { x: 0, y: -0.52 * E, z: 0 });
+        break;
+      case 'falda':
+        pieza(hueso('hips'),
+          new THREE.Mesh(new THREE.CylinderGeometry(0.23 * E, 0.36 * E, 0.54 * E, 14), tela()),
+          { x: 0, y: -0.28 * E, z: 0 });
+        break;
+      case 'pantalon':
+        pieza(hueso('upperlegl'),
+          new THREE.Mesh(new THREE.CylinderGeometry(0.105 * E, 0.09 * E, 0.74 * E, 10), tela()),
+          { x: 0, y: -0.34 * E, z: 0 });
+        pieza(hueso('upperlegr'),
+          new THREE.Mesh(new THREE.CylinderGeometry(0.105 * E, 0.09 * E, 0.74 * E, 10), tela()),
+          { x: 0, y: -0.34 * E, z: 0 });
+        break;
+      case 'calzado':
+        pieza(hueso('footl'), new THREE.Mesh(new THREE.BoxGeometry(0.12 * E, 0.075 * E, 0.26 * E), tela()), { x: 0, y: 0.02 * E, z: -0.05 * E });
+        pieza(hueso('footr'), new THREE.Mesh(new THREE.BoxGeometry(0.12 * E, 0.075 * E, 0.26 * E), tela()), { x: 0, y: 0.02 * E, z: -0.05 * E });
+        break;
+      case 'chaqueta': {
+        pieza(hueso('chest') || hueso('torso'),
+          new THREE.Mesh(new THREE.CylinderGeometry(0.26 * E, 0.29 * E, 0.64 * E, 14), tela()),
+          { x: 0, y: -0.26 * E, z: 0 });
+        const cuello = new THREE.Mesh(new THREE.TorusGeometry(0.085 * E, 0.02 * E, 8, 16), remate());
+        cuello.rotation.x = Math.PI / 2;
+        pieza(hueso('neck') || hueso('chest'), cuello, { x: 0, y: 0.03 * E, z: -0.01 * E });
+        break;
       }
-      hueso.parent.getWorldQuaternion(T.padre);
-      T.world.copy(T.padre).invert().multiply(T.q).multiply(T.padre);
-      hueso.quaternion.premultiply(T.world);
+      case 'accesorio': {
+        if (/cintur/.test(normName(prod.name))) {
+          const cinto = new THREE.Mesh(new THREE.TorusGeometry(0.20 * E, 0.026 * E, 8, 22), tela());
+          cinto.rotation.x = Math.PI / 2;
+          pieza(hueso('abdomen') || hueso('hips'), cinto, { x: 0, y: 0, z: 0 });
+        } else {
+          pieza(hueso('hips') || hueso('abdomen'),
+            new THREE.Mesh(new THREE.BoxGeometry(0.20 * E, 0.15 * E, 0.07 * E), tela()),
+            { x: 0.27 * E, y: -0.10 * E, z: -0.02 * E });
+        }
+        break;
+      }
+      default: // top / blusa / camisa / prenda genérica
+        pieza(hueso('chest') || hueso('torso') || hueso('hips'),
+          new THREE.Mesh(new THREE.CylinderGeometry(0.24 * E, 0.27 * E, 0.56 * E, 14), tela()),
+          { x: 0, y: -0.22 * E, z: 0 });
+    }
+
+    const grupoRaiz = new THREE.Group();
+    partes.forEach((p) => grupoRaiz.add(p.grupo));
+    return { grupo: grupoRaiz, partes, tipo };
+  }
+
+  // La prenda sigue al hueso del que cuelga (posición de mundo → local del avatar)
+  const vSync = new THREE.Vector3();
+  function sincronizarPrenda() {
+    if (!A.prenda || !A.root) return;
+    A.root.updateMatrixWorld(true);
+    for (const p of A.prenda.partes) {
+      if (!p.bone) continue;
+      p.bone.getWorldPosition(vSync);
+      p.grupo.position.copy(A.root.worldToLocal(vSync));
     }
   }
+
+  S.wearGarment = function (prod, opts = {}) {
+    if (!A.ready || !A.root || !prod) return false;
+    quitarPrenda(false);
+    const armado = construirPrenda(prod);
+    A.root.add(armado.grupo);
+    A.prenda = { prod, ...armado };
+    try { localStorage.setItem('vivamoda_vr_outfit', prod.sku); } catch (_) {}
+    sincronizarPrenda();
+    if (!opts.silencioso) console.info(`[TiendaVR] Probador: "${prod.name}" puesta en el avatar`);
+    return true;
+  };
+
+  S.removeGarment = function () { quitarPrenda(true); };
+  S.currentGarment = () => (A.prenda ? { sku: A.prenda.prod.sku, name: A.prenda.prod.name, tipo: A.prenda.tipo } : null);
+
+  // Instantánea frontal del avatar (para el espejo del probador)
+  S.avatarSnapshot = function (w = 512, h = 768) {
+    if (!A.ready || !A.root) return null;
+    try {
+      const centro = new THREE.Vector3(A.pos.x, A.pos.y + A.altura * 0.52, A.pos.z);
+      const dist = A.altura * 1.75;
+
+      // La línea de vista se comprueba con un rayo: si un muro, una vitrina o
+      // mobiliario tapa al avatar, se prueba otro ángulo a su alrededor. Sin
+      // esto, con el avatar mirando a la fachada, el espejo mostraba un muro.
+      const rayo = new THREE.Raycaster();
+      rayo.camera = S.camera; // three.js lo exige para poder intersectar sprites
+      const dir = new THREE.Vector3();
+      const tapada = (pos) => {
+        dir.copy(centro).sub(pos);
+        const d = dir.length();
+        dir.normalize();
+        rayo.set(pos, dir);
+        rayo.far = Math.max(0.1, d - 0.3);
+        for (const h of rayo.intersectObjects(S.scene.children, true)) {
+          if (h.object.isSprite) continue;
+          let o = h.object, esAvatar = false;
+          while (o) { if (o === A.root) { esAvatar = true; break; } o = o.parent; }
+          if (!esAvatar) return true;
+        }
+        return false;
+      };
+
+      const nav = S.mkNav;
+      let camPos = null;
+      for (const d of [dist, dist * 1.25, dist * 0.8]) {
+        for (const off of [0, 0.55, -0.55, 1.1, -1.1, 1.9, -1.9, 2.6, -2.6]) {
+          const ang = A.yaw + off;
+          // Cámara delante del avatar: con el frente en +Z es +sin/+cos
+          const p = new THREE.Vector3(
+            A.pos.x + Math.sin(ang) * d,
+            A.pos.y + A.altura * 0.62,
+            A.pos.z + Math.cos(ang) * d,
+          );
+          if (nav && nav.ready && nav.hits(p.x, p.z, 0.25)) continue;
+          if (tapada(p)) continue;
+          camPos = p;
+          break;
+        }
+        if (camPos) break;
+      }
+      if (!camPos) {
+        camPos = new THREE.Vector3(
+          A.pos.x + Math.sin(A.yaw) * dist,
+          A.pos.y + A.altura * 0.62,
+          A.pos.z + Math.cos(A.yaw) * dist,
+        );
+      }
+      const cam = new THREE.PerspectiveCamera(40, w / h, 0.1, 60);
+      cam.position.copy(camPos);
+      cam.lookAt(centro);
+
+      const rt = new THREE.WebGLRenderTarget(w, h);
+      rt.texture.encoding = THREE.sRGBEncoding;
+      const previo = S.renderer.getRenderTarget();
+      S.renderer.setRenderTarget(rt);
+      S.renderer.render(S.scene, cam);
+      const buf = new Uint8Array(w * h * 4);
+      S.renderer.readRenderTargetPixels(rt, 0, 0, w, h, buf);
+      S.renderer.setRenderTarget(previo);
+      rt.dispose();
+
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      const x = c.getContext('2d');
+      const img = x.createImageData(w, h);
+      for (let y = 0; y < h; y++) {
+        const src = (h - 1 - y) * w * 4, dst = y * w * 4;
+        img.data.set(buf.subarray(src, src + w * 4), dst);
+      }
+      x.putImageData(img, 0, 0);
+      return c.toDataURL('image/jpeg', 0.9);
+    } catch (err) {
+      console.warn('[TiendaVR] no pude tomar la instantánea del avatar:', err.message);
+      return null;
+    }
+  };
+
+  // Al volver a la tienda, el look guardado se pone de nuevo (si la prenda existe)
+  Promise.all([A.readyPromise, S.catalogReady || Promise.resolve()]).then(([ok]) => {
+    if (ok === false) return;
+    try {
+      const sku = localStorage.getItem('vivamoda_vr_outfit');
+      if (!sku) return;
+      const prod = S.bySku(sku);
+      if (prod) S.wearGarment(prod, { silencioso: true });
+    } catch (_) {}
+  });
 
   // ── Entrada de teclado ───────────────────────────────────
   const teclas = {};
@@ -215,7 +439,6 @@ VRStore.part('avatar', function (S, g) {
     // quedaba congelado en pose de reposo, con los brazos abiertos.
     if (!activo) {
       A.moving = false;
-      A.objetivoSenala = 0;
       A.target = null;
       const h = document.getElementById('avatarHint');
       if (h) h.classList.add('hidden');
@@ -258,7 +481,13 @@ VRStore.part('avatar', function (S, g) {
     if (teclas.KeyD || teclas.ArrowRight) empuje.add(derecha);
     if (teclas.KeyA || teclas.ArrowLeft) empuje.sub(derecha);
 
-    const bloqueaUI = document.activeElement && ['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName);
+    // Los campos de texto (buscador, chat, ficha de producto) tienen prioridad
+    // sobre el teclado; los <select>, en cambio, se sueltan en cuanto se pulsa
+    // una tecla de movimiento: antes, tras usar el selector de género de la
+    // barra superior, WASD quedaba muerto porque el foco seguía en el select.
+    const ae = document.activeElement;
+    if (ae && ae.tagName === 'SELECT' && empuje.lengthSq() > 0) ae.blur();
+    const bloqueaUI = ae && ['INPUT', 'TEXTAREA'].includes(ae.tagName);
     if (bloqueaUI) empuje.set(0, 0, 0);
 
     A.moving = empuje.lengthSq() > 0;
@@ -269,7 +498,14 @@ VRStore.part('avatar', function (S, g) {
       // así no se queda pegado a las paredes.
       if (!bloqueado(deseado.x, A.pos.z)) A.pos.x = deseado.x;
       if (!bloqueado(A.pos.x, deseado.z)) A.pos.z = deseado.z;
-      A.yaw = Math.atan2(-empuje.x, -empuje.z); // el modelo mira hacia -Z
+      // El giro se interpola en vez de asignarse de golpe: un cambio de
+      // dirección podía exigir hasta 180° y se veía como un salto (el personaje
+      // aparecía mirando al lado contrario de repente).
+      const deseadoYaw = Math.atan2(-empuje.x, -empuje.z) + MEDIA_VUELTA;
+      let dif = deseadoYaw - A.yaw;
+      while (dif > Math.PI) dif -= Math.PI * 2;
+      while (dif < -Math.PI) dif += Math.PI * 2;
+      A.yaw += dif * Math.min(1, dt * GIRO);
     }
 
     // 2) Prenda más cercana a la que señalar
@@ -281,17 +517,6 @@ VRStore.part('avatar', function (S, g) {
     }
     cambio = mejor !== A.target;
     A.target = mejor;
-
-    // Si no se mueve y hay prenda cerca, se gira hacia ella y la señala
-    if (mejor && !A.moving) {
-      mejor.getWorldPosition(tgt);
-      const deseadoYaw = Math.atan2(-(tgt.x - A.pos.x), -(tgt.z - A.pos.z));
-      let dif = deseadoYaw - A.yaw;
-      while (dif > Math.PI) dif -= Math.PI * 2;
-      while (dif < -Math.PI) dif += Math.PI * 2;
-      A.yaw += dif * Math.min(1, dt * GIRO);
-    }
-    A.objetivoSenala = mejor && !A.moving ? 1 : 0;
     } // fin del bloque de modo avatar
 
     // 3) Aplicar al modelo (siempre: el personaje existe en todos los modos)
@@ -299,7 +524,7 @@ VRStore.part('avatar', function (S, g) {
     A.root.rotation.y = A.yaw;
     cambiarClip(A.moving ? WALK : IDLE);
     A.mixer.update(dt);
-    aplicarSenala(dt);
+    sincronizarPrenda(); // la prenda probada sigue al cuerpo al caminar
 
     if (!activo) return;
 
@@ -343,7 +568,6 @@ VRStore.part('avatar', function (S, g) {
   S.exitAvatarSession = function () {
     if (!S.avatarMode) return;
     S.avatarMode = false;
-    A.objetivoSenala = 0;
     const hint = document.getElementById('avatarHint');
     if (hint) hint.classList.add('hidden');
     S.controls.enablePan = true;

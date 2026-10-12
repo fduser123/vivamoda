@@ -78,7 +78,7 @@ VRStore.part('estructura', function (S, g) {
 
   // ── Tiras neón (techo y piso) ────────────────────────────
   const strip = (x, y, z, w, rz) => {
-    const s = new THREE.Mesh(new THREE.BoxGeometry(w, 0.08, 0.08), new THREE.MeshStandardMaterial({ color: 0xe4006c, emissive: 0xe4006c, emissiveIntensity: 1.6 }));
+    const s = new THREE.Mesh(new THREE.BoxGeometry(w, 0.08, 0.08), new THREE.MeshStandardMaterial({ color: 0xa30047, emissive: 0xa30047, emissiveIntensity: 1.6 }));
     s.position.set(x, y, z);
     if (rz) s.rotation.z = rz;
     g.add(s);
@@ -114,9 +114,9 @@ VRStore.part('estructura', function (S, g) {
 
   // ── Portal de entrada ────────────────────────────────────
   for (const sx of [-1, 1]) {
-    const post = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.2, 5.4, 16), new THREE.MeshStandardMaterial({ color: 0x4b41e1, emissive: 0x4b41e1, emissiveIntensity: 0.8 }));
+    const post = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.2, 5.4, 16), new THREE.MeshStandardMaterial({ color: 0x322a9e, emissive: 0x322a9e, emissiveIntensity: 0.8 }));
     post.position.set(10.6 * sx, 2.7, 8.6); g.add(post);
   }
-  const lintel = new THREE.Mesh(new THREE.BoxGeometry(21.8, 0.22, 0.22), new THREE.MeshStandardMaterial({ color: 0x4b41e1, emissive: 0x4b41e1, emissiveIntensity: 0.5 }));
+  const lintel = new THREE.Mesh(new THREE.BoxGeometry(21.8, 0.22, 0.22), new THREE.MeshStandardMaterial({ color: 0x322a9e, emissive: 0x322a9e, emissiveIntensity: 0.5 }));
   lintel.position.set(0, 5.45, 8.6); g.add(lintel);
 });

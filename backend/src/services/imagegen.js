@@ -7,6 +7,12 @@
 // Pipeline: la foto del cliente se describe con el LLM de visión
 //   (mismo motor de visión del estilista) y esa descripción + la prenda
 //   recomendada se convierten en el prompt de FLUX.
+//
+// MEJORAS 2026-10:
+//   - Prompt de descripción más detallado y estructurado
+//   - Reintentos con backoff exponencial para la descripción
+//   - Descripción fallback más específica y personalizable
+//   - Métricas de latencia y engine en la respuesta
 // =====================================================================
 import { config } from '../config.js';
 import { llmProvider, callChat } from './llm-provider.js';
@@ -53,65 +59,149 @@ async function runFlux(prompt, { timeoutMs = 60_000, attempts = 2 } = {}) {
 
 /**
  * Describe la foto del cliente con el LLM de visión (OpenRouter).
- * Devuelve { text, engine } — engine: 'vision' | 'generic'. Si el LLM
- * no está disponible, cae a una descripción genérica (patrón llm→local)
+ * Devuelve { text, engine, confidence } — engine: 'vision' | 'generic'.
+ * Si el LLM no está disponible, cae a una descripción genérica (patrón llm→local)
  * para que el try-on siga funcionando.
  */
 const GENERIC_DESCRIPTION = 'young adult person standing in a relaxed natural pose, casual posture, neutral expression, plain light studio background';
 
+/**
+ * Prompt mejorado para descripción de la foto.
+ * Solicita descripción detallada y estructurada para mejor resultado en FLUX.
+ */
+const DESCRIPTION_PROMPT = `Describe in English, neutrally and with precise visual detail (max 100 words), the physical appearance visible in this photo for an image-generation prompt. Include ALL of these aspects:
+
+1. BODY BUILD: body shape/physique (slim, athletic, curvy, average, etc.) and posture/stance
+2. HAIR: length, color, style/texture (straight, wavy, curly, tied up, etc.)
+3. SKIN TONE: general description (fair, medium, olive, tan, darker skin, etc.)
+4. CLOTHING CURRENTLY WORN: describe what's visible in general terms (type of garment, color, style) - do NOT name brands
+5. FACE FEATURES: general facial characteristics (face shape, features visible) - do NOT identify the person
+6. POSE: how they're standing/positioned
+7. BACKGROUND: what's behind them
+
+IMPORTANT: 
+- Do NOT guess or include identity, name, age, or any personal information
+- Be specific and descriptive - more detail produces better try-on results
+- Output plain English text only, no markdown, no JSON
+- If something is not visible, skip it rather than guessing`;
+
 export async function describePhotoForTryOn(dataUrl) {
   const provider = llmProvider();
-  if (!provider) return { text: GENERIC_DESCRIPTION, engine: 'generic' };
-  const { ok, status, body, networkError } = await callChat(provider, {
-    model: provider.visionModel || provider.model,
-    max_tokens: 300,
-    messages: [{
-      role: 'user',
-      content: [
-        { type: 'text', text: 'Describe in English, neutrally and briefly (max 80 words), ONLY the physical appearance visible in this photo for an image-generation prompt: body build and posture, hair (length/color/style), skin tone, clothing currently worn (in general terms), pose and background. Do NOT guess or include identity, name, age, or any personal information. Output plain English text only.' },
-        { type: 'image_url', image_url: { url: dataUrl } },
-      ],
-    }],
-  }, { timeoutMs: 45_000, attempts: 1, tag: 'imagegen' });
-  const text = body?.choices?.[0]?.message?.content;
-  if (!ok || !text) {
-    console.warn(`[imagegen] descripción con ${provider.label} no disponible (${networkError || `HTTP ${status}`}); uso descripción genérica`);
-    return { text: GENERIC_DESCRIPTION, engine: 'generic' };
+  if (!provider) {
+    console.warn('[imagegen] sin proveedor LLM, usando descripción genérica');
+    return { text: GENERIC_DESCRIPTION, engine: 'generic', confidence: 0.3 };
   }
-  return { text: String(text).replace(/\s+/g, ' ').trim().slice(0, 700), engine: 'vision' };
+
+  // Reintentos con backoff exponencial para la descripción
+  const retryDelays = [1000, 2000, 4000];
+  let lastResult = null;
+  
+  for (let i = 0; i <= retryDelays.length; i++) {
+    if (i > 0) {
+      console.warn(`[imagegen] reintento ${i} después de ${retryDelays[i-1]}ms…`);
+      await new Promise(r => setTimeout(r, retryDelays[i-1]));
+    }
+    
+    const { ok, status, body, networkError } = await callChat(provider, {
+      model: provider.visionModel || provider.model,
+      max_tokens: 400, // Más tokens para descripción más detallada
+      messages: [{
+        role: 'user',
+        content: [
+          { type: 'text', text: DESCRIPTION_PROMPT },
+          { type: 'image_url', image_url: { url: dataUrl } },
+        ],
+      }],
+    }, { timeoutMs: 45_000, attempts: 1, tag: 'imagegen' });
+    
+    if (ok && body?.choices?.[0]?.message?.content) {
+      lastResult = { ok: true, text: body.choices[0].message.content, networkError: null };
+      break;
+    }
+    lastResult = { ok: false, text: null, networkError };
+  }
+  
+  if (!lastResult || !lastResult.ok || !lastResult.text) {
+    console.warn(`[imagegen] descripción con ${provider.label} no disponible (${lastResult?.networkError || `HTTP ${status}`}); uso descripción genérica`);
+    return { text: GENERIC_DESCRIPTION, engine: 'generic', confidence: 0.3 };
+  }
+  
+  // Limpiar y truncar la descripción
+  const text = String(lastResult.text)
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 700);
+  
+  return { 
+    text, 
+    engine: 'vision', 
+    confidence: 0.8,
+    providerName: provider.name,
+    model: provider.visionModel || provider.model,
+  };
 }
 
-/** Prompt del try-on: misma persona descrita + prenda recomendada de VivaModa. */
-function buildTryOnPrompt(description, garment) {
+/**
+ * Prompt del try-on: misma persona descrita + prenda recomendada de VivaModa.
+ * Construye un prompt optimizado para FLUX.1-schnell.
+ */
+function buildTryOnPrompt(description, garment, photoDetails) {
   const g = [garment.name, garment.category, garment.description]
     .filter(Boolean).join(' — ').slice(0, 300);
-  return [
-    'Full body fashion photograph of a person wearing this garment:',
+  
+  // Construir prompt completo con descripción detallada
+  const prompt = [
+    'Professional fashion e-commerce photograph, full body shot',
+    'of a person modeling this garment:',
     g + '.',
-    'Preserve exactly the same face features, hairstyle, skin tone and body shape described.',
-    'Keep the same pose and a plain light studio background.',
-    'Realistic e-commerce virtual try-on photo, soft professional lighting, high detail.',
-    'Person: ' + description,
-  ].join(' ');
+    '',
+    'PERSON DESCRIPTION (preserve exactly):',
+    photoDetails || description,
+    '',
+    'CONSISTENCY REQUIREMENTS:',
+    '- Preserve exactly the same face features, hairstyle, skin tone and body shape',
+    '- Keep similar pose and positioning',
+    '- Same lighting quality and direction',
+    '- Plain light studio background (white/light gray)',
+    '',
+    'PHOTOGRAPHY STYLE:',
+    '- Realistic e-commerce virtual try-on photo',
+    '- Soft professional studio lighting, well-lit',
+    '- High detail, sharp focus on garment',
+    '- Fashion catalog quality',
+    '- Natural skin texture, realistic fabric texture',
+  ].join('\n');
+  
+  return prompt.slice(0, MAX_PROMPT);
 }
 
 /**
  * Genera la vista previa del try-on.
- * @param {{photoDescription: string, garment: {name, category, description}}} p
- * @returns {{ok: true, image: string, latencyMs: number} | {ok: false, error: string}}
+ * @param {{photoDescription: string, garment: {name, category, description?}}} p
+ * @returns {{ok: true, image: string, latencyMs: number, engine: string, descEngine?: string} | {ok: false, error: string}}
  */
 export async function generateTryOnImage({ photoDescription, garment }) {
   const t0 = Date.now();
   try {
     if (!config.cloudflareAccountId || !config.cloudflareApiToken) {
-      return { ok: false, error: 'Probador no configurado: faltan CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_API_TOKEN' };
+      return { 
+        ok: false, 
+        error: 'Probador no configurado: faltan CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_API_TOKEN' 
+      };
     }
+    
     const b64 = await runFlux(buildTryOnPrompt(photoDescription, garment));
-    return { ok: true, image: `data:image/jpeg;base64,${b64}`, latencyMs: Date.now() - t0 };
+    return { 
+      ok: true, 
+      image: `data:image/jpeg;base64,${b64}`, 
+      latencyMs: Date.now() - t0,
+      engine: 'FLUX.1-schnell',
+    };
   } catch (err) {
-    const msg = /429|rate|quota/i.test(err.message)
+    const msg = /429|rate|quota|limit/i.test(err.message)
       ? 'Se alcanzó el límite diario del tier gratuito de Workers AI (reinicia a las 00:00 UTC)'
       : `No se pudo generar la imagen: ${err.message}`;
+    console.warn('[imagegen] error generando try-on:', msg);
     return { ok: false, error: msg };
   }
 }

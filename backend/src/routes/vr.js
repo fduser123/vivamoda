@@ -291,4 +291,63 @@ router.get('/products/:sku/care', async (req, res) => {
   }
 });
 
+/* ---------- GET /api/vr/catalogo-interno ----------
+   Productos que NO están en la vitrina pública: los de almacén/POS
+   (`visibility='ops'`) y los desactivados. La tienda VR los expone en su
+   propia vitrina para que ningún producto del catálogo se quede sin verse;
+   el catálogo público, el buscador y el POS no cambian.
+   Solo lectura y sin datos sensibles (nada de coste ni proveedor). */
+router.get('/catalogo-interno', async (req, res) => {
+  try {
+    const limit = Math.min(Number(req.query.limit) || 40, 80);
+    const { rows } = await pool.query(
+      `SELECT p.sku, p.name, p.category, p.gender, p.badge, p.visibility, p.is_active,
+              p.price::float8 AS price, p.compare_at::float8 AS compare_at,
+              p.rating::float8 AS rating, p.review_count,
+              p.image_url, p.is_new, p.is_featured,
+              p.details->>'care' AS care,
+              COALESCE((SELECT array_agg(DISTINCT v.size) FROM product_variants v
+                         WHERE v.product_id = p.id AND v.size IS NOT NULL), '{}') AS sizes,
+              COALESCE((SELECT array_agg(DISTINCT v.color) FROM product_variants v
+                         WHERE v.product_id = p.id AND v.color IS NOT NULL), '{}') AS colors,
+              COALESCE((SELECT SUM(i.qty) FROM inventory i
+                          JOIN product_variants v ON v.id = i.variant_id
+                         WHERE v.product_id = p.id), 0)::int AS stock_total,
+              COALESCE((SELECT jsonb_object_agg(t.size, t.qty) FROM (
+                          SELECT v.size, SUM(i.qty)::int AS qty FROM product_variants v
+                            JOIN inventory i ON i.variant_id = v.id
+                           WHERE v.product_id = p.id GROUP BY v.size) t), '{}'::jsonb) AS stock_by_size
+       FROM products p
+       WHERE NOT (p.visibility = 'store' AND p.is_active)
+       ORDER BY p.category, p.sku
+       LIMIT ${limit}`,
+    );
+
+    res.json({ items: rows.map((r) => ({
+      sku: r.sku,
+      name: r.name,
+      category: r.category,
+      gender: r.gender,
+      badge: r.badge,
+      price: Number(r.price),
+      compareAt: r.compare_at != null ? Number(r.compare_at) : null,
+      rating: Number(r.rating),
+      reviewCount: r.review_count,
+      image: r.image_url,
+      isNew: r.is_new,
+      isFeatured: r.is_featured,
+      care: r.care || null,
+      sizes: r.sizes || [],
+      colors: r.colors || [],
+      stockTotal: Number(r.stock_total || 0),
+      stockBySize: r.stock_by_size || {},
+      visibility: r.visibility,
+      isActive: r.is_active,
+    })) });
+  } catch (err) {
+    console.error('[vr/catalogo-interno]', err);
+    res.status(500).json({ error: 'Error consultando el catálogo interno' });
+  }
+});
+
 export default router;

@@ -12,8 +12,8 @@ VRStore.part('estantes', function (S, g) {
       x, z, rotY = 0, levels = 3, width = 1.5, depth = 0.5,
       baseY = 0.35, step = 0.75, tag = '',
     } = opts;
-    const sideMat = mat(0x4a3a4d, { roughness: 0.7, metalness: 0.15 });
-    const boardMat = mat(0x6b556f, { roughness: 0.65, metalness: 0.1 });
+    const sideMat = mat(0x332a37, { roughness: 0.7, metalness: 0.15 });
+    const boardMat = mat(0x4a3d4f, { roughness: 0.65, metalness: 0.1 });
     const h = baseY + (levels - 1) * step + 0.1;
 
     const unit = new THREE.Group();
