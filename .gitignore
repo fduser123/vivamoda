@@ -44,3 +44,24 @@ _originals/
 # Sistema
 .DS_Store
 Thumbs.db
+# ============================================================
+# DESPLIEGUE: recursos que SÍ deben viajar al repositorio
+#
+# Sin estas excepciones el despliegue sale roto:
+#   · /img/ext/    135 MB · 607 archivos · los usan 303 de 354 productos
+#   · modelos 3D    ~69 MB · son el escenario y los objetos de la tienda VR
+#
+# Se versionan porque son parte del producto: sin ellos el catálogo muestra
+# imágenes rotas y la tienda VR se queda vacía. Si el build de Render se hace
+# lento, la alternativa es moverlos a un CDN o a Supabase Storage y actualizar
+# las rutas, no borrarlos.
+# ============================================================
+!backend/public/img/ext/
+!backend/public/img/ext/**
+
+!backend/public/models/mk-it.glb
+!backend/public/models/bolso.glb
+!backend/public/models/camiseta.glb
+!backend/public/models/gafas-sol.glb
+!backend/public/models/sneaker-realista.glb
+!backend/public/models/zapatos.glb

@@ -30,6 +30,76 @@ gratuito que da 16 GB y permite ejecutar PyTorch.
 
 ---
 
+## 🔴 CRÍTICO: recursos que no se desplegaban
+
+**Este es el problema más grave que se encontró al preparar el despliegue.**
+Git ignoraba recursos que el producto necesita, así que un despliegue desde el
+repositorio habría salido roto sin dar ningún error.
+
+### Qué faltaba
+
+| Recurso | Peso | Consecuencia si falta |
+|---|---|---|
+| `backend/public/img/ext/` | **135 MB · 607 archivos** | **303 de 354 productos (86 %) con la imagen rota** |
+| `backend/public/models/mk-it.glb` | 61 MB | La tienda VR se queda **sin escenario** |
+| `sneaker-realista`, `camiseta`, `bolso`, `gafas-sol`, `zapatos` | ~8 MB | Objetos 3D del probador y los estands, ausentes |
+
+### La causa
+
+El `.gitignore` excluía `backend/public/models/**/*.glb` y `backend/public/img/ext/`
+para no inflar el repositorio. Es una decisión razonable en desarrollo, pero
+**esos archivos son parte del producto**, no artefactos generados: el catálogo
+los referencia directamente en la base de datos
+(`products.image_url = '/img/ext/VM-...webp'`).
+
+### La corrección (ya aplicada)
+
+Se añadieron excepciones al final de `.gitignore`:
+
+```gitignore
+!backend/public/img/ext/
+!backend/public/img/ext/**
+
+!backend/public/models/mk-it.glb
+!backend/public/models/bolso.glb
+!backend/public/models/camiseta.glb
+!backend/public/models/gafas-sol.glb
+!backend/public/models/sneaker-realista.glb
+!backend/public/models/zapatos.glb
+```
+
+### Antes de desplegar, comprueba SIEMPRE
+
+```bash
+cd "/home/a/Escritorio/p/proyecto 1/proyecto 1"
+
+# 1. ¿Se rastrean las imágenes?
+git ls-files backend/public/img/ext | wc -l     # debe dar 607
+
+# 2. ¿Se rastrea el modelo de la tienda VR?
+git ls-files backend/public/models/mk-it.glb    # debe aparecer
+
+# 3. ¿Cuánto pesa realmente lo que se va a subir?
+git ls-files | wc -l                            # ~1145 archivos
+```
+
+### Si el repositorio se hace demasiado pesado
+
+Con los recursos incluidos, el repositorio ronda los **250 MB**. GitHub lo
+acepta (el límite de archivo individual son 100 MB y `mk-it.glb` tiene 61 MB),
+pero Render tardará más en clonar. Alternativas, por orden de sencillez:
+
+1. **Supabase Storage** (1 GB gratis): subir las imágenes, cambiar
+   `products.image_url` a las nuevas URLs y servir los modelos desde ahí.
+2. **Cloudflare R2** o **jsDelivr** para los modelos 3D.
+3. **Git LFS** para los `.glb` grandes.
+
+En cualquiera de los tres casos hay que **actualizar las rutas en la base de
+datos**, no solo mover los archivos.
+
+
+---
+
 ## ✏️ Lo que TIENES que editar a mano
 
 ### 1. `backend/.env` — **NO se sube a git**
