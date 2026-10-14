@@ -107,7 +107,7 @@ VRStore.part('mk-escenario', function (S, g) {
         p: [z.x, 2.6, Math.min(z.z + 4.5, MK.maxZ - 0.6)],
         t: [z.x, 1.5, z.z],
       };
-      orig.color = '#' + z.color.toString(16).padStart(6, '0');
+      // (El color del riel lo pone el tema de la sección, no la zona.)
       if (S.zoneLights && S.zoneLights[i]) {
         S.zoneLights[i].position.set(z.x, 3.4, z.z < -6 ? z.z + 1.5 : z.z - 1.4);
       }
@@ -149,13 +149,14 @@ VRStore.part('mk-escenario', function (S, g) {
   S.controls.maxPolarAngle = 1.52;
 
   // ── Luces del motor dentro de la tienda ──────────────────
-  // (spot central + luces de zona se mueven al interior)
+  // Ambiente BAJO y con el color de la sección: la tienda se ilumina con los
+  // focos de pasillo y las luces de zona, no con luz blanca de relleno.
   if (S.zoneLights && S.zoneLights.length) {
     S.zoneLights.forEach((l, i) => {
       const z = MK_ZONES[i] || MK_ZONES[0];
       l.position.set(z.x, 3.4, z.z + 1.5);
-      l.distance = 11;
-      l.intensity = 0.65;
+      l.distance = 9;
+      l.intensity = 0.3;
     });
   }
   const central = S.scene.children.find((o) => o.isSpotLight);
@@ -163,8 +164,9 @@ VRStore.part('mk-escenario', function (S, g) {
     central.visible = false; // el spot rosado original lavaba el interior
   }
   // "Sol" interior con sombras REALES: proyecta mobiliario y ropa contra
-  // el piso y los muros → contraste y volumen (antes todo plano).
-  const sunMK = new THREE.DirectionalLight(0xfff1e0, 1.15);
+  // el piso y los muros → contraste y volumen (antes todo plano). Su color e
+  // intensidad vienen de la paleta de la sección (ver aplicarTema).
+  const sunMK = new THREE.DirectionalLight(0xfff1e0, 0.5);
   sunMK.position.set(47, 11, 4);
   sunMK.target.position.set(36.5, 0, -6);
   sunMK.castShadow = true;
@@ -175,54 +177,156 @@ VRStore.part('mk-escenario', function (S, g) {
   g.add(sunMK); g.add(sunMK.target);
 
   // ── Iluminación de entorno PBR para los materiales ───────
+  // Gris medio (no blanco): con el entorno totalmente blanco los materiales
+  // recibían mucha luz ambiente y el interior dejaba de ser oscuro.
   try {
     const pmrem = new THREE.PMREMGenerator(S.renderer);
     pmrem.compileEquirectangularShader();
     const envScene = new THREE.Scene();
-    envScene.background = new THREE.Color(0xffffff);
+    envScene.background = new THREE.Color(0x8a9098);
     S.scene.environment = pmrem.fromScene(envScene, 0.04).texture;
     S.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    S.renderer.toneMappingExposure = 1.15;
+    S.renderer.toneMappingExposure = 0.9;
   } catch (e) { console.warn('[MK] environment', e); }
 
   // ── Piso base de garantía SOLO bajo el interior (piso del modelo a Y≈0.30) ──
   const baseFloor = new THREE.Mesh(
     new THREE.PlaneGeometry(25, 15.5),
-    new THREE.MeshStandardMaterial({ color: 0xcfcfd2, roughness: 0.9, metalness: 0.03 }),
+    new THREE.MeshStandardMaterial({ color: 0x6f6f78, roughness: 0.9, metalness: 0.03 }),
   );
   baseFloor.rotation.x = -Math.PI / 2;
   baseFloor.position.set(36.9, 0.28, -6.2);
   baseFloor.receiveShadow = true;
   g.add(baseFloor);
 
-  // ── Iluminación interior reforzada (focos cálidos cercanos) ──
+  // ── Iluminación interior (focos cercanos, tenues y tintados) ──
+  const aisles = [];
   for (const x of [28, 34, 40, 46]) {
-    const aisle = new THREE.PointLight(0xffe2c4, 0.85, 13, 1.8);
+    const aisle = new THREE.PointLight(0xffe2c4, 0.32, 11, 1.9);
     aisle.position.set(x, 3.45, -6);
     g.add(aisle);
+    aisles.push(aisle);
   }
-  const hemiUp = new THREE.HemisphereLight(0xdfe6f0, 0x2e252b, 0.5);
+  const hemiUp = new THREE.HemisphereLight(0xdfe6f0, 0x2e252b, 0.2);
   hemiUp.position.set(36, 6, -6);
   g.add(hemiUp);
 
-  // ── Carga del modelo ─────────────────────────────────────
-  // ── Paredes: gris piedra medio-oscuro para contraste y volumen ──
-  const MK_WALL_TINT = '#8f959e';
-  function tintWalls(root) {
-    let n = 0;
+  // ── Paredes internas: color de la sección (oscuro) ───────
+  // En el modelo MK las paredes del local son el material `estuco_gris`
+  // (varios muros comparten ese material, así que un solo cambio los pinta
+  // todos). Se guardan para repintarlas al cambiar de sección.
+  const paredMats = [];
+  const estructuraMats = [];   // techo y pilares: cemento pulido del modelo
+  const sueloMats = [];        // piso del local: se pinta de color uniforme
+  const clarosMats = [];       // mobiliario claro del modelo (se oscurece)
+  // No se tocan: cristales, espejos, luminarias, rótulos ni el maniquí Chris
+  // (el personaje del propio modelo).
+  const NO_OSCURECER = /glass|transluc|cristal|mirror|espejo|luces|logo|chris|skin|hair|eyes/i;
+  function recogerParedes(root) {
     root.traverse((o) => {
       if (!o.isMesh || !o.material) return;
       (Array.isArray(o.material) ? o.material : [o.material]).forEach((mat) => {
-        if (mat && /estuco/i.test(mat.name || '')) {
-          mat.color.set(MK_WALL_TINT);
-          mat.roughness = 0.95; mat.metalness = 0; mat.needsUpdate = true;
-          n++;
+        const nombre = (mat && mat.name) || '';
+        if (!mat || !mat.color) return;
+        if (/estuco/i.test(nombre)) { if (!paredMats.includes(mat)) paredMats.push(mat); return; }
+        // Piso del local: cemento pulido viejo y las tarimas M_K → color liso.
+        if (/polished_concrete_old|^m_k_\d+/i.test(nombre)) {
+          if (!sueloMats.includes(mat)) sueloMats.push(mat);
+          return;
+        }
+        if (/polished_concrete/i.test(nombre)) { if (!estructuraMats.includes(mat)) estructuraMats.push(mat); return; }
+        // Mobiliario y acabados CLAROS: en un interior oscuro son lo que más
+        // brilla (muros blancos, paneles, tarimas), así que se apagan.
+        const l = 0.2126 * mat.color.r + 0.7152 * mat.color.g + 0.0722 * mat.color.b;
+        if (l > 0.5 && !NO_OSCURECER.test(nombre)) {
+          if (!mat.userData) mat.userData = {};
+          if (!mat.userData.colorBase) mat.userData.colorBase = mat.color.clone();
+          if (!clarosMats.includes(mat)) clarosMats.push(mat);
         }
       });
       if (o.isMesh) { o.receiveShadow = true; o.castShadow = true; }
     });
-    console.log(`[MK] paredes → ${MK_WALL_TINT} (${n} meshes, sombras reales)`);
+    console.log(`[MK] superficies: ${paredMats.length} pared · ${estructuraMats.length} techo/pilares · ${sueloMats.length} suelo · ${clarosMats.length} acabados claros apagados`);
   }
+
+  // ── Emisión del modelo (la causa del interior lavado) ────
+  // El GLB trae mapas de emisión horneados: cada superficie brilla por su
+  // cuenta y el interior se veía plano y clarísimo aunque se bajaran las luces.
+  // Se atenúa esa emisión (dejando luminarias, espejos y rótulos) para que la
+  // tienda sea oscura de verdad y se noten las luces de la escena.
+  const emisividadMats = [];
+  function atenuarEmision(root) {
+    root.traverse((o) => {
+      if (!o.isMesh || !o.material) return;
+      (Array.isArray(o.material) ? o.material : [o.material]).forEach((mat) => {
+        if (!mat || !mat.emissive) return;
+        if (!mat.userData) mat.userData = {};
+        if (mat.userData.emisBase === undefined) {
+          mat.userData.emisBase = mat.emissive.clone();
+          mat.userData.emisIntBase = mat.emissiveIntensity == null ? 1 : mat.emissiveIntensity;
+        }
+        if (!emisividadMats.includes(mat)) emisividadMats.push(mat);
+      });
+    });
+  }
+  // ── Piso: color uniforme (sin textura) ───────────────────
+  // El piso del modelo trae una textura de cemento pulido con su propio
+  // horneado: se quita el mapa y se pinta de un color liso de la sección, así
+  // que la luz de la tienda es la que da el sombreado.
+  function pintarSuelo(t) {
+    sueloMats.forEach((m) => {
+      m.map = null;
+      m.emissiveMap = null;
+      if (m.emissive) { m.emissive.setHex(0x000000); m.emissiveIntensity = 0; }
+      m.color.set(t.suelo || t.pared);
+      m.roughness = 0.92; m.metalness = 0.04;
+      m.needsUpdate = true;
+    });
+    if (baseFloor.material && baseFloor.material.color) baseFloor.material.color.set(t.suelo || t.pared);
+  }
+
+  function aplicarEmision() {
+    const LAMPARAS = /luces|lamp|led|bulb|panel/i;
+    const RESPETAR = /mirror|espejo|logo/i;
+    emisividadMats.forEach((m) => {
+      const n = m.name || '';
+      const k = RESPETAR.test(n) ? 1 : (LAMPARAS.test(n) ? 0.55 : 0.18);
+      m.emissiveIntensity = m.userData.emisIntBase * k;
+      m.needsUpdate = true;
+    });
+  }
+
+  // ── Tema de la sección (paredes, luces y exposición) ─────
+  // Lo llama el núcleo con `S.setSeccion` (también en cada cambio de sección).
+  function aplicarTema(t) {
+    if (!t) return;
+    sunMK.color.setHex(t.luz);      sunMK.intensity = 0.45;
+    aisles.forEach((l) => { l.color.setHex(t.luz); l.intensity = 0.28; });
+    hemiUp.color.setHex(t.luz);     hemiUp.groundColor.setHex(t.ambiente); hemiUp.intensity = 0.18;
+    // Paredes internas: color oscuro de la sección.
+    paredMats.forEach((m) => {
+      m.color.set(t.pared); m.roughness = 0.97; m.metalness = 0; m.needsUpdate = true;
+    });
+    // Techo, pilares y forjado: también oscuros (si no, el interior sigue
+    // leyéndose blanco aunque las paredes sean oscuras).
+    estructuraMats.forEach((m) => {
+      m.color.set(t.estructura || t.pared); m.roughness = 0.95; m.metalness = 0.02; m.needsUpdate = true;
+    });
+    // Acabados claros (mobiliario, paneles, tarimas): se conserva su textura
+    // pero con un albedo mucho más bajo, que es lo que hace que el interior sea
+    // oscuro de verdad y no un blanco lavado.
+    clarosMats.forEach((m) => {
+      const base = (m.userData && m.userData.colorBase) || m.color;
+      m.color.copy(base).multiplyScalar(0.34);
+      m.needsUpdate = true;
+    });
+    aplicarEmision();
+    pintarSuelo(t);
+    if (S.renderer) S.renderer.toneMappingExposure = 0.7;
+  }
+  S.aplicarTemaEscenario = aplicarTema;
+  S.paredesEscenario = paredMats;
+  aplicarTema(S.tema);
 
   new THREE.GLTFLoader().load(
     LOADER_URL,
@@ -231,7 +335,9 @@ VRStore.part('mk-escenario', function (S, g) {
       const box = new THREE.Box3().setFromObject(m);
       m.position.y -= box.min.y; // piso a Y=0
       m.traverse((o) => { if (o.isMesh) o.receiveShadow = true; });
-      tintWalls(m);
+      recogerParedes(m);
+      atenuarEmision(m);
+      aplicarTema(S.tema);   // pinta las paredes con la paleta de la sección
       // ── Adaptar TODO lo añadido a las dimensiones reales del interior ──
       extractBlockers(m);
       buildNav(31, -7.5);

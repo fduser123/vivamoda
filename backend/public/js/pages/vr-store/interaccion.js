@@ -306,42 +306,48 @@ VRStore.part('interaccion', function (S, g) {
   canvas.addEventListener('pointermove', (e) => setHover(pick(e)));
   canvas.addEventListener('pointerleave', () => setHover(null));
 
-  // ── Chips de zona ────────────────────────────────────────
+  // ── Selector de sección ──────────────────────────────────
+  // Los chips ya no son zonas del catálogo sino las SECCIONES de la tienda: al
+  // pulsarlos se repinta el interior (paredes, luces, anillos) y se vuelven a
+  // colgar sus prendas. El chip activo lo marca `S.onSeccion`.
   const chipsNav = document.getElementById('zoneChips');
-  const chips = S.ZONES.map((z) => {
+  const SECCIONES = Object.keys(S.SECCIONES).map((k) => S.SECCIONES[k]);
+  const chips = SECCIONES.map((sec) => {
     const b = document.createElement('button');
     b.className = 'chip rounded-full px-3 py-1.5 text-xs font-bold text-white/85 border border-white/15 whitespace-nowrap flex items-center gap-1.5';
-    b.innerHTML = `<span class="w-2 h-2 rounded-full" style="background:${z.color}"></span>${z.label}`;
-    b.onclick = () => flyTo(z);
+    b.innerHTML = `<span class="w-2 h-2 rounded-full" style="background:${sec.acentoHex}"></span>${sec.emoji} ${sec.label}`;
+    b.title = `Ver solo ${sec.label}`;
+    b.onclick = () => elegirSeccion(sec.id);
     chipsNav.appendChild(b);
     return b;
   });
-  function markChip(zoneId) {
-    chips.forEach((c, i) => c.classList.toggle('active', S.ZONES[i].id === zoneId));
+  function markChip(id) {
+    chips.forEach((c, i) => c.classList.toggle('active', SECCIONES[i].id === id));
+  }
+  S.onSeccion = (id) => markChip(id);
+  markChip(S.seccion);
+
+  function elegirSeccion(id) {
+    const sec = S.SECCIONES[id];
+    if (!sec) return;
+    if (S.seccion !== id) S.setSeccion(id);
+    vistaSeccion();
+    if (S.seccion === id && window.VM && VM.toast) {
+      const n = S.vitrinaActual ? S.vitrinaActual().length : 0;
+      VM.toast(`Sección ${sec.label}: ${n} prenda(s)${S.busqueda ? ` · “${S.busqueda}”` : ''}`, 'palette');
+    }
   }
 
   let tween = null;
-  function flyTo(zone) {
+  // Movimiento suave de la cámara orbital hacia una vista (se usa al cambiar de
+  // sección y al volver a la vista de conjunto).
+  function tweenCamara(toP, toT, dur = 1000) {
     stopTour();
-    if (S.fps) {
-      // en FPS, acercarse al punto en lugar de orbitar
-      moveToPoint(new THREE.Vector3(zone.view.p[0], FP_WALK_HEIGHT, zone.view.p[2]), { minDist: 0.2 });
-      // mirar hacia el target de zona una vez llegado
-      setTimeout(() => {
-        if (!S.fps) return;
-        const t = new THREE.Vector3(zone.view.t[0], Math.max(0.4, zone.view.p[1] - 2.2), zone.view.t[2]);
-        S.camera.lookAt(t);
-      }, 800);
-      markChip(zone.id);
-      return;
-    }
     const fromP = camera.position.clone();
     const fromT = controls.target.clone();
-    const toP = new THREE.Vector3(zone.view.p[0], zone.view.p[1], zone.view.p[2]);
-    const toT = new THREE.Vector3(zone.view.t[0], zone.view.t[1], zone.view.t[2]);
-    const start = performance.now(), dur = 1000;
+    const start = performance.now();
     controls.enabled = false;
-    markChip(zone.id);
+    markChip(S.seccion);
     cancelAnimationFrame(tween);
     function step(now) {
       const k = Math.min(1, (now - start) / dur);
@@ -352,6 +358,45 @@ VRStore.part('interaccion', function (S, g) {
       else controls.enabled = true;
     }
     tween = requestAnimationFrame(step);
+  }
+
+  // Vista de la sección: la cámara se pone en el pasillo, mirando la tienda
+  // desde la entrada (funciona en modo catálogo, FPS y avatar).
+  function vistaSeccion() {
+    const mk = S.MK;
+    if (!mk) return;
+    const p = new THREE.Vector3(mk.cx, 2.4, mk.maxZ - 1.8);
+    const t = new THREE.Vector3(mk.cx, 1.6, mk.cz + 1.2);
+    // En modo avatar manda el personaje: se le lleva a la sección en vez de
+    // mover la cámara (si no, la cámara volvería a él en el siguiente fotograma).
+    if (S.avatarMode) {
+      if (S.avatarIrA) S.avatarIrA(mk.cx + 1.6, mk.cz + 2.6);
+      return;
+    }
+    if (S.fps) {
+      moveToPoint(p, {});
+      setTimeout(() => { if (S.fps) S.camera.lookAt(p.x, t.y, t.z); }, 800);
+      return;
+    }
+    tweenCamara(p, t, 900);
+  }
+  S.vistaSeccion = vistaSeccion;
+
+  function flyTo(zone) {
+    if (S.fps) {
+      moveToPoint(new THREE.Vector3(zone.view.p[0], FP_WALK_HEIGHT, zone.view.p[2]), { minDist: 0.2 });
+      setTimeout(() => {
+        if (!S.fps) return;
+        const t = new THREE.Vector3(zone.view.t[0], Math.max(0.4, zone.view.p[1] - 2.2), zone.view.t[2]);
+        S.camera.lookAt(t);
+      }, 800);
+      return;
+    }
+    tweenCamara(
+      new THREE.Vector3(zone.view.p[0], zone.view.p[1], zone.view.p[2]),
+      new THREE.Vector3(zone.view.t[0], zone.view.t[1], zone.view.t[2]),
+      1000,
+    );
   }
   S.flyTo = flyTo;
 
@@ -391,6 +436,16 @@ VRStore.part('interaccion', function (S, g) {
   const cardMaterials = document.getElementById('cardMaterials');
 
   function showCard(prod) {
+    // Regla de la tienda: solo se puede acceder a los productos de la categoría
+    // de la sección activa. La vitrina ya solo cuelga esos, así que esto es la
+    // red de seguridad (p. ej. un clic heredado justo al cambiar de sección).
+    if (!S.enSeccion(prod)) {
+      const sec = S.SECCIONES[S.seccionDe(prod)] || S.SECCIONES[S.seccion];
+      if (window.VM && VM.toast) {
+        VM.toast(`${prod.name} es de ${sec.label} · cambia de sección para verla`, 'block');
+      }
+      return;
+    }
     cardName.textContent = prod.name;
     cardMeta.textContent = `${prod.category} · ${prod.color}`;
     const fmtUsdVr = (n) => '$' + Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: Number.isInteger(Number(n)) ? 0 : 2, maximumFractionDigits: 2 });
@@ -399,8 +454,8 @@ VRStore.part('interaccion', function (S, g) {
     if (prod.compareAt) cardCompare.textContent = fmtUsdVr(prod.compareAt);
     cardBadge.classList.toggle('hidden', !prod.badge);
     if (prod.badge) cardBadge.textContent = prod.badge;
-    const z = S.ZONES.find((z) => z.id === prod.zone);
-    cardZone.textContent = (z ? z.label : 'Tienda') + ' · SKU ' + prod.sku;
+    const sec = S.SECCIONES[S.seccionDe(prod)] || S.SECCIONES[S.seccion];
+    cardZone.textContent = (prod.interno ? 'Catálogo interno · ' : (sec ? sec.label + ' · ' : '')) + 'SKU ' + prod.sku;
     cardLink.href = '/detalle-de-producto?sku=' + encodeURIComponent(prod.sku);
     // foto real en la tarjeta
     const img = document.getElementById('cardImg');
@@ -423,7 +478,7 @@ VRStore.part('interaccion', function (S, g) {
       cardCareWrap.classList.add('hidden');
     }
     card.classList.remove('hidden');
-    markChip(prod.zone);
+    markChip(S.seccionDe(prod) || S.seccion);
     S.currentProduct = prod; // el probador del espejo usa la última prenda abierta
     pintarCompra(prod);
   }
@@ -530,6 +585,49 @@ VRStore.part('interaccion', function (S, g) {
   document.getElementById('cardClose').onclick = hideCard;
   // El avatar en 3ª persona abre la tarjeta al señalar una prenda
   S.showCard = showCard;
+
+  // ── Buscador de la tienda ────────────────────────────────
+  // Cambia las prendas que se cuelgan en los rieles (dentro de la sección
+  // activa). Con 2+ letras la búsqueda la resuelve la API (ver S.buscar).
+  const searchInput = document.getElementById('storeSearch');
+  const searchMsg = document.getElementById('searchMsg');
+  function pintarMsg(estado) {
+    if (!searchMsg) return;
+    const q = (S.busqueda || '').trim();
+    const sec = S.tema ? S.tema.label : '';
+    if (!q) {
+      searchMsg.classList.add('hidden');
+      searchMsg.textContent = '';
+      return;
+    }
+    const n = estado && Number.isFinite(estado.total) ? estado.total : (S.vitrinaActual ? S.vitrinaActual().length : 0);
+    searchMsg.textContent = n ? `${n} en ${sec}` : `sin resultados en ${sec}`;
+    searchMsg.classList.remove('hidden');
+  }
+
+  if (searchInput) {
+    let espera = null;
+    const lanzar = () => {
+      Promise.resolve(S.buscar(searchInput.value)).then(pintarMsg).catch(() => pintarMsg(null));
+    };
+    searchInput.addEventListener('input', () => {
+      clearTimeout(espera);
+      espera = setTimeout(lanzar, 330);
+    });
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); clearTimeout(espera); lanzar(); searchInput.blur(); }
+      if (e.key === 'Escape') { searchInput.value = ''; clearTimeout(espera); lanzar(); }
+    });
+    // Al cambiar de sección se repite la búsqueda dentro de la nueva sección
+    const onSeccionPrevio = S.onSeccion;
+    S.onSeccion = (id, cambio) => {
+      if (onSeccionPrevio) onSeccionPrevio(id, cambio);
+      if (searchInput.placeholder.indexOf(S.tema.label) < 0) searchInput.placeholder = `Buscar en ${S.tema.label}…`;
+      // La tarjeta abierta era de la sección anterior: se cierra al cambiar.
+      if (cambio) hideCard();
+      pintarMsg(null);
+    };
+  }
 
   // ── Pantalla completa ────────────────────────────────────
   document.getElementById('fsBtn').onclick = () => {

@@ -21,6 +21,7 @@ que sin normalizar la similitud coseno no sería comparable entre consultas.
 """
 import base64
 import io
+import os
 import json
 import sys
 import threading
@@ -31,7 +32,12 @@ import torch
 import open_clip
 from PIL import Image
 
-HOST, PORT = "127.0.0.1", 8001
+# En local escucha solo en loopback. En la nube hace falta 0.0.0.0 (para
+# aceptar conexiones externas) y el puerto que asigne la plataforma.
+#   Local:  EMBED_HOST=127.0.0.1  PORT=8001
+#   Space:  EMBED_HOST=0.0.0.0    PORT=<el que inyecte la plataforma>
+HOST = os.environ.get("EMBED_HOST", "127.0.0.1")
+PORT = int(os.environ.get("PORT", os.environ.get("EMBED_PORT", "8001")))
 MODEL_HUB = "hf-hub:Marqo/marqo-fashionCLIP"
 MAX_LADO = 640
 

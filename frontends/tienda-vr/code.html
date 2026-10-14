@@ -13,9 +13,15 @@
   #sceneCanvas { position: fixed; inset: 0; display: block; touch-action: none; cursor: grab; }
   #sceneCanvas:active { cursor: grabbing; }
   .glass { background: rgba(23, 15, 28, 0.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.10); }
+  /* El acento de la tienda lo cambia el núcleo con la sección activa
+     (Damas: rojos y vino · Caballeros: grises y azules · Niños: rosas y celestes) */
+  :root { --vm-acento: #d6103c; --vm-acento2: #7c0f26; }
   .chip { transition: all .2s ease; }
   .chip:hover { transform: translateY(-1px); }
-  .chip.active { background: #e4006c; color: #fff; border-color: transparent; box-shadow: 0 6px 20px -6px rgba(228,0,108,.55); }
+  .chip.active { background: var(--vm-acento); color: #fff; border-color: transparent; box-shadow: 0 6px 20px -6px var(--vm-acento); }
+  #storeSearch::-webkit-search-cancel-button { -webkit-appearance: none; }
+  #bagTab .material-symbols-outlined { color: var(--vm-acento); }
+  #bagCount, #bagTabCount { background: var(--vm-acento) !important; }
   ::-webkit-scrollbar { display: none; }
   @keyframes vmfade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   .fade-in { animation: vmfade .35s ease; }
@@ -50,7 +56,15 @@
       </span>
     </div>
 
-    <!-- Zonas -->
+    <!-- Buscador: cambia las prendas que se cuelgan en la sección activa -->
+    <div class="glass rounded-full pl-3 pr-2 py-1.5 flex items-center gap-2 w-full sm:w-auto sm:min-w-[240px]">
+      <span class="material-symbols-outlined text-base" style="color: var(--vm-acento)">search</span>
+      <input id="storeSearch" type="search" placeholder="Buscar en Damas…" autocomplete="off"
+             class="bg-transparent text-sm text-white placeholder-white/45 outline-none w-full min-w-0"/>
+      <span id="searchMsg" class="hidden text-[11px] font-bold text-white/70 whitespace-nowrap"></span>
+    </div>
+
+    <!-- Secciones (cada una repinta la tienda y cambia sus prendas) -->
     <nav id="zoneChips" class="glass rounded-full px-2 py-1.5 flex items-center gap-1 overflow-x-auto max-w-full"></nav>
 
     <div class="flex items-center gap-2">
@@ -92,6 +106,7 @@
   <span class="material-symbols-outlined text-[14px] align-[-2px] text-[#ff8ab5]">pan_tool_alt</span> Arrastra para mirar ·
   <span class="material-symbols-outlined text-[14px] align-[-2px] text-[#ff8ab5]">zoom_in</span> Rueda para acercar ·
   <span class="material-symbols-outlined text-[14px] align-[-2px] text-[#ff8ab5]">ads_click</span> Toca un producto para verlo ·
+  <span class="material-symbols-outlined text-[14px] align-[-2px] text-[#ff8ab5]">search</span> Busca prendas de la sección ·
   <span class="material-symbols-outlined text-[14px] align-[-2px] text-[#ff8ab5]">auto_awesome</span> Toca el espejo Probador IA para probártelo
 </div>
 

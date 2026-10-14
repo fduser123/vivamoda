@@ -1,0 +1,22 @@
+# ============================================================
+# Dependencias del sidecar de embeddings (FashionCLIP)
+# Versiones exactas con las que se probó el proyecto.
+#
+# INSTALACIÓN: torch y torchvision DEBEN venir del índice de CPU y con
+# --no-deps en torchvision. La rueda de PyPI está compilada contra CUDA y falla
+# con "RuntimeError: operator torchvision::nms does not exist". Además, la
+# variante CUDA ocupa ~4,5 GB frente a ~200 MB de la de CPU.
+#
+#   pip install --extra-index-url https://download.pytorch.org/whl/cpu \
+#               -r requirements.txt
+#   pip install --force-reinstall --no-deps torchvision==0.29.1+cpu \
+#               --index-url https://download.pytorch.org/whl/cpu
+# ============================================================
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+torch==2.14.1+cpu
+torchvision==0.29.1+cpu
+open_clip_torch>=2.24.0
+pillow==12.3.0
+numpy==2.5.3
+huggingface_hub>=0.20.0

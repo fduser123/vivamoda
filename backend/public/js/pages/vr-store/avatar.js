@@ -572,4 +572,17 @@ VRStore.part('avatar', function (S, g) {
     if (hint) hint.classList.add('hidden');
     S.controls.enablePan = true;
   };
+
+  /**
+   * Lleva al personaje a un punto de la tienda (lo usa el cambio de sección:
+   * en modo avatar manda el cliente, no la cámara). Devuelve false si aún no
+   * está listo.
+   */
+  S.avatarIrA = function (x, z) {
+    if (!A.ready) return false;
+    const libre = puntoLibre(x, z, 0.9);
+    A.pos.set(libre.x, A.pos.y, libre.z);
+    A.camOk = false;   // que la cámara se vuelva a colocar detrás del avatar
+    return true;
+  };
 });

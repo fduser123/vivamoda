@@ -123,6 +123,10 @@
     sel.addEventListener('change', function () {
       const gender = sel.value;
       sendGender(gender);
+      // El selector de género es también el de SECCIÓN de la tienda: repinta el
+      // interior (colores/paredes/luces) y cambia las prendas de los rieles.
+      if (window.VRStore && window.VRStore.setSeccion) window.VRStore.setSeccion(gender);
+      if (window.VRStore && window.VRStore.vistaSeccion) window.VRStore.vistaSeccion();
       // Se suelta el foco: si el <select> lo retiene, se queda con las teclas
       // WASD y el avatar deja de responder al movimiento.
       sel.blur();

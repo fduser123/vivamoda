@@ -18,7 +18,71 @@ window.VRStore = (function () {
     dark: 0x1c121f,
   };
 
-  // ── Zonas de la tienda ──────────────────────────────────
+  // ── Secciones de la tienda (tema + orden del catálogo) ───
+  // Cada sección pinta el interior con SU paleta (paredes, luces, anillos) y
+  // decide qué prendas se cuelgan (solo las de su categoría) y en qué orden
+  // (primero las de sus colores). Al cambiar de sección, `S.setSeccion`
+  // repinta la escena y vuelve a montar la vitrina:
+  //   · mk-scenario  → S.aplicarTemaEscenario(tema)  (paredes, luces, suelo)
+  //   · mk-ropa      → S.rebuildRopa()               (prendas de los rieles)
+  S.SECCIONES = {
+    damas: {
+      id: 'damas', label: 'Damas', genero: 'damas', emoji: '👗',
+      acento: 0xd6103c, acentoHex: '#d6103c',       // rojo
+      acento2: 0x7c0f26, acento2Hex: '#7c0f26',     // vino
+      pared: '#43111d',                             // paredes: vino oscuro
+      estructura: '#241016',                        // techo y pilares
+      suelo: '#3a1a22',                             // suelo: color uniforme
+      luz: 0xffb3a8, luzZona: 0xc01038, ambiente: 0x0d0409,
+      claves: ['rojo', 'roja', 'vino', 'vinotinto', 'burdeos', 'borgona', 'granate', 'carmesi',
+        'crimson', 'rubi', 'guinda', 'berry', 'cereza', 'wine', 'oxblood', 'magenta', 'fucsia', 'sangre'],
+    },
+    caballeros: {
+      id: 'caballeros', label: 'Caballeros', genero: 'caballeros', emoji: '🧥',
+      acento: 0x4f7fc4, acentoHex: '#4f7fc4',       // azul acero
+      acento2: 0x363c49, acento2Hex: '#363c49',     // gris marengo
+      pared: '#232932',                             // paredes: gris azulado oscuro
+      estructura: '#141920',                        // techo y pilares
+      suelo: '#1f242c',                             // suelo: color uniforme
+      luz: 0xcfe0f5, luzZona: 0x3f6fae, ambiente: 0x05070b,
+      claves: ['gris', 'grafito', 'acero', 'marengo', 'antracita', 'plomo', 'pizarra', 'azul',
+        'azulado', 'indigo', 'marino', 'navy', 'cobalto', 'denim', 'steel', 'celeste oscuro'],
+    },
+    ninos: {
+      id: 'ninos', label: 'Niños', genero: 'ninos', emoji: '🎀',
+      acento: 0xf06fa8, acentoHex: '#f06fa8',       // rosa
+      acento2: 0x7fd2f0, acento2Hex: '#7fd2f0',     // celeste
+      pared: '#33203a',                             // paredes: ciruela oscuro
+      estructura: '#1c1322',                        // techo y pilares
+      suelo: '#2b1a31',                             // suelo: color uniforme
+      luz: 0xcdeaf7, luzZona: 0xe87fb0, ambiente: 0x08040f,
+      claves: ['rosa', 'rosado', 'chicle', 'blossom', 'celeste', 'turquesa', 'aqua', 'menta',
+        'pastel', 'cielo', 'sky', 'pink', 'bebe', 'lila'],
+    },
+  };
+  S.seccion = 'damas';
+  S.tema = S.SECCIONES.damas;
+  S.busqueda = '';       // texto del buscador de la tienda
+  S.resultados = null;   // resultados del buscador (búsqueda en servidor)
+
+  const sinAcentos = (s) => String(s == null ? '' : s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  S.sinAcentos = sinAcentos;
+
+  // Categoría (sección) de un producto. Los productos sin género declarado
+  // (unisex) están disponibles en todas las secciones.
+  S.seccionDe = (p) => {
+    const g = sinAcentos(p && (p.gender || p.seccion || p.zone));
+    return S.SECCIONES[g] ? g : null;
+  };
+  // Regla de la tienda: solo se puede interactuar con prendas de la categoría
+  // de la sección activa (lo comprueba también la tarjeta de producto).
+  S.enSeccion = (p) => { const g = S.seccionDe(p); return !g || g === S.seccion; };
+
+  // ── Rieles de la tienda (posiciones) ─────────────────────
+  // Ya no son "zonas de catálogo": son los cinco huecos donde SE CUELGAN las
+  // prendas de la sección activa (mk-scenario los ajusta al suelo libre del
+  // modelo) más la vitrina del catálogo interno. El color de cada riel lo pone
+  // el tema de la sección, no esta lista.
   S.ZONES = [
     { id: 'damas', label: 'Damas', color: '#e4006c', zone: 0xe4006c, pos: { x: 0, z: -7.4 }, view: { p: [0, 3.1, 8.8], t: [0, 1.9, -4.4] } },
     { id: 'caballeros', label: 'Caballeros', color: '#2f54d0', zone: 0x2f54d0, pos: { x: -6.8, z: -7.4 }, view: { p: [-8.6, 3.0, 8.0], t: [-6.8, 1.8, -6.4] } },
@@ -32,26 +96,81 @@ window.VRStore = (function () {
   ];
 
   // ── Catálogo (productos reales del seed VivaModa) ──────
+  // Respaldo de demo. Cada prenda pertenece a UNA sección (`gender`/`zone`):
+  // la tienda solo cuelga las de la sección activa.
   S.CATALOG = [
-    { sku: 'VM-DAM-ATELIER', name: 'Vestido Asimétrico Magenta Atelier', category: 'Vestidos de Noche', color: 'Magenta Eléctrico', price: 189900, compareAt: 249900, badge: 'Edición Limitada', zone: 'damas', c3d: 0xe4006c, emoji: '👗' },
-    { sku: 'VM-DAM-8870', name: 'Conjunto Blazer & Pantalón Cobalt', category: 'Oficina', color: 'Cobalt', price: 119000, badge: 'Top Ventas', zone: 'damas', c3d: 0x2447c9, emoji: '👔' },
-    { sku: 'VM-DAM-8810', name: 'Vestido Satinado Fuchsia Night', category: 'Fiesta', color: 'Fuchsia', price: 49900, zone: 'damas', c3d: 0xe4006c, emoji: '👗' },
-    { sku: 'VM-DAM-8840', name: 'Abrigo Oversized Magenta Wool', category: 'Abrigos', color: 'Magenta', price: 89900, zone: 'damas', c3d: 0xb60055, emoji: '🧥' },
-    { sku: 'VM-CAB-8880', name: 'Bomber Jacket Stealth Pro', category: 'Athleisure', color: 'Negro Stealth', price: 69900, zone: 'caballeros', c3d: 0x2a2f3a, emoji: '🧥' },
-    { sku: 'VM-CAB-8820', name: 'Blazer Índigo Desestructurado', category: 'Sastrería', color: 'Índigo', price: 79900, zone: 'caballeros', c3d: 0x3b4b9e, emoji: '🤵' },
-    { sku: 'VM-CAB-8850', name: 'Camisa Oxford Cuello Mao', category: 'Casual', color: 'Blanco Hueso', price: 39900, zone: 'caballeros', c3d: 0xe9e4da, emoji: '👔' },
-    { sku: 'VM-NIN-8890', name: 'Hoodie Colorblock Active Kids', category: 'Streetwear', color: 'Multicolor', price: 27900, zone: 'ninos', c3d: 0xf0a832, emoji: '🧒' },
-    { sku: 'VM-NIN-8830', name: 'Chaqueta Utility Terra Kids', category: 'Urbano', color: 'Terra', price: 34900, zone: 'ninos', c3d: 0xa9714b, emoji: '🧥' },
-    { sku: 'VM-NIN-8860', name: 'Vestido Plisado Soft Blossom', category: 'Vestidos', color: 'Soft Blossom', price: 29900, zone: 'ninos', c3d: 0xf49fb6, emoji: '🎀' },
-    { sku: 'VM-CAL-8811', name: 'Stiletto Vernice Noir 95mm', category: 'Calzado', color: 'Negro Laca', price: 79900, badge: 'Look IA', zone: 'novedades', c3d: 0x111111, emoji: '👠' },
-    { sku: 'VM-ACC-8812', name: 'Clutch Geométrico Brass Doré', category: 'Accesorios', color: 'Brass Doré', price: 49900, badge: 'Look IA', zone: 'novedades', c3d: 0xd4af37, emoji: '👜' },
-    { sku: 'VM-ACC-006', name: 'Cinturón Cuero Magenta', category: 'Accesorios', color: 'Magenta', price: 49000, zone: 'novedades', c3d: 0xa02a5e, emoji: '📿' },
-    { sku: 'VM-DAM-8942', name: 'Vestido Satinado Drapeado', category: 'Vestidos', color: 'Satinado', price: 8990, badge: 'Oferta', zone: 'ofertas', c3d: 0xd7d7d7, emoji: '👗' },
-    { sku: 'VM-CAB-3109', name: 'Bomber Jacket Cobalt Neo', category: 'Chaquetas', color: 'Cobalt Neo', price: 11500, badge: 'Oferta', zone: 'ofertas', c3d: 0x2f54d0, emoji: '🧥' },
-    { sku: 'VM-NIN-7721', name: 'Conjunto Active Warm', category: 'Conjuntos', color: 'Active Warm', price: 4450, badge: 'Oferta', zone: 'ofertas', c3d: 0xf7a35c, emoji: '🧒' },
-    { sku: 'VM-CAL-9910', name: 'Sneakers Platform Cyber', category: 'Calzado', color: 'Cyber', price: 12900, badge: 'Oferta', zone: 'ofertas', c3d: 0xf5f5f5, emoji: '👟' },
+    { sku: 'VM-DAM-ATELIER', name: 'Vestido Asimétrico Magenta Atelier', category: 'Vestidos de Noche', color: 'Magenta Eléctrico', price: 189900, compareAt: 249900, badge: 'Edición Limitada', zone: 'damas', gender: 'damas', c3d: 0xe4006c, emoji: '👗' },
+    { sku: 'VM-DAM-8870', name: 'Conjunto Blazer & Pantalón Cobalt', category: 'Oficina', color: 'Cobalt', price: 119000, badge: 'Top Ventas', zone: 'damas', gender: 'damas', c3d: 0x2447c9, emoji: '👔' },
+    { sku: 'VM-DAM-8810', name: 'Vestido Satinado Fuchsia Night', category: 'Fiesta', color: 'Fuchsia', price: 49900, zone: 'damas', gender: 'damas', c3d: 0xe4006c, emoji: '👗' },
+    { sku: 'VM-DAM-8840', name: 'Abrigo Oversized Magenta Wool', category: 'Abrigos', color: 'Magenta', price: 89900, zone: 'damas', gender: 'damas', c3d: 0xb60055, emoji: '🧥' },
+    { sku: 'VM-CAB-8880', name: 'Bomber Jacket Stealth Pro', category: 'Athleisure', color: 'Negro Stealth', price: 69900, zone: 'caballeros', gender: 'caballeros', c3d: 0x2a2f3a, emoji: '🧥' },
+    { sku: 'VM-CAB-8820', name: 'Blazer Índigo Desestructurado', category: 'Sastrería', color: 'Índigo', price: 79900, zone: 'caballeros', gender: 'caballeros', c3d: 0x3b4b9e, emoji: '🤵' },
+    { sku: 'VM-CAB-8850', name: 'Camisa Oxford Cuello Mao', category: 'Casual', color: 'Blanco Hueso', price: 39900, zone: 'caballeros', gender: 'caballeros', c3d: 0xe9e4da, emoji: '👔' },
+    { sku: 'VM-NIN-8890', name: 'Hoodie Colorblock Active Kids', category: 'Streetwear', color: 'Multicolor', price: 27900, zone: 'ninos', gender: 'ninos', c3d: 0xf0a832, emoji: '🧒' },
+    { sku: 'VM-NIN-8830', name: 'Chaqueta Utility Terra Kids', category: 'Urbano', color: 'Terra', price: 34900, zone: 'ninos', gender: 'ninos', c3d: 0xa9714b, emoji: '🧥' },
+    { sku: 'VM-NIN-8860', name: 'Vestido Plisado Soft Blossom', category: 'Vestidos', color: 'Soft Blossom', price: 29900, zone: 'ninos', gender: 'ninos', c3d: 0xf49fb6, emoji: '🎀' },
+    { sku: 'VM-CAL-8811', name: 'Stiletto Vernice Noir 95mm', category: 'Calzado', color: 'Negro Laca', price: 79900, badge: 'Look IA', zone: 'damas', gender: 'damas', c3d: 0x111111, emoji: '👠' },
+    { sku: 'VM-ACC-8812', name: 'Clutch Geométrico Brass Doré', category: 'Accesorios', color: 'Brass Doré', price: 49900, badge: 'Look IA', zone: 'damas', gender: 'damas', c3d: 0xd4af37, emoji: '👜' },
+    { sku: 'VM-ACC-006', name: 'Cinturón Cuero Magenta', category: 'Accesorios', color: 'Magenta', price: 49000, zone: 'damas', gender: 'damas', c3d: 0xa02a5e, emoji: '📿' },
+    { sku: 'VM-DAM-8942', name: 'Vestido Satinado Drapeado', category: 'Vestidos', color: 'Satinado', price: 8990, badge: 'Oferta', zone: 'damas', gender: 'damas', c3d: 0xd7d7d7, emoji: '👗' },
+    { sku: 'VM-CAB-3109', name: 'Bomber Jacket Cobalt Neo', category: 'Chaquetas', color: 'Cobalt Neo', price: 11500, badge: 'Oferta', zone: 'caballeros', gender: 'caballeros', c3d: 0x2f54d0, emoji: '🧥' },
+    { sku: 'VM-NIN-7721', name: 'Conjunto Active Warm', category: 'Conjuntos', color: 'Active Warm', price: 4450, badge: 'Oferta', zone: 'ninos', gender: 'ninos', c3d: 0xf7a35c, emoji: '🧒' },
+    { sku: 'VM-CAL-9910', name: 'Sneakers Platform Cyber', category: 'Calzado', color: 'Cyber', price: 12900, badge: 'Oferta', zone: 'caballeros', gender: 'caballeros', c3d: 0xf5f5f5, emoji: '👟' },
   ];
   S.bySku = (sku) => S.CATALOG.find((p) => p.sku === sku) || S.CATALOG_INTERNO.find((p) => p.sku === sku);
+
+  // Texto con el que se busca y se puntúa una prenda: nombre, categoría,
+  // colores y SKU, sin acentos ni mayúsculas.
+  S.textoDe = (p) => sinAcentos([
+    p && p.name, p && p.category, p && p.color,
+    (p && Array.isArray(p.colors) ? p.colors.join(' ') : ''), p && p.sku,
+  ].join(' '));
+
+  // Orden de la vitrina de la sección activa: primero las prendas con SUS
+  // colores. Puntúan dos cosas: el nombre/ficha (palabras clave de la paleta:
+  // rojos y vino en Damas, grises y azules en Caballeros, rosas y celestes en
+  // Niños) y el color del modelo 3D de la prenda, que se acerca al acento de la
+  // sección. Empate: se conserva el orden de llegada.
+  const aRGB = (hex) => ({ r: (hex >> 16) & 255, g: (hex >> 8) & 255, b: hex & 255 });
+  const distColor = (a, b) => Math.sqrt((a.r - b.r) ** 2 + (a.g - b.g) ** 2 + (a.b - b.b) ** 2) / 441.67;
+  S.ordenarPorSeccion = function (lista) {
+    const t = S.tema || {};
+    const claves = t.claves || [];
+    const refs = [t.acento, t.acento2].filter((v) => typeof v === 'number').map(aRGB);
+    return lista
+      .map((p, i) => {
+        const texto = S.textoDe(p);
+        let puntos = 0;
+        for (const k of claves) if (texto.includes(k)) puntos += 1;
+        if (typeof p.c3d === 'number' && refs.length) {
+          const c = aRGB(p.c3d);
+          const d = Math.min(...refs.map((r) => distColor(c, r)));
+          if (d < 0.28) puntos += 2;
+          else if (d < 0.5) puntos += 1;
+        }
+        if (p.badge) puntos += 0.5;
+        return { p, puntos, i };
+      })
+      .sort((a, b) => (b.puntos - a.puntos) || (a.i - b.i))
+      .map((x) => x.p);
+  };
+
+  // ── Prendas que se cuelgan ahora mismo ───────────────────
+  // Sección activa + buscador. Si el buscador consultó la API (`resultados`),
+  // se usan esos; si no, se filtra el catálogo cargado.
+  S.vitrinaActual = function () {
+    const q = sinAcentos(S.busqueda).trim();
+    let lista = S.resultados ? S.resultados.slice() : S.CATALOG.filter((p) => S.enSeccion(p));
+    if (!S.resultados && q) lista = lista.filter((p) => S.textoDe(p).includes(q));
+    return S.ordenarPorSeccion(lista);
+  };
+
+  // Productos de almacén/POS (`visibility='ops'` o desactivados) que
+  // pertenecen a la sección activa: los monta la vitrina interna.
+  S.vitrinaInterna = function () {
+    const q = sinAcentos(S.busqueda).trim();
+    return (S.CATALOG_INTERNO || []).filter((p) => S.enSeccion(p) && (!q || S.textoDe(p).includes(q)));
+  };
   // Productos fuera de la vitrina pública (almacén/POS y desactivados).
   // Los llena S.loadInternalCatalog() y los monta la vitrina de mk-ropa.
   S.CATALOG_INTERNO = [];
@@ -70,7 +189,15 @@ window.VRStore = (function () {
   S.part = (name, fn) => S.builders.push({ name, fn });
 
   S.clickables = [];
-  S.addClickable = (m) => S.clickables.push(m);
+  S.addClickable = (m) => { S.clickables.push(m); return m; };
+  // Quita de la lista de clicables los objetos que cumplan el filtro. La vitrina
+  // se vuelve a montar al cambiar de sección o al buscar: sin esto los modelos
+  // retirados seguirían respondiendo al ratón (y mostrarían otra categoría).
+  S.clearClickables = (filtro) => {
+    for (let i = S.clickables.length - 1; i >= 0; i--) {
+      if (!filtro || filtro(S.clickables[i])) S.clickables.splice(i, 1);
+    }
+  };
 
   S.animateHooks = [];
   S.addAnimate = (fn) => S.animateHooks.push(fn);
@@ -85,74 +212,132 @@ window.VRStore = (function () {
   S.catalogReady = null; // promesa que resuelve cuando el catálogo en vivo terminó (o falló)
   const PALETA_C3D = [0xe4006c, 0x2f54d0, 0xf0a832, 0x4b41e1, 0x2f9e73, 0xd4af37, 0xa02a5e, 0x5b8dd6, 0xe07a5f, 0x6c5ce7, 0x00b894, 0x8e44ad];
   const hash = (s) => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; };
-  const MAX_POR_ZONA = 6, MIN_POR_ZONA = 4;
 
-  // El orden importa: novedades/ofertas son las más curadas y reclaman sus SKU
-  // primero; las zonas por género se llenan con lo que quede (así la misma
-  // prenda no cuelga dos veces salvo que una zona se quede muy corta).
-  const ZONAS_API = [
-    ['novedades', (n) => `novedades=true&sort=news&limit=${n}`],
-    ['ofertas', (n) => `ofertas=true&sort=pop&limit=${n}`],
-    ['damas', (n) => `gender=damas&sort=news&limit=${n}`],
-    ['caballeros', (n) => `gender=caballeros&sort=news&limit=${n}`],
-    ['ninos', (n) => `gender=ninos&sort=news&limit=${n}`],
-  ];
+  // La tienda se organiza por secciones: cada una carga sus propias prendas
+  // (una sección necesita llenar varios rieles, no 6 prendas).
+  const SECCIONES_API = ['damas', 'caballeros', 'ninos'];
+  const MAX_POR_SECCION = 24;
+
+  /** Producto del catálogo VR a partir de un item de la API. */
+  function itemDeAPI(it, genero, prev = {}) {
+    return {
+      sku: it.sku,
+      name: it.name || prev.name || it.sku,
+      category: it.category || prev.category || 'Moda',
+      color: (Array.isArray(it.colors) && it.colors[0]) || prev.color || 'VivaModa',
+      colors: Array.isArray(it.colors) ? it.colors.slice(0, 8) : (prev.colors || []),
+      price: Number.isFinite(Number(it.price)) ? Number(it.price) : (prev.price || 0),
+      compareAt: it.compareAt != null ? Number(it.compareAt) : (prev.compareAt != null ? prev.compareAt : null),
+      badge: it.badge || null,
+      zone: genero,
+      gender: genero,
+      c3d: prev.c3d || PALETA_C3D[hash((it.category || '') + '|' + (it.name || '')) % PALETA_C3D.length],
+      emoji: prev.emoji || S.emojiFor(it),
+      image: it.image || prev.image || null,
+      sizes: Array.isArray(it.sizes) ? it.sizes : [],
+      stockBySize: it.stockBySize && typeof it.stockBySize === 'object' ? it.stockBySize : {},
+      stockTotal: Number.isFinite(Number(it.stockTotal)) ? Number(it.stockTotal) : null,
+    };
+  }
 
   S.loadRealCatalog = async function () {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 8000);
     const previos = new Map(S.CATALOG.map((p) => [p.sku, p]));
-    const usados = new Set();
+    const vistos = new Set();
     const nuevos = [];
     try {
-      const lotes = await Promise.all(ZONAS_API.map(async ([zone, q]) => {
-        const res = await fetch('/api/products?' + q(MAX_POR_ZONA * 3), { signal: ctrl.signal });
+      const lotes = await Promise.all(SECCIONES_API.map(async (genero) => {
+        const res = await fetch(`/api/products?gender=${genero}&sort=news&limit=${MAX_POR_SECCION}`, { signal: ctrl.signal });
         if (!res.ok) throw new Error('API ' + res.status);
         const j = await res.json();
-        return { zone, items: Array.isArray(j.items) ? j.items : [] };
+        return { genero, items: Array.isArray(j.items) ? j.items : [] };
       }));
-      for (const { zone, items } of lotes) {
-        const sel = [];
-        for (const it of items) {         // primero: sin repetir SKU entre zonas
-          if (sel.length >= MAX_POR_ZONA) break;
-          if (usados.has(it.sku)) continue;
-          sel.push(it); usados.add(it.sku);
-        }
-        if (sel.length < MIN_POR_ZONA) {  // zona corta: se admite reuso de SKU
-          for (const it of items) {
-            if (sel.length >= MIN_POR_ZONA) break;
-            if (!sel.includes(it)) sel.push(it);
-          }
-        }
-        for (const it of sel) {
-          const prev = previos.get(it.sku) || {};
-          nuevos.push({
-            sku: it.sku,
-            name: it.name || prev.name || it.sku,
-            category: it.category || prev.category || 'Moda',
-            color: (Array.isArray(it.colors) && it.colors[0]) || prev.color || 'VivaModa',
-            price: Number.isFinite(Number(it.price)) ? Number(it.price) : (prev.price || 0),
-            compareAt: it.compareAt != null ? Number(it.compareAt) : (prev.compareAt != null ? prev.compareAt : null),
-            badge: it.badge || null,
-            zone,
-            c3d: prev.c3d || PALETA_C3D[hash((it.category || '') + '|' + (it.name || '')) % PALETA_C3D.length],
-            emoji: prev.emoji || S.emojiFor(it),
-            image: it.image || prev.image || null,
-            sizes: Array.isArray(it.sizes) ? it.sizes : [],
-            stockBySize: it.stockBySize && typeof it.stockBySize === 'object' ? it.stockBySize : {},
-            stockTotal: Number.isFinite(Number(it.stockTotal)) ? Number(it.stockTotal) : null,
-          });
+      for (const { genero, items } of lotes) {
+        for (const it of items) {
+          if (!it || !it.sku || vistos.has(it.sku)) continue;
+          vistos.add(it.sku);
+          nuevos.push(itemDeAPI(it, genero, previos.get(it.sku) || {}));
         }
       }
       if (nuevos.length >= 8) {
         S.CATALOG = nuevos;
-        console.info(`[TiendaVR] catálogo en vivo: ${nuevos.length} prendas repartidas en ${ZONAS_API.length} zonas`);
+        const reparto = SECCIONES_API.map((g) => `${g}: ${nuevos.filter((p) => p.zone === g).length}`).join(' · ');
+        console.info(`[TiendaVR] catálogo en vivo: ${nuevos.length} prendas (${reparto})`);
       } else {
         console.warn('[TiendaVR] la API devolvió muy pocas prendas; se conserva el catálogo local');
       }
     } finally {
       clearTimeout(timer);
     }
+  };
+
+  // ── Buscador de la tienda ───────────────────────────────
+  // Cambia las prendas que se cuelgan en los rieles. Con 2+ letras pregunta a
+  // la API (siempre dentro de la sección activa) para poder encontrar cualquier
+  // prenda y no solo las 24 ya cargadas; si la API no responde, filtra el
+  // catálogo cargado.
+  let buscaCtrl = null;
+  S.buscar = async function (texto) {
+    S.busqueda = String(texto == null ? '' : texto);
+    const q = S.busqueda.trim();
+    if (buscaCtrl) { buscaCtrl.abort(); buscaCtrl = null; }
+    if (q.length < 2) {
+      S.resultados = null;
+      if (typeof S.rebuildRopa === 'function') S.rebuildRopa();
+      return { total: S.vitrinaActual().length, remoto: false };
+    }
+    buscaCtrl = new AbortController();
+    const ctrl = buscaCtrl;
+    const timer = setTimeout(() => ctrl.abort(), 6000);
+    try {
+      const url = `/api/products?gender=${encodeURIComponent(S.seccion)}&q=${encodeURIComponent(q)}&limit=${MAX_POR_SECCION}`;
+      const res = await fetch(url, { signal: ctrl.signal });
+      if (!res.ok) throw new Error('API ' + res.status);
+      const j = await res.json();
+      const items = Array.isArray(j.items) ? j.items : [];
+      const previos = new Map([...S.CATALOG, ...S.CATALOG_INTERNO].map((p) => [p.sku, p]));
+      S.resultados = items.map((it) => itemDeAPI(it, S.seccion, previos.get(it.sku) || {}));
+    } catch (err) {
+      if (err.name !== 'AbortError') console.warn('[TiendaVR] buscador sin conexión, filtro local:', err.message);
+      S.resultados = null;
+    } finally {
+      clearTimeout(timer);
+      if (buscaCtrl === ctrl) buscaCtrl = null;
+    }
+    if (typeof S.rebuildRopa === 'function') S.rebuildRopa();
+    return { total: S.resultados ? S.resultados.length : S.vitrinaActual().length, remoto: Boolean(S.resultados) };
+  };
+
+  // ── Cambio de sección ───────────────────────────────────
+  // Repinta el interior con la paleta de la sección y vuelve a colgar sus
+  // prendas. Solo se interactúa con la categoría de la sección activa.
+  S.setSeccion = function (id) {
+    const t = S.SECCIONES[id];
+    if (!t) return null;
+    const cambio = S.seccion !== id;
+    S.seccion = id;
+    S.tema = t;
+    S.resultados = null;      // los resultados eran de la sección anterior
+    // ── Interfaz ──
+    const root = document.documentElement;
+    root.style.setProperty('--vm-acento', t.acentoHex);
+    root.style.setProperty('--vm-acento2', t.acento2Hex);
+    const sel = document.getElementById('genderSelect');
+    if (sel && sel.value !== id) sel.value = id;
+    const buscador = document.getElementById('storeSearch');
+    if (buscador) buscador.placeholder = `Buscar en ${t.label}…`;
+    // ── Escena ──
+    S.scene.background = new THREE.Color(t.ambiente);
+    (S.zoneLights || []).forEach((l) => { l.color.setHex(t.luzZona); l.intensity = 0.3; });
+    if (S.ring && S.ring.material && S.ring.material.color) S.ring.material.color.setHex(t.acento);
+    if (typeof S.aplicarTemaEscenario === 'function') S.aplicarTemaEscenario(t);
+    // ── Prendas de la sección (repitiendo la búsqueda activa, si la hay) ──
+    if (S.busqueda && S.busqueda.trim().length >= 2) S.buscar(S.busqueda);
+    else if (typeof S.rebuildRopa === 'function') S.rebuildRopa();
+    if (typeof S.onSeccion === 'function') S.onSeccion(id, cambio);
+    console.info(`[TiendaVR] sección ${t.label} · ${S.vitrinaActual().length} prendas${S.busqueda ? ` · búsqueda “${S.busqueda}”` : ''}`);
+    return t;
   };
 
   // ── Catálogo interno (almacén/POS) ──────────────────────
@@ -168,15 +353,22 @@ window.VRStore = (function () {
       if (!res.ok) throw new Error('API ' + res.status);
       const j = await res.json();
       const items = Array.isArray(j.items) ? j.items : [];
-      S.CATALOG_INTERNO = items.map((it) => ({
+      S.CATALOG_INTERNO = items.map((it) => {
+        // La vitrina interna también respeta la sección: cada producto de
+        // almacén/POS se coloca en la sección de su género.
+        const genero = sinAcentos(it.gender);
+        return {
         sku: it.sku,
         name: it.name || it.sku,
         category: it.category || 'Moda',
         color: (Array.isArray(it.colors) && it.colors[0]) || 'VivaModa',
+        colors: Array.isArray(it.colors) ? it.colors.slice(0, 8) : [],
         price: Number.isFinite(Number(it.price)) ? Number(it.price) : 0,
         compareAt: it.compareAt != null ? Number(it.compareAt) : null,
         badge: it.badge || null,
-        zone: 'interno',
+        zone: genero,
+        gender: genero,
+        interno: true,
         c3d: PALETA_C3D[hash((it.category || '') + '|' + (it.name || '')) % PALETA_C3D.length],
         emoji: S.emojiFor(it),
         image: it.image || null,
@@ -185,7 +377,8 @@ window.VRStore = (function () {
         stockTotal: Number.isFinite(Number(it.stockTotal)) ? Number(it.stockTotal) : null,
         // Un producto desactivado se expone pero no se puede comprar.
         missing: it.isActive === false,
-      }));
+        };
+      });
       console.info(`[TiendaVR] catálogo interno: ${S.CATALOG_INTERNO.length} productos fuera de la vitrina pública`);
     } catch (err) {
       console.warn('[TiendaVR] catálogo interno no disponible:', err.message);
@@ -357,8 +550,17 @@ window.VRStore = (function () {
   });
 
   // ── Inicio ──────────────────────────────────────────────
+  /** Sección guardada (el selector de género de la tienda la persiste). */
+  function seccionGuardada() {
+    try {
+      const raw = localStorage.getItem('vivamoda_vr_session');
+      const g = raw ? sinAcentos(JSON.parse(raw).gender) : '';
+      return S.SECCIONES[g] ? g : 'damas';
+    } catch (_) { return 'damas'; }
+  }
+
   S.init = function () {
-    // Catálogo REAL por zona (tallas + stock) antes de montar la escena:
+    // Catálogo REAL por sección (tallas + stock) antes de montar la escena:
     // mk-ropa espera esta promesa para colgar las prendas en los rieles.
     // Si la API no responde, la promesa resuelve igual (se usa el respaldo).
     S.catalogReady = S.loadRealCatalog().catch((err) => {
@@ -368,6 +570,9 @@ window.VRStore = (function () {
     // si la API no responde, la tienda simplemente no monta esa vitrina.
     S.catalogInternoReady = S.loadInternalCatalog();
     S.build();
+    // Tema + prendas de la sección activa (la última usada, si la hay). Sin
+    // esto la tienda arrancaría con la paleta de fábrica.
+    S.setSeccion(seccionGuardada());
     animate();
   };
 

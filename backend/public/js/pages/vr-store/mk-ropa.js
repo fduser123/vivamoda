@@ -15,10 +15,19 @@ VRStore.part('mk-ropa', function (S, g) {
   const MK = S.MK || { cx: 36.9, cz: -5.7, minZ: -12.4, maxZ: 0.9, floorY: 0.30 };
   const FY = MK.floorY ?? 0.30; // piso del interior
 
-  // Zonas ya recolocadas por mk-scenario (leer de S.ZONES)
+  // Rieles ya recolocados por mk-scenario al suelo libre (leer de S.ZONES).
+  // Son cinco huecos genéricos: la sección activa decide qué cuelga en ellos.
   const zones = S.ZONES;
 
   const hangerMat = mat(0x2a2a30, { metalness: 0.7, roughness: 0.35 });
+
+  // ── Vitrina reconstruible ────────────────────────────────
+  // TODO lo que se vuelve a montar (rieles, prendas, podio y vitrina interna)
+  // vive en este grupo: al cambiar de sección o al buscar se vacía y se vuelve
+  // a colgar la ropa de la nueva sección. El letrero de bienvenida queda fuera.
+  const racks = new THREE.Group();
+  g.add(racks);
+  let vitrinaLista = false;   // ya se montó una vez (el interior está medido)
 
   // ── Modelos 3D reales (Blender) ─────────────────────────────────
   // Los .glb los genera `npm run models:3d` (tools/modelos3d) a partir del
@@ -34,7 +43,7 @@ VRStore.part('mk-ropa', function (S, g) {
   const TAM_CAP = 1.0;              // nada más ancho que el hueco del riel
   const TAM_MAX = 1.15;
   const TOPE_GANCHO = -0.05;        // bajo el gancho del riel
-  let colgadas = 0, conModelo = 0, pendientes = 0;
+  let colgadas = 0;   // prendas montadas en la tanda actual
 
   function cargarModelo(prod) {
     const sku = prod && prod.sku;
@@ -86,7 +95,8 @@ VRStore.part('mk-ropa', function (S, g) {
    */
   function ponerModelo(destino, prod, modo = 'colgado', limites = null) {
     return cargarModelo(prod).then((dato) => {
-      pendientes--;
+      // El modelo puede llegar DESPUÉS de un cambio de sección: en ese caso se
+      // añade a un grupo ya retirado de la escena (inofensivo) y no se cuenta.
       if (dato && !destino.userData.modelo) {
         destino.userData.modelo = true;
         if (destino.userData.placeholder) destino.remove(destino.userData.placeholder);
@@ -104,11 +114,9 @@ VRStore.part('mk-ropa', function (S, g) {
           clon.position.y = TOPE_GANCHO - dato.alto;
         }
         destino.add(clon);
-        conModelo++;
       }
-      if (pendientes === 0) {
-        console.log(`[TiendaVR] modelos 3D generados: ${conModelo} de ${colgadas} prendas (rieles, podio y vitrina interna)`);
-      }
+      // El resumen de la tanda lo imprime `montarVitrina`; aquí no se registra
+      // nada porque los modelos llegan de uno en uno y ensuciaría la consola.
       return dato;
     });
   }
@@ -138,19 +146,21 @@ VRStore.part('mk-ropa', function (S, g) {
   }
 
   function hangZone(zone, prods) {
-    if (!prods.length) return;   // zona sin prendas en el catálogo (p. ej. la vitrina interna)
+    if (!prods.length) return;   // riel sin prendas (p. ej. búsqueda sin resultados)
     const zx = zone.pos.x, zz = zone.pos.z;
-    const hex = parseInt(zone.color.replace('#', ''), 16);
+    // Los rieles no tienen cartel propio: el color de referencia es el de la
+    // sección activa (anillos y luces), que cambia con ella.
+    const hex = (S.tema && S.tema.acento) || 0xe4006c;
     const railW = zone.railW || 4.4; // ancho adaptado al hueco libre real
 
     // riel superior con pies (apoyado en el piso del modelo, Y≈0.30)
     const rail = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, railW, 8), hangerMat);
     rail.rotation.z = Math.PI / 2;
     rail.position.set(zx, FY + 2.05, zz);
-    g.add(rail);
+    racks.add(rail);
     const footL = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 2.35, 8), hangerMat);
-    footL.position.set(zx - railW / 2, FY + 0.87, zz); g.add(footL);
-    const footR = footL.clone(); footR.position.x = zx + railW / 2; g.add(footR);
+    footL.position.set(zx - railW / 2, FY + 0.87, zz); racks.add(footL);
+    const footR = footL.clone(); footR.position.x = zx + railW / 2; racks.add(footR);
 
     // prendas colgadas (hasta 5 cuando el hueco del riel lo permite)
     const items = prods.slice(0, railW >= 4.2 ? 5 : 4);
@@ -161,47 +171,41 @@ VRStore.part('mk-ropa', function (S, g) {
       m.userData.product = prod;
       m.userData.ringScale = 0.55;
       m.userData.sway = Math.random() * Math.PI * 2;
+      m.userData.vitrina = true;   // la retira `rebuildRopa` al cambiar de sección
       S.addClickable(m);
-      g.add(m);
+      racks.add(m);
       S.addAnimate((dt, t) => { m.rotation.z = Math.sin(t * 1.1 + m.userData.sway) * 0.02; });
       colgadas++;
-      pendientes++;
       ponerModelo(m, prod);   // cuando llegue el .glb, sustituye la forma provisional
     });
 
-    // letrero flotante de la zona
-    const sign = textSprite(zone.label.toUpperCase(), {
-      bg: 'rgba(20,12,22,0.9)', border: 'rgba(228,0,108,0.85)',
-      size: 40, scale: [2.6, 0.62, 1],
-    });
-    sign.position.set(zx, FY + 2.85, zz);
-    g.add(sign);
+    // (Los carteles por sección se retiraron: ahora la tienda muestra una sola
+    //  sección cada vez y su color ya lo llevan anillos, luces y paredes.)
 
     // anillo guía en el piso
     const ring = new THREE.Mesh(
       new THREE.RingGeometry(1.9, 2.05, 48),
-      new THREE.MeshBasicMaterial({ color: hex, transparent: true, opacity: 0.35, side: THREE.DoubleSide }),
+      new THREE.MeshBasicMaterial({ color: hex, transparent: true, opacity: 0.3, side: THREE.DoubleSide }),
     );
     ring.rotation.x = -Math.PI / 2;
     ring.position.set(zx, FY + 0.02, zz + 1.2);
     ring.scale.setScalar(railW / 4.4); // el anillo también se adapta al hueco
-    g.add(ring);
-    S.addAnimate((dt, t) => { ring.material.opacity = 0.28 + 0.1 * Math.sin(t * 1.6 + zx); });
+    racks.add(ring);
+    S.addAnimate((dt, t) => { ring.material.opacity = 0.22 + 0.08 * Math.sin(t * 1.6 + zx); });
 
-    // luz puntual de la zona
-    const pl = new THREE.PointLight(hex, 0.5, 9, 2);
-    pl.position.set(zx, FY + 2.7, zz);
-    g.add(pl);
+    // Nota: sin foco puntual propio. El riel se ve con las luces de zona del
+    // núcleo (tenues y del color de la sección), que es lo que mantiene el
+    // interior oscuro en vez de lavado.
   }
 
   // ── Contenido por zona + podio ───────────────────────────
   // Se construyen cuando la navegación del interior está lista, para que
   // TODO quede en suelo libre real y con el ancho de riel que el hueco
   // disponible permita (adaptado a las dimensiones del modelo descargado).
-  function buildPodium() {
-    // El podio muestra el SKU estrella; con el catálogo en vivo puede no ser
-    // el Atelier, así que cae a la primera prenda de Damas disponible.
-    const star = S.bySku('VM-DAM-ATELIER') || S.CATALOG.find((p) => p.zone === 'damas') || S.CATALOG[0];
+  function buildPodium(lista) {
+    // El podio muestra la prenda estrella DE LA SECCIÓN activa: la primera de
+    // la vitrina ya viene ordenada con los colores de la sección delante.
+    const star = (lista && lista[0]) || null;
     if (!star) return;
     let px = MK.cx, pz = MK.cz + 2;
     if (S.mkNav && S.mkNav.ready && S.mkNav.freeSpots) {
@@ -214,7 +218,7 @@ VRStore.part('mk-ropa', function (S, g) {
     );
     podium.position.set(px, FY + 0.28, pz);
     podium.castShadow = true;
-    g.add(podium);
+    racks.add(podium);
     // Vitrina del producto estrella: la forma provisional es el cono de
     // siempre y el modelo real se pone de pie encima del podio.
     const vitrina = new THREE.Group();
@@ -226,15 +230,15 @@ VRStore.part('mk-ropa', function (S, g) {
     provisional.castShadow = true;
     vitrina.add(provisional);
     vitrina.userData.placeholder = provisional;
+    vitrina.userData.vitrina = true;
     S.addClickable(vitrina);
-    g.add(vitrina);
+    racks.add(vitrina);
     colgadas++;
-    pendientes++;
     podioPos = { x: px, z: pz };
     ponerModelo(vitrina, star, 'de-pie');
-    const glow = new THREE.PointLight(VM.primary, 1.0, 6, 2);
+    const glow = new THREE.PointLight((S.tema && S.tema.acento) || VM.primary, 0.7, 5, 2);
     glow.position.set(px, FY + 2.4, pz);
-    g.add(glow);
+    racks.add(glow);
   }
 
   // ── Vitrina del catálogo interno (almacén/POS) ──────────
@@ -249,7 +253,10 @@ VRStore.part('mk-ropa', function (S, g) {
   let podioPos = null;
 
   function buildVitrinaInterna() {
-    const prods = (S.CATALOG_INTERNO || []).slice(0, VIT_FILAS * VIT_COLS);
+    // Solo los productos de almacén/POS de la SECCIÓN activa (y que pasen el
+    // buscador): la vitrina interna tampoco puede dar acceso a otra categoría.
+    const prods = (S.vitrinaInterna ? S.vitrinaInterna() : (S.CATALOG_INTERNO || []))
+      .slice(0, VIT_FILAS * VIT_COLS);
     if (!prods.length) return;
     const ancho = VIT_COLS * VIT_PASO + 0.5;
     const semi = ancho / 2;
@@ -309,7 +316,7 @@ VRStore.part('mk-ropa', function (S, g) {
     const mueble = new THREE.Group();
     mueble.position.set(base.x, FY, base.z);
     mueble.rotation.y = base.yaw;
-    g.add(mueble);
+    racks.add(mueble);
 
     const techoBalda = 0.2 + VIT_ALTO_FILA * (VIT_FILAS - 1);   // balda más alta
     const altoPanel = techoBalda + 0.3;
@@ -345,10 +352,10 @@ VRStore.part('mk-ropa', function (S, g) {
         sitio.rotation.y = Math.PI;              // de cara al pasillo
         sitio.userData.product = prod;
         sitio.userData.ringScale = 0.5;
+        sitio.userData.vitrina = true;
         S.addClickable(sitio);
         mueble.add(sitio);
         colgadas++;
-        pendientes++;
         // La fila de arriba se recorta más: si no, las prendas altas tapan el letrero.
         const alto = fila === VIT_FILAS - 1 ? 0.45 : VIT_ALTO_MAX;
         ponerModelo(sitio, prod, 'de-pie', { alto, mayor: VIT_ANCHO_MAX });
@@ -361,7 +368,7 @@ VRStore.part('mk-ropa', function (S, g) {
     });
     cartel.position.set(0, 0.05 + altoPanel + 0.24, 0.0);
     mueble.add(cartel);
-    const foco = new THREE.PointLight(0x6c5ce7, 0.7, 9, 2);
+    const foco = new THREE.PointLight(0x6c5ce7, 0.45, 7, 2);
     foco.position.set(0, 0.05 + altoPanel + 0.1, 1.1);
     mueble.add(foco);
 
@@ -380,13 +387,43 @@ VRStore.part('mk-ropa', function (S, g) {
     console.log(`[TiendaVR] vitrina interna: ${Math.min(prods.length, VIT_FILAS * VIT_COLS)} productos en (${base.x.toFixed(1)}, ${base.z.toFixed(1)})`);
   }
 
-  function buildZoneContent() {
-    zones.forEach((zone) => {
-      hangZone(zone, S.CATALOG.filter((p) => p.zone === zone.id));
-    });
-    buildPodium();
+  // ── Montaje de la vitrina (sección activa + buscador) ────
+  // Los cinco rieles se reparten las prendas de la sección activa en el orden
+  // que devuelve el núcleo (primero los colores de la sección). Al cambiar de
+  // sección o buscar, `S.rebuildRopa` vacía `racks` y vuelve a montarlo todo.
+  function montarVitrina() {
+    // fuera lo anterior (prendas, anillos, podio y vitrina interna)
+    S.clearClickables((o) => o.userData && o.userData.vitrina);
+    for (let i = racks.children.length - 1; i >= 0; i--) racks.remove(racks.children[i]);
+    colgadas = 0; podioPos = null;
+
+    const lista = S.vitrinaActual ? S.vitrinaActual() : S.CATALOG.slice();
+    const rieles = zones.filter((z) => z.id !== 'interno');
+    const porRiel = Math.max(1, Math.ceil(lista.length / (rieles.length || 1)));
+    rieles.forEach((z, i) => hangZone(z, lista.slice(i * porRiel, (i + 1) * porRiel)));
+    buildPodium(lista);
     buildVitrinaInterna();
+    firmaVitrina = firmaDeVitrina();
+    console.info(`[TiendaVR] vitrina sección ${S.seccion}: ${colgadas} prendas de ${lista.length} en ${rieles.length} rieles`);
   }
+
+  // Firma de lo que hay colgado (sección + SKUs): evita volver a montar la
+  // misma vitrina dos veces seguidas (el arranque y un cambio de sección al
+  // mismo SKU la pedirían repetida) pero sí reacciona a cualquier cambio real.
+  function firmaDeVitrina() {
+    const lista = S.vitrinaActual ? S.vitrinaActual() : [];
+    return S.seccion + '#' + lista.map((p) => p.sku).join('|');
+  }
+  let firmaVitrina = '';
+
+  // Vuelve a montar la vitrina (cambio de sección o búsqueda). Si el interior
+  // todavía se está midiendo, se ignora: el montaje inicial ya usará la
+  // sección y la búsqueda vigentes en ese momento.
+  S.rebuildRopa = function (forzar) {
+    if (!vitrinaLista) return;
+    if (!forzar && firmaDeVitrina() === firmaVitrina) return;
+    montarVitrina();
+  };
 
   // La ropa se cuelga cuando el interior está medido Y el catálogo en vivo
   // está listo (o falló): así los rieles muestran prendas reales con stock.
@@ -395,7 +432,7 @@ VRStore.part('mk-ropa', function (S, g) {
     else window.addEventListener('mk:zones', res, { once: true });
   });
   Promise.all([zonasListas, S.catalogReady || Promise.resolve(), S.catalogInternoReady || Promise.resolve()])
-    .then(() => buildZoneContent());
+    .then(() => { montarVitrina(); vitrinaLista = true; });
 
   // ── Bienvenida sobre la entrada ──────────────────────────
   const welcome = textSprite('VivaModa · Bienvenidos', {
