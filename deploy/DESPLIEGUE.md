@@ -21,11 +21,11 @@ gratuito que da 16 GB y permite ejecutar PyTorch.
 
 | Archivo | Para qué sirve |
 |---|---|
-| `docs/despliegue/requirements.txt` | Dependencias del sidecar, versiones exactas probadas |
-| `docs/despliegue/Dockerfile` | Imagen del Space de Hugging Face |
-| `docs/despliegue/README-space.md` | Ficha del Space (renombrar a `README.md`) |
-| `docs/despliegue/render.yaml` | Configuración de Render (va en la raíz del repo) |
-| `docs/despliegue/migrar-base.sh` | Exporta la base local y la importa en Supabase |
+| `deploy/requirements.txt` | Dependencias del sidecar, versiones exactas probadas |
+| `deploy/Dockerfile` | Imagen del Space de Hugging Face |
+| `deploy/README-space.md` | Ficha del Space (renombrar a `README.md`) |
+| `render.yaml` (raíz) | Configuración de Render. **Debe estar en la raíz**, no en `deploy/`: Render solo lo detecta ahí |
+| `deploy/migrar-base.sh` | Exporta la base local y la importa en Supabase |
 | `backend/ai/embed_server.py` | **Ya modificado**: `EMBED_HOST` y `PORT` por variables de entorno |
 
 ---
@@ -126,7 +126,7 @@ git check-ignore -v backend/.env
 
 ---
 
-### 2. `docs/despliegue/README-space.md` → **renombrarlo a `README.md`**
+### 2. `deploy/README-space.md` → **renombrarlo a `README.md`**
 
 **Dónde:** al crear el Space en Hugging Face, el archivo **debe llamarse
 `README.md`** exactamente. Si lo subes como `README-space.md`, el Space no
@@ -145,7 +145,7 @@ app_port: 7860                     ← NO lo cambies, debe coincidir con el Dock
 
 ---
 
-### 3. `docs/despliegue/Dockerfile` — **una línea opcional**
+### 3. `deploy/Dockerfile` — **una línea opcional**
 
 **Ubicación:** en la raíz del Space (junto al `README.md` y `embed_server.py`).
 
@@ -160,16 +160,13 @@ Si cambias uno, cambia los dos.
 
 ---
 
-### 4. `docs/despliegue/render.yaml` — **colócalo en la RAÍZ del repositorio**
+### 4. `render.yaml` — **ya está en la RAÍZ, no lo muevas**
 
-**Ubicación final:** `proyecto 1/proyecto 1/render.yaml` (no dentro de docs).
+**Ubicación:** `proyecto 1/proyecto 1/render.yaml`, en la raíz.
 
-Cópialo:
-
-```bash
-cd "/home/a/Escritorio/p/proyecto 1/proyecto 1"
-cp docs/despliegue/render.yaml .
-```
+Render solo detecta este archivo si está en la raíz del repositorio, por eso no
+vive en `deploy/` con el resto de la configuración. Si lo mueves, Render deja
+de aplicarlo y tendrás que configurar el servicio a mano desde su panel.
 
 Si tu repositorio en GitHub tiene otra rama como principal, edita:
 
@@ -247,7 +244,7 @@ CDN. **No los borres sin más**: la tienda VR y la asesora 3D los necesitan.
    `?sslmode=require` al final
 4. Migra los datos desde tu máquina:
    ```bash
-   cd "/home/a/Escritorio/p/proyecto 1/proyecto 1/docs/despliegue"
+   cd "/home/a/Escritorio/p/proyecto 1/proyecto 1/deploy"
    ./migrar-base.sh "postgresql://postgres:CLAVE@db.xxxx.supabase.co:5432/postgres"
    ```
 5. Verifica:
@@ -263,9 +260,9 @@ CDN. **No los borres sin más**: la tienda VR y la asesora 3D los necesitan.
 
    | Archivo local | Nombre en el Space |
    |---|---|
-   | `docs/despliegue/Dockerfile` | `Dockerfile` |
-   | `docs/despliegue/requirements.txt` | `requirements.txt` |
-   | `docs/despliegue/README-space.md` | **`README.md`** ← renombrar |
+   | `deploy/Dockerfile` | `Dockerfile` |
+   | `deploy/requirements.txt` | `requirements.txt` |
+   | `deploy/README-space.md` | **`README.md`** ← renombrar |
    | `backend/ai/embed_server.py` | `embed_server.py` |
 
 3. Espera a que construya (10-15 min la primera vez)
