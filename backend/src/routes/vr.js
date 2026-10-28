@@ -1,8 +1,133 @@
 import { Router } from 'express';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import QRCode from 'qrcode';
 import { pool } from '../db.js';
 import { requireAuth, publicUser } from '../middleware/auth.js';
 
 const router = Router();
+
+/* ============================================================
+   REALIDAD AUMENTADA  (fases 0 y 1 del plan)
+   ------------------------------------------------------------
+   - GET /api/vr/ar/:sku          → qué puede abrir el botón «Ver en AR»:
+     .glb (WebXR / Scene Viewer), .usdz (Quick Look de iOS) y medidas
+     REALES del modelo en metros.
+   - GET /api/vr/ar/:sku/qr.png   → QR para pasar la ficha al móvil desde
+     el escritorio (misma URL con `?ar=<sku>`, que abre la RA sola).
+
+   Las medidas salen de `public/models/generated/index.json`, que escribe
+   `npm run models:3d` con las dimensiones reales de cada pieza. Si un SKU
+   no tiene modelo, `disponible` viene en false y el frontend no anuncia AR.
+   ============================================================ */
+const AQUI = path.dirname(fileURLToPath(import.meta.url));
+const MODELOS = path.resolve(AQUI, '..', '..', 'public', 'models', 'generated');
+
+// Índice de modelos en memoria, invalidado por fecha de modificación: si se
+// regeneran los .glb mientras el servidor corre, se relee solo.
+let indice = { mtime: 0, porSku: new Map() };
+function modeloDe(sku) {
+  const ruta = path.join(MODELOS, 'index.json');
+  try {
+    const st = fs.statSync(ruta);
+    if (st.mtimeMs !== indice.mtime) {
+      const crudo = JSON.parse(fs.readFileSync(ruta, 'utf8'));
+      const porSku = new Map();
+      for (const m of Object.values(crudo.modelos || {})) {
+        if (m && m.sku) porSku.set(m.sku, m);
+      }
+      indice = { mtime: st.mtimeMs, porSku };
+    }
+  } catch (err) {
+    if (err.code !== 'ENOENT') console.warn('[vr/ar] índice de modelos:', err.message);
+  }
+  return indice.porSku.get(sku) || null;
+}
+
+/* ---------- POST /api/vr/ar/evento ---------- */
+// Analítica de la RA sin tabla nueva: queda en el log del servidor con el
+// SKU, el modo (webxr/quicklook/visor) y el instante. Es un beacon, así que
+// responde 204 sin cuerpo y nunca debe romper la tienda.
+router.post('/ar/evento', (req, res) => {
+  const { evento, ...datos } = req.body || {};
+  const nombre = String(evento || '').slice(0, 40);
+  if (nombre) {
+    const limpio = {};
+    for (const [k, v] of Object.entries(datos)) {
+      if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
+        limpio[String(k).slice(0, 24)] = typeof v === 'string' ? v.slice(0, 80) : v;
+      }
+    }
+    console.info('[AR]', nombre, JSON.stringify(limpio));
+  }
+  res.status(204).end();
+});
+
+/* ---------- GET /api/vr/ar/:sku ---------- */
+router.get('/ar/:sku', async (req, res) => {
+  const sku = String(req.params.sku || '').trim();
+  if (!sku) return res.status(400).json({ error: 'Falta el SKU' });
+  try {
+    const { rows } = await pool.query(
+      'SELECT sku, name, category, gender, price::float8 AS price, is_active FROM products WHERE sku = $1',
+      [sku],
+    );
+    const p = rows[0];
+    if (!p) return res.status(404).json({ error: 'Producto no encontrado', code: 'SKU_NOT_FOUND' });
+
+    const m = modeloDe(sku);
+    const glb = m ? `/models/generated/${encodeURIComponent(m.archivo || sku + '.glb')}` : null;
+    // El USDZ es opcional: sin Blender solo existe el .glb y Quick Look no puede.
+    const hayUsdz = fs.existsSync(path.join(MODELOS, sku + '.usdz'));
+    const usdz = hayUsdz ? `/models/generated/${encodeURIComponent(sku + '.usdz')}` : null;
+    const medidas = m && m.alto
+      ? { alto: m.alto, ancho: m.ancho, fondo: m.fondo }
+      : null;
+
+    res.set('Cache-Control', 'public, max-age=3600');
+    res.json({
+      sku: p.sku,
+      name: p.name,
+      category: p.category,
+      gender: p.gender,
+      price: Number(p.price),
+      isActive: p.is_active,
+      familia: m ? m.familia : null,
+      glb,
+      usdz,
+      medidas,
+      disponible: Boolean(glb),
+      urls: {
+        glb, usdz,
+        ficha: `/detalle-de-producto?sku=${encodeURIComponent(p.sku)}`,
+        tienda: `/tienda-virtual-realidad?ar=${encodeURIComponent(p.sku)}`,
+      },
+    });
+  } catch (err) {
+    console.error('[vr/ar]', err);
+    res.status(500).json({ error: 'Error preparando la RA' });
+  }
+});
+
+/* ---------- GET /api/vr/ar/:sku/qr.png ---------- */
+// El QR usa el host por el que llegó la petición: si el usuario está viendo la
+// tienda desde su portátil, el móvil de al lado abre exactamente esa misma
+// dirección (misma WiFi), que es lo que hace falta para las cámaras y WebXR.
+router.get('/ar/:sku/qr.png', async (req, res) => {
+  const sku = String(req.params.sku || '').trim();
+  if (!sku) return res.status(400).type('text').send('Falta el SKU');
+  try {
+    const { rows } = await pool.query('SELECT sku FROM products WHERE sku = $1', [sku]);
+    if (!rows[0]) return res.status(404).type('text').send('Producto no encontrado');
+    const url = `${req.protocol}://${req.get('host')}/tienda-virtual-realidad?ar=${encodeURIComponent(rows[0].sku)}`;
+    const png = await QRCode.toBuffer(url, { width: 480, margin: 2, errorCorrectionLevel: 'M' });
+    res.type('png').set('Cache-Control', 'public, max-age=3600').send(png);
+  } catch (err) {
+    console.error('[vr/ar/qr]', err);
+    res.status(500).type('text').send('No se pudo generar el QR');
+  }
+});
 
 /* ============================================================
    VR CUSTOMER SESSION  (persona / avatar / gustos)

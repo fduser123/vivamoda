@@ -480,6 +480,9 @@ VRStore.part('interaccion', function (S, g) {
     card.classList.remove('hidden');
     markChip(S.seccionDe(prod) || S.seccion);
     S.currentProduct = prod; // el probador del espejo usa la última prenda abierta
+    // Responsabilidad de la RA: decidir si esta prenda se puede ver en el
+    // mundo real y con qué lanzador (Quick Look, Scene Viewer o WebXR).
+    if (window.VRAR && VRAR.ui) VRAR.ui.actualizar(prod);
     pintarCompra(prod);
   }
 

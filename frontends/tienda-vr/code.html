@@ -29,6 +29,11 @@
   .pulse-dot { animation: pulseDot 1.6s ease-in-out infinite; }
   #loader { transition: opacity .6s ease; }
   #productCard { animation: vmfade .28s ease; }
+  /* Botón de realidad aumentada: usa el acento de la sección activa */
+  .ar-btn { background: linear-gradient(135deg, var(--vm-acento), var(--vm-acento2)); box-shadow: 0 10px 24px -12px var(--vm-acento); }
+  .ar-btn:hover { filter: brightness(1.1); }
+  .ar-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  .ar-btn img { background: rgba(255,255,255,0.25); }
 </style>
 </head>
 <body>
@@ -139,7 +144,16 @@
         <span id="cardCompare" class="text-sm text-[#906e75] line-through hidden"></span>
         <span id="cardBadge" class="hidden text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#4b41e1] text-white"></span>
       </div>
-      <div class="flex gap-2 mt-4">
+      <!-- Realidad aumentada: se muestra solo si el SKU tiene modelo y el
+           dispositivo puede abrirlo (ver js/pages/vr-store/ar/ui.js) -->
+      <a id="cardArBtn" href="#" aria-hidden="true"
+         class="hidden flex ar-btn w-full mt-4 rounded-xl text-white text-sm font-extrabold py-2.5 items-center justify-center gap-1.5 transition-all">
+        <span class="material-symbols-outlined text-base">view_in_ar</span>
+        <img id="cardArImg" alt="" class="w-4 h-4 rounded object-cover" />
+        <span id="cardArLabel">Ver en AR</span>
+      </a>
+
+      <div class="flex gap-2 mt-2">
         <a id="cardLink" href="#" class="flex-1 text-center rounded-xl bg-[#f6f2f5] hover:bg-[#eae7ea] text-[#b60055] text-sm font-bold py-2.5 transition-colors">Ver detalle</a>
       </div>
 
@@ -259,6 +273,7 @@
     <div class="mt-3 flex items-center gap-2">
       <button id="tryonTabAvatar" class="chip active glass rounded-full px-3 py-1.5 text-[11px] font-bold text-white/85 border border-white/15">En mi avatar</button>
       <button id="tryonTabPhoto" class="chip glass rounded-full px-3 py-1.5 text-[11px] font-bold text-white/85 border border-white/15">Con mi foto (IA)</button>
+      <button id="tryonTabLive" class="chip glass rounded-full px-3 py-1.5 text-[11px] font-bold text-white/85 border border-white/15">En vivo (AR)</button>
     </div>
 
     <!-- Modo 1 · vestir al avatar 3D de la tienda -->
@@ -307,6 +322,18 @@
         <p class="mt-1.5 text-[11px] text-white/55">Vista previa generada por IA · orientativa · mírate también en el espejo</p>
       </div>
     </div>
+
+    <!-- Modo 3 · probador en vivo con la cámara (RA, sin WebXR) -->
+    <div id="tryonLivePane" class="hidden mt-3">
+      <p id="tryonLiveMsg" class="text-[12px] text-white/75"></p>
+      <div class="mt-2.5 rounded-xl bg-white/5 border border-white/10 p-3 text-[11px] text-white/60 leading-snug">
+        Abre la cámara frontal y la prenda se coloca sobre tus hombros mientras te mueves.
+        Todo ocurre en tu dispositivo: no se sube vídeo ni capturas.
+      </div>
+      <button id="tryonLiveGo" class="w-full mt-3 rounded-xl bg-[#e4006c] hover:bg-[#ff2d86] text-white font-extrabold py-3 flex items-center justify-center gap-2 transition-colors">
+        <span class="material-symbols-outlined text-base">photo_camera_front</span>Abrir cámara con la prenda
+      </button>
+    </div>
   </div>
 </div>
 
@@ -330,6 +357,15 @@
 <script src="/js/pages/vr-store/avatar.js"></script>
 <script src="/js/pages/vr-store/avatar-client.js"></script>
 <script src="/js/pages/vr-store/mode-fps.js"></script>
+
+<!-- ═══════════ Realidad aumentada ═══════════
+     Plan y alcance en docs/PLAN-REALIDAD-AUMENTADA.md. El orden importa:
+     capacidades → lanzadores nativos → sesión WebXR → espejo → interfaz. -->
+<script src="/js/pages/vr-store/ar/capacidades.js"></script>
+<script src="/js/pages/vr-store/ar/quicklook.js"></script>
+<script src="/js/pages/vr-store/ar/sesion.js"></script>
+<script src="/js/pages/vr-store/ar/espejo.js"></script>
+<script src="/js/pages/vr-store/ar/ui.js"></script>
 <script>VRStore.init();</script>
 </body>
 </html>

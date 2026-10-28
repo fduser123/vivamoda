@@ -4,12 +4,18 @@ Generador de modelos 3D paramétricos del catálogo VivaModa (Blender headless).
 
     cd backend && npm run models:3d          # solo la vitrina pública
     cd backend && npm run models:3d:todos    # + almacén/POS y desactivados
+    cd backend && npm run models:3d:usdz     # + .usdz para AR Quick Look (iOS)
     blender --background --factory-startup --python tools/modelos3d/generar_modelos.py -- --limite 12
     blender --background --factory-startup --python tools/modelos3d/generar_modelos.py -- --solo VM-DAM-ATELIER
 
 Lee `tools/modelos3d/perfil.json` (lo produce exportar-productos.mjs a partir de
 la base de datos) y escribe un .glb por producto en `public/models/generated/`
 más un `index.json` con sku → archivo, nombre, familia, medidas y triángulos.
+
+Con `--usdz` escribe además un `.usdz` por producto: es el único formato que
+ABRE AR Quick Look en iPhone/iPad. Requiere Blender 4.0 o superior (el operador
+`bpy.ops.wm.usdz_export` no existe en 3.x); en versiones anteriores se avisa y
+se sigue generando el .glb, sin tumbar la tanda.
 
 Convenciones de los modelos (para poder colocarlos sin sorpresas):
 
@@ -35,6 +41,11 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 BACKEND = os.path.abspath(os.path.join(AQUI, os.pardir, os.pardir))
 PERFIL = os.path.join(AQUI, 'perfil.json')
 SALIDA = os.path.abspath(os.environ.get('MODELOS3D_SALIDA') or os.path.join(BACKEND, 'public', 'models', 'generated'))
+
+# Se enciende con `--usdz` (ver main). Fuera del .glb, el USDZ es lo que
+# convierte el modelo en realidad aumentada nativa en iOS.
+EXPORTAR_USDZ = False
+_usdz_aviso = False   # el aviso de «Blender viejo» se imprime una sola vez
 
 # ── Materiales ──────────────────────────────────────────────────────────────
 # metallic, roughness, sheen y alpha por tipo de material. La elección real se
@@ -892,6 +903,11 @@ def exportar(p, carpeta, familia):
     ruta = os.path.join(carpeta, p['sku'] + '.glb')
     bpy.ops.export_scene.gltf(filepath=ruta, export_format='GLB', export_apply=True,
                               export_yup=True, export_extras=True, use_selection=False)
+
+    usdz = None
+    if EXPORTAR_USDZ:
+        usdz = exportar_usdz(carpeta, p['sku'])
+
     return {
         'sku': p['sku'],
         'archivo': p['sku'] + '.glb',
@@ -907,7 +923,48 @@ def exportar(p, carpeta, familia):
         'fondo': round(maxy - miny, 3),
         'triangulos': len(ob.data.loop_triangles),
         'bytes': os.path.getsize(ruta),
+        'usdz': usdz,
     }
+
+
+def exportar_usdz(carpeta, sku):
+    """Escribe `<sku>.usdz` y devuelve su tamaño en bytes (None si no se pudo).
+
+    El USDZ es un ZIP de escena USD + texturas empaquetadas: Quick Look lo abre
+    con `rel="ar"` y lo ancla a escala 1:1. Si el operador no existe (Blender
+    < 4.0) o falla en una pieza concreta, se avisa UNA vez y se sigue con el
+    resto de la tanda: el .glb ya está escrito y la tienda web lo usa igual.
+    """
+    global _usdz_aviso
+    ruta = os.path.join(carpeta, sku + '.usdz')
+    try:
+        bpy.ops.wm.usdz_export(
+            filepath=ruta,
+            export_apply=True,
+            export_textures=True,
+            export_materials=True,
+            export_normals=True,
+            export_uvmaps=True,
+            use_org_hierarchy=True,
+        )
+        return os.path.getsize(ruta)
+    except AttributeError:
+        # Hay compilaciones de Blender sin USD (el paquete de Debian, por
+        # ejemplo): no es un fallo del producto, pero conviene decirlo claro.
+        if not _usdz_aviso:
+            _usdz_aviso = True
+            print('[modelos3d] esta compilación de Blender (%s) no incluye el '
+                  'exportador USDZ; se generan solo los .glb. Usa un Blender '
+                  'oficial 4.0+ para la RA de iPhone.' % bpy.app.version_string)
+        return None
+    except Exception as err:                                       # noqa: BLE001
+        print('   !! usdz %s: %s' % (sku, err))
+        try:
+            if os.path.exists(ruta):
+                os.remove(ruta)   # no dejar un archivo a medias que Safari abriría
+        except OSError:
+            pass
+        return None
 
 
 def limpiar():
@@ -928,9 +985,11 @@ def arg(nombre, defecto=None):
 
 
 def main():
+    global EXPORTAR_USDZ
     limite = int(arg('--limite', 0) or 0)
     solo = arg('--solo')
     salida = arg('--salida') or SALIDA
+    EXPORTAR_USDZ = bool(arg('--usdz'))
     os.makedirs(salida, exist_ok=True)
 
     with open(PERFIL, encoding='utf-8') as fh:
@@ -963,9 +1022,10 @@ def main():
         try:
             entrada = exportar(p, salida, familia)
             indice.append(entrada)
-            print('  %3d/%3d  %-24s %-14s %5.2f m  %5d tri  %6.1f KB'
+            print('  %3d/%3d  %-24s %-14s %5.2f m  %5d tri  %6.1f KB%s'
                   % (i, len(productos), p['sku'], familia, entrada['alto'],
-                     entrada['triangulos'], entrada['bytes'] / 1024))
+                     entrada['triangulos'], entrada['bytes'] / 1024,
+                     '  +usdz' if entrada.get('usdz') else ''))
         except Exception as err:                                   # noqa: BLE001
             fallos.append((p['sku'], str(err)))
             print('  !! %s: %s' % (p['sku'], err))

@@ -18,7 +18,7 @@
   const S = window.VRStore;
   const VM = window.VM || {};
   const $ = (id) => document.getElementById(id);
-  const MAX_CHARS = 580000; // la API rechaza data URLs por encima de ~600 KB
+  const MAX_CHARS = 580000; // tope único del backend: 512 KB (AI_IMAGE_MAX_KB)
 
   let fotoDataUrl = null;
   let prenda = null;
@@ -180,13 +180,25 @@
     if (!prenda) nota('Elige una prenda y vuelve a tocar el espejo del probador', 'info');
   }
 
-  // ── Pestañas: probar en el avatar o con foto (IA) ───────
+  // ── Pestañas: avatar 3D, foto (IA) o espejo en vivo (RA) ──
   function setTab(cual) {
-    const avatar = cual !== 'foto';
-    $('tryonTabAvatar')?.classList.toggle('active', avatar);
-    $('tryonTabPhoto')?.classList.toggle('active', !avatar);
-    $('tryonAvatarPane')?.classList.toggle('hidden', !avatar);
-    $('tryonPhotoPane')?.classList.toggle('hidden', avatar);
+    const esAvatar = cual === 'avatar';
+    const esFoto = cual === 'foto';
+    const esVivo = cual === 'vivo';
+    $('tryonTabAvatar')?.classList.toggle('active', esAvatar);
+    $('tryonTabPhoto')?.classList.toggle('active', esFoto);
+    $('tryonTabLive')?.classList.toggle('active', esVivo);
+    $('tryonAvatarPane')?.classList.toggle('hidden', !esAvatar);
+    $('tryonPhotoPane')?.classList.toggle('hidden', !esFoto);
+    $('tryonLivePane')?.classList.toggle('hidden', !esVivo);
+    if (esVivo) {
+      const el = $('tryonLiveMsg');
+      if (el) {
+        el.textContent = prenda
+          ? `Se abrirá la cámara y ${prenda.name} se colocará sobre tus hombros.`
+          : 'Elige una prenda en la tienda para probártela en vivo.';
+      }
+    }
   }
 
   function pintarEstadoAvatar() {
@@ -312,6 +324,14 @@
     document.querySelectorAll('[data-tryon-close]').forEach((el) => el.addEventListener('click', cerrar));
     $('tryonTabAvatar')?.addEventListener('click', () => setTab('avatar'));
     $('tryonTabPhoto')?.addEventListener('click', () => setTab('foto'));
+    $('tryonTabLive')?.addEventListener('click', () => setTab('vivo'));
+    $('tryonLiveGo')?.addEventListener('click', () => {
+      const p = prenda || S.currentProduct;
+      if (!p) { nota('Elige una prenda en la tienda primero', 'info'); return; }
+      if (!window.VRAR || !VRAR.espejo) { nota('El probador en vivo no está disponible', 'error'); return; }
+      cerrar();
+      VRAR.espejo.abrir(p);
+    });
     $('tryonPick')?.addEventListener('click', () => $('tryonFile')?.click());
     $('tryonFile')?.addEventListener('change', onFoto);
     $('tryonGo')?.addEventListener('click', generar);

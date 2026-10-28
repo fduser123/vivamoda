@@ -388,12 +388,18 @@ window.VRStore = (function () {
   };
 
   const canvas = document.getElementById('sceneCanvas');
+  // Calidad según el dispositivo (ver /js/device.js). Un móvil con DPR 3
+  // dibujaba 9× los píxeles de un monitor: se limita a 1.5; en tablet, 1.75.
+  // Si el navegador pide ahorro de datos o declara poca RAM, se apagan las
+  // sombras suaves, que son la parte más cara de la escena.
+  const VD = window.VMDevice;
+  const dprMax = VD && VD.es && VD.es.phone ? 1.5 : (VD && VD.es && VD.es.tablet ? 1.75 : 2);
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, dprMax));
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.outputEncoding = THREE.sRGBEncoding;
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.shadowMap.enabled = !(VD && VD.recursosBajos);
+  renderer.shadowMap.type = (VD && VD.es && VD.es.phone) ? THREE.PCFShadowMap : THREE.PCFSoftShadowMap;
   S.renderer = renderer;
 
   const scene = new THREE.Scene();
@@ -510,6 +516,9 @@ window.VRStore = (function () {
 
   function animate() {
     requestAnimationFrame(animate);
+    // Una sesión de realidad aumentada (ar/sesion.js) usa su propio renderer:
+    // mientras dura, la tienda no dibuja para no partir los fps del móvil.
+    if (S.pausado) return;
     const dt = Math.min(S.clock.getDelta(), 0.05);
     const t = S.clock.elapsedTime;
 

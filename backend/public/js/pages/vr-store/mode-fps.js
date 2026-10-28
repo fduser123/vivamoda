@@ -76,11 +76,17 @@
     try { stored = localStorage.getItem(STORE_KEY_MODE); } catch (_) {}
     // ?modo=avatar|orbit|fps fuerza el modo (útil para enlazar o probar)
     const url = new URLSearchParams(location.search).get('modo');
-    // El avatar es el modo por defecto: es el que permite ver e interactuar
-    // con las prendas.
-    const initial = ORDEN.indexOf(url) >= 0
-      ? url
-      : (ORDEN.indexOf(stored) >= 0 ? stored : 'avatar');
+    const forzado = ORDEN.indexOf(url) >= 0;
+    const guardado = ORDEN.indexOf(stored) >= 0 ? stored : null;
+
+    // En una pantalla táctil no hay WASD: Avatar y FPS dejaban al usuario
+    // plantado sin forma de avanzar. Se arranca en Catálogo (un dedo para
+    // girar y tocar una prenda para verla); ?modo= sigue mandando si se pide.
+    const tactil = Boolean(
+      (window.VMDevice && window.VMDevice.toca)
+      || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches),
+    );
+    const initial = forzado ? url : (tactil ? 'orbit' : (guardado || 'avatar'));
 
     modeBtn.addEventListener('click', () => {
       const i = ORDEN.indexOf(currentMode);
