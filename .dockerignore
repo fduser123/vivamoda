@@ -1,0 +1,17 @@
+# Contexto de build de las imágenes de despliegue (deploy/*.Dockerfile).
+# Todo lo que no sea necesario para ejecutar la app queda fuera: el contexto
+# se envía al daemon en cada build y aquí hay varios GB de sobra.
+.git
+.gitignore
+**/node_modules
+**/.venv
+**/.venv-doc
+**/__pycache__
+**/*.pyc
+backend/.env
+backend/ai/artifacts
+backend/ai/informe-*.json
+downloads
+docs
+*.docx
+*.pdf

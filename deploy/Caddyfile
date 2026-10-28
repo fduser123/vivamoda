@@ -1,0 +1,13 @@
+# Caddy delante del backend: TLS automático con Let's Encrypt y compresión.
+# SITE_ADDRESS llega desde deploy/.env (ver .env.prod.example).
+{$SITE_ADDRESS} {
+	encode zstd gzip
+
+	reverse_proxy backend:3000
+
+	header {
+		-Server
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
