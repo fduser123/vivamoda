@@ -104,21 +104,23 @@
   async function loadMetrics() {
     try {
       stats = await api('/ai/stats');
-      // CSAT 4.8 / 5.0
+      // CSAT real: null cuando todavía no hay valoraciones.
       const csatLeaf = leaf('4.8', true);
-      if (csatLeaf) csatLeaf.textContent = String(stats.csat).replace('.', ',');
+      if (csatLeaf) csatLeaf.textContent = stats.csat == null ? '—' : String(stats.csat).replace('.', ',');
       const basis = leaf('Basado en');
-      if (basis) patchText(basis, /\d[\d.,]*/, stats.csatBasis.toLocaleString('es-CO'));
-      // Tiempo de respuesta 0.8s
+      if (basis) patchText(basis, /\d[\d.,]*/, Number(stats.csatBasis || 0).toLocaleString('es-CO'));
+      // Tiempo de respuesta real: p50 de las llamadas al LLM.
+      const avgMs = Number(stats.avgLatencyMs);
       const rt = leaf('0.8s', true) || leaf('0.8 s', true);
-      if (rt) rt.textContent = (stats.avgLatencyMs / 1000).toFixed(1).replace('.', ',') + 's';
+      if (rt) rt.textContent = Number.isFinite(avgMs) && avgMs > 0 ? (avgMs / 1000).toFixed(1).replace('.', ',') + 's' : '—';
       const inf = leaf('0.82 seg', true);
-      if (inf) inf.textContent = (stats.avgLatencyMs / 1000).toFixed(2).replace('.', ',') + ' seg';
+      if (inf) inf.textContent = Number.isFinite(avgMs) && avgMs > 0 ? (avgMs / 1000).toFixed(2).replace('.', ',') + ' seg' : '—';
       // Conversión asistida
       const conv = leaf('+24.8%', true);
       if (conv) conv.textContent = `+${String(stats.assistedSales.pct).replace('.', ',')}%`;
-      // Resolución
-      patchText(document.body, /89\.4%/, `${String(stats.resolutionRate).replace('.', ',')}%`);
+      // Resolución real (llamadas completadas sin error); null si no hay datos.
+      const rr = stats.resolutionRate;
+      patchText(document.body, /89\.4%/, rr == null ? '—' : `${String(rr).replace('.', ',')}%`);
       // Temas
       const topics = stats.topics || [];
       const vals = ['42%', '34%', '24%'];

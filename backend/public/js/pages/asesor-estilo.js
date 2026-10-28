@@ -147,16 +147,51 @@
   }
 
   // ── Búsqueda visual ──────────────────────────────────────
-  function cargarImagen(file) {
+  // El backend acepta un máximo de 512 KB (AI_IMAGE_MAX_KB). Se reduce en el
+  // navegador para que una foto de móvil de 8 MB no acabe en un 413.
+  const MAX_CHARS = 690_000;
+
+  function reducirImagen(file) {
+    return new Promise((resolve, reject) => {
+      const fr = new FileReader();
+      fr.onerror = () => reject(new Error('No pude leer la imagen'));
+      fr.onload = () => {
+        const img = new Image();
+        img.onerror = () => reject(new Error('Formato de imagen no soportado'));
+        img.onload = () => {
+          const max = 1024;
+          const scale = Math.min(1, max / Math.max(img.width, img.height));
+          const c = document.createElement('canvas');
+          c.width = Math.max(1, Math.round(img.width * scale));
+          c.height = Math.max(1, Math.round(img.height * scale));
+          c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+          let q = 0.82;
+          let out = c.toDataURL('image/jpeg', q);
+          while (out.length > MAX_CHARS && q > 0.35) {
+            q -= 0.1;
+            out = c.toDataURL('image/jpeg', q);
+          }
+          if (out.length > MAX_CHARS) return reject(new Error('La foto sigue siendo muy grande; prueba con otra'));
+          resolve(out);
+        };
+        img.src = fr.result;
+      };
+      fr.readAsDataURL(file);
+    });
+  }
+
+  async function cargarImagen(file) {
     if (!file.type.startsWith('image/')) return;
-    const fr = new FileReader();
-    fr.onload = () => {
-      state.imagen = fr.result; // data URL
-      $('vm-preview-img').src = fr.result;
+    try {
+      state.imagen = await reducirImagen(file); // data URL ya comprimido
+      $('vm-preview-img').src = state.imagen;
       $('vm-preview').classList.remove('hidden');
       buscarVisual();
-    };
-    fr.readAsDataURL(file);
+    } catch (err) {
+      const grid = $('vm-visual-grid');
+      $('vm-visual').classList.remove('hidden');
+      grid.innerHTML = `<p class="text-xs text-[#b60055] col-span-full">${esc(err.message)}</p>`;
+    }
   }
 
   function limpiarImagen() {

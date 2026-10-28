@@ -191,6 +191,27 @@ CREATE TABLE IF NOT EXISTS ai_web_cache (
   fetched_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+-- Telemetría de llamadas al LLM (panel admin y cost guard).
+-- Antes vivía sólo en `ai_usage` sin estar en el esquema: una base nueva
+-- arrancaba sin la tabla y /api/ai/stats no tenía de dónde leer.
+CREATE TABLE IF NOT EXISTS ai_usage (
+  id                SERIAL PRIMARY KEY,
+  tag               TEXT,
+  provider          TEXT,
+  model             TEXT,
+  prompt_tokens     INTEGER,
+  completion_tokens INTEGER,
+  cache_hit         INTEGER NOT NULL DEFAULT 0,
+  cache_miss        INTEGER,
+  cost_usd          NUMERIC(12,6),
+  latency_ms        INTEGER,
+  ok                BOOLEAN NOT NULL DEFAULT TRUE,
+  error             TEXT,
+  created_at        TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS idx_ai_usage_created ON ai_usage(created_at);
+CREATE INDEX IF NOT EXISTS idx_ai_usage_tag     ON ai_usage(tag);
+
 CREATE INDEX IF NOT EXISTS idx_products_gender     ON products(gender);
 CREATE INDEX IF NOT EXISTS idx_products_category   ON products(category);
 CREATE INDEX IF NOT EXISTS idx_products_active     ON products(is_active);

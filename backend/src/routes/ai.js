@@ -7,6 +7,8 @@ import { llmStatus } from '../services/llm.js';
 import { loadMemory, recordEvent } from '../services/memory.js';
 import { analyzeOutfitImage, personalizedRecommendations } from '../services/vision-stylist.js';
 import { describePhotoForTryOn, generateTryOnImage, imagegenStatus } from '../services/imagegen.js';
+import { normalizeImageInput, sendImageError } from '../services/image-input.js';
+import { aiBudgetStatus } from '../middleware/ai-guard.js';
 
 // Estado del motor LLM con caché de 60 s (evita pings repetidos al proveedor)
 let engineCache = { at: 0, data: null };
@@ -221,11 +223,16 @@ router.post('/analyze-outfit', async (req, res) => {
         hip: Number(body.auto.hip) || undefined,
       } : undefined,
     } : null;
-    const analysis = await analyzeOutfitImage({ image, palette: Array.isArray(palette) ? palette : [], body: cleanBody });
+    // Un solo validador para todas las imágenes: 413 si pesa demasiado,
+    // 422 si no es una imagen real. Antes el tope vivía en vision-stylist y
+    // cada endpoint devolvía un código distinto.
+    const photo = normalizeImageInput(image);
+    const analysis = await analyzeOutfitImage({ image: photo.dataUrl, palette: Array.isArray(palette) ? palette : [], body: cleanBody });
     res.json({ ok: true, analysis });
   } catch (err) {
+    if (sendImageError(res, err)) return;
     console.error('[ai/analyze-outfit]', err);
-    res.status(400).json({ error: err.message || 'No se pudo analizar la imagen' });
+    res.status(422).json({ ok: false, error: err.message || 'No se pudo analizar la imagen', code: 'ANALYSIS_FAILED' });
   }
 });
 
@@ -247,13 +254,22 @@ router.post('/style-match', async (req, res) => {
 });
 
 /**
- * GET /api/ai/stats — métricas del hub IA y panel admin
+ * GET /api/ai/stats — métricas del hub IA y panel admin.
+ *
+ * Todo lo que antes era una constante de demo (800 ms, 4.8, 89.4 %) sale
+ * ahora de la base: `ai_usage` para latencia/errores/coste y `ai_sessions`
+ * para CSAT. Si todavía no hay llamadas, se devuelve null y la interfaz
+ * muestra "—" en vez de inventar una cifra.
  */
 router.get('/stats', soloAdmin, async (_req, res) => {
   try {
     const last30 = await pool.query(`SELECT COUNT(*)::int AS sessions FROM ai_sessions WHERE created_at >= now() - interval '30 days'`);
-    const csat = await pool.query(`SELECT ROUND(AVG(rating)::numeric, 1) AS avg_rating FROM ai_sessions WHERE rating IS NOT NULL`);
-    const ratings = await pool.query(`SELECT COUNT(*)::int AS total, COUNT(*) FILTER (WHERE csat = TRUE)::int AS positive FROM ai_sessions WHERE csat IS NOT NULL`);
+    const csat = await pool.query(`
+      SELECT ROUND(AVG(rating)::numeric, 1) AS avg_rating,
+             COUNT(*) FILTER (WHERE rating IS NOT NULL)::int AS rating_n,
+             COUNT(*) FILTER (WHERE csat IS NOT NULL)::int AS csat_n,
+             COUNT(*) FILTER (WHERE csat = TRUE)::int AS positive
+      FROM ai_sessions`);
     const messages = await pool.query(`SELECT messages FROM ai_sessions ORDER BY created_at DESC LIMIT 60`);
     let topics = { talla: 0, outfit: 0, envio: 0 };
     for (const m of messages.rows) {
@@ -265,20 +281,64 @@ router.get('/stats', soloAdmin, async (_req, res) => {
     const topicTotal = topics.talla + topics.outfit + topics.envio || 1;
     const sessions = last30.rows[0].sessions;
 
+    // Telemetría real del LLM (últimos 30 días). Se degrada a ceros si la
+    // tabla aún no existe en una base antigua.
+    const usage = await pool.query(`
+      SELECT COUNT(*)::int AS llamadas,
+             COUNT(*) FILTER (WHERE ok)::int AS correctas,
+             COUNT(*) FILTER (WHERE NOT ok)::int AS errores,
+             COALESCE(SUM(cost_usd), 0)::float8 AS costo,
+             COALESCE(SUM(prompt_tokens), 0)::bigint AS tokens_entrada,
+             COALESCE(SUM(completion_tokens), 0)::bigint AS tokens_salida,
+             ROUND(AVG(latency_ms))::int AS latencia_media,
+             ROUND(PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY latency_ms))::int AS p50,
+             ROUND(PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY latency_ms))::int AS p95
+      FROM ai_usage WHERE created_at >= now() - interval '30 days'
+    `).catch((err) => {
+      console.warn('[ai/stats] ai_usage no disponible:', err.message);
+      return { rows: [{}] };
+    });
+
     const assisted = await pool.query(
       `SELECT COALESCE(SUM(total),0)::float8 AS revenue, COUNT(*)::int AS n,
               COALESCE(ROUND(AVG(total)::numeric,2),0) AS ticket
        FROM orders WHERE ai_assisted = TRUE AND paid = TRUE`);
     const allPaid = await pool.query(`SELECT COALESCE(SUM(total),0)::float8 AS revenue FROM orders WHERE paid = TRUE`);
 
+    const u = usage.rows[0] || {};
+    const llamadas = Number(u.llamadas) || 0;
+    const correctas = Number(u.correctas) || 0;
+    const errores = Number(u.errores) || 0;
+    const costo = Number(u.costo) || 0;
+    const p50 = u.p50 === null || u.p50 === undefined ? null : Number(u.p50);
+    const p95 = u.p95 === null || u.p95 === undefined ? null : Number(u.p95);
+    const ratingAvg = csat.rows[0].avg_rating === null ? null : Number(csat.rows[0].avg_rating);
+    const csatBasis = (csat.rows[0].rating_n || 0) || (csat.rows[0].csat_n || 0);
+
     res.json({
       model: 'Aria · Estilista VivaModa',
       engine: await engineState(),
       sessions30d: sessions,
-      csat: csat.rows[0].avg_rating ? Number(csat.rows[0].avg_rating) : 4.8,
-      csatBasis: ratings.rows[0].total || sessions,
-      avgLatencyMs: 800,
-      resolutionRate: 89.4, // % sin derivación humana (demo)
+      // CSAT real: null cuando nadie ha puntuado todavía.
+      csat: ratingAvg,
+      csatBasis,
+      // Se conserva `avgLatencyMs` por compatibilidad con el hub, pero ahora
+      // es el p50 real de las llamadas al LLM.
+      avgLatencyMs: p50,
+      p50LatencyMs: p50,
+      p95LatencyMs: p95,
+      latencyBasis: 'p50 de llamadas al LLM · 30 días',
+      resolutionRate: llamadas ? Math.round((correctas / llamadas) * 1000) / 10 : null,
+      resolutionBasis: 'llamadas al LLM completadas sin error · 30 días',
+      calls30d: llamadas,
+      errors30d: errores,
+      cost30d: {
+        usd: Number(costo.toFixed(6)),
+        perCallUsd: llamadas ? Number((costo / llamadas).toFixed(6)) : null,
+        tokensIn: Number(u.tokens_entrada) || 0,
+        tokensOut: Number(u.tokens_salida) || 0,
+      },
+      budget: await aiBudgetStatus(),
       topics: [
         { label: 'Guías y sugerencias de Tallas', pct: Math.round((topics.talla / topicTotal) * 100) },
         { label: 'Outfits y recomendaciones para eventos', pct: Math.round((topics.outfit / topicTotal) * 100) },
@@ -307,10 +367,10 @@ router.get('/stats', soloAdmin, async (_req, res) => {
 router.post('/tryon', async (req, res) => {
   try {
     const { image, garment } = req.body || {};
-    if (!image || !garment?.name) return res.status(400).json({ ok: false, error: 'Faltan image o garment.name' });
-    if (image.length > 600_000) return res.status(400).json({ ok: false, error: 'Imagen demasiado grande' });
+    if (!garment?.name) return res.status(422).json({ ok: false, error: 'Falta garment.name', code: 'GARMENT_MISSING' });
+    const photo = normalizeImageInput(image);
 
-    const { text: photoDescription, engine: descEngine } = await describePhotoForTryOn(image);
+    const { text: photoDescription, engine: descEngine } = await describePhotoForTryOn(photo.dataUrl);
     const result = await generateTryOnImage({
       photoDescription,
       garment: {
@@ -325,6 +385,7 @@ router.post('/tryon', async (req, res) => {
     }
     res.json({ ok: true, image: result.image, latencyMs: result.latencyMs, engine: imagegenStatus().model, descEngine });
   } catch (err) {
+    if (sendImageError(res, err)) return;
     console.error('[ai/tryon]', err);
     res.status(500).json({ ok: false, error: err.message || 'Error generando la vista previa' });
   }

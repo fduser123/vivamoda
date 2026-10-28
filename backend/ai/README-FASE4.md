@@ -21,7 +21,10 @@
 | Cobertura del catálogo | ≥ 95 % | **100 %** | ✅ |
 | Explicabilidad Top-10 | 100 % | **10 + 10 features** | ✅ |
 
-Reproducible: `npm run f4:informe`. Detalle en `ai/informe-fase4.json`.
+Reproducible: `npm run f4:informe`. Detalle en `ai/informe-fase4.json`, que guarda
+**una sola corrida vigente por modelo** (la última). El historial completo de
+evaluaciones queda en `ai/artifacts/historial-fase4.json`, ignorado por git,
+para que las cifras del informe no se mezclen entre reentrenamientos.
 
 ## Por qué fallan tres criterios (y no es por falta de esfuerzo)
 

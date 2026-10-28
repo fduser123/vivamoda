@@ -9,6 +9,15 @@ node_modules/
 __pycache__/
 *.pyc
 
+# Artefactos de entrenamiento de IA (F0-11). Se regeneran con npm run f4:*
+# y no son fuente de verdad: el informe curado (ai/informe-fase4.json) sí se
+# versiona. El historial completo queda en ai/artifacts/.
+backend/ai/artifacts/
+*.joblib
+*.parquet
+*.onnx
+*.pkl
+
 # Archivos temporales de LibreOffice
 .~lock.*#
 

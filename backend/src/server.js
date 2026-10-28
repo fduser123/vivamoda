@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import https from 'node:https';
 import path from 'node:path';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -7,6 +8,7 @@ import { config } from './config.js';
 import { pool, waitForDb, ensureSchema } from './db.js';
 import { seedIfEmpty } from './seed.js';
 import { attachUser } from './middleware/auth.js';
+import { aiRateLimit, aiBudgetGuard } from './middleware/ai-guard.js';
 
 import authRoutes from './routes/auth.js';
 import catalogRoutes from './routes/catalog.js';
@@ -25,6 +27,10 @@ const ROOT = path.resolve(__dirname, '..', '..');
 const PUBLIC = path.join(__dirname, '..', 'public');
 
 const app = express();
+// Sin esto, detrás de Caddy (o del proxy de Render) `req.ip` es la IP del
+// proxy: el rate limit por cliente de /api/ai aplicaría a todo el mundo como
+// si fuera un único cliente. Se configura con TRUST_PROXY.
+app.set('trust proxy', config.trustProxy);
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
 app.use(attachUser);
@@ -47,6 +53,10 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/pos', posRoutes);
 app.use('/api/admin', adminRoutes);
+// Guardas transversales de la IA: se aplican a TODAS las rutas montadas bajo
+// /api/ai (incluido style-rag) antes de llegar a sus handlers.
+app.use('/api/ai', aiRateLimit);
+app.use('/api/ai', aiBudgetGuard);
 app.use('/api/ai', aiRoutes);
 // Fase 1: asesor RAG (/style-chat) y búsqueda visual (/visual-search). Se
 // monta sobre el mismo prefijo porque las rutas no se solapan.
@@ -62,7 +72,28 @@ app.use('/api', (_req, res) => res.status(404).json({ error: 'Endpoint no encont
 // -------------------------------------------------------------
 // Estáticos (JS de los frontends conectados)
 // -------------------------------------------------------------
-app.use(express.static(PUBLIC));
+// Los modelos 3D necesitan su MIME exacto: sin `model/vnd.usdz+zip` Safari
+// descarga el archivo en vez de abrir Quick Look, y sin `model/gltf-binary`
+// Scene Viewer lo rechaza. Se cachean una semana porque son inmutables
+// (cada regeneración cambia el SKU o la fecha de build).
+const MODEL_MIME = {
+  '.glb': 'model/gltf-binary',
+  '.gltf': 'model/gltf+json',
+  '.usdz': 'model/vnd.usdz+zip',
+  '.usda': 'model/vnd.usda',
+  '.usdc': 'model/vnd.usdc',
+};
+app.use(express.static(PUBLIC, {
+  setHeaders(res, filePath) {
+    const ext = path.extname(filePath).toLowerCase();
+    const mime = MODEL_MIME[ext];
+    if (!mime) return;
+    res.setHeader('Content-Type', mime);
+    res.setHeader('Cache-Control', 'public, max-age=604800');
+    // Quick Look y Scene Viewer descargan el modelo desde otro origen.
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  },
+}));
 
 // -------------------------------------------------------------
 // Frontends (los mockups HTML servidos en rutas amigables)
@@ -102,10 +133,21 @@ const PAGES = {
   '/asesor-estilo': 'frontends/asesor-estilo/code.html',
 };
 
+// Tema claro/oscuro: se aplica antes del primer pintado para que no haya
+// destello blanco al abrir una página guardada en oscuro. common.js se
+// encarga después del toggle y de mantener la preferencia sincronizada.
+const THEME_BOOT = '<script>(function(){try{var t=localStorage.getItem("theme");var d=t==="dark"||(t!=="light"&&window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light");}catch(e){document.documentElement.setAttribute("data-theme","light");}})();</script>';
+
+// Base global (tema + tokens) al principio del <head>, para que los estilos
+// propios de cada vista puedan sobrescribirla. La capa de responsividad va al
+// final, porque está pensada para corregir los layouts existentes.
+const BASE_HEAD = THEME_BOOT + '<link rel="stylesheet" href="/css/common.css"/>';
+const GLOBAL_TAIL = '<script src="/js/device.js"></script><link rel="stylesheet" href="/css/responsive.css"/>';
+
 const PLACEHOLDER = (name, path) => `<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>VivaModa · ${name}</title>
-<script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="/css/responsive.css"/></head>
+<script src="https://cdn.tailwindcss.com"></script>${THEME_BOOT}<script src="/js/device.js"></script><link rel="stylesheet" href="/css/common.css"/><link rel="stylesheet" href="/css/responsive.css"/></head>
 <body class="bg-[#fcf8fb] text-[#1c1b1d] min-h-screen flex items-center justify-center p-6" style="font-family: 'Plus Jakarta Sans', sans-serif;">
 <main class="max-w-lg w-full bg-white rounded-2xl shadow-lg p-8 text-center">
 <span style="font-size:40px">🛍️</span>
@@ -128,11 +170,18 @@ function sendPage(req, res, file) {
   const abs = path.join(ROOT, file);
   if (!fs.existsSync(abs)) return res.status(404).type('html').send(PLACEHOLDER('Página no encontrada', req.path));
   let html = fs.readFileSync(abs, 'utf8');
-  // Capa global de responsividad (no altera los diseños originales)
-  const responsive = '<link rel="stylesheet" href="/css/responsive.css"/>';
-  if (html.includes('</head>')) html = html.replace('</head>', responsive + '</head>');
-  else if (html.includes('<body')) html = html.replace('<body', responsive + '<body');
-  else html += responsive;
+  // Tema y tokens al inicio del <head>; device.js + responsive.css al final.
+  // Así no hay destello de tema/layout y las vistas conservan la última
+  // palabra sobre su propio diseño.
+  if (/<head[^>]*>/i.test(html)) {
+    html = html.replace(/<head([^>]*)>/i, `<head$1>${BASE_HEAD}`);
+    if (html.includes('</head>')) html = html.replace('</head>', GLOBAL_TAIL + '</head>');
+    else html += GLOBAL_TAIL;
+  } else if (html.includes('<body')) {
+    html = html.replace('<body', BASE_HEAD + GLOBAL_TAIL + '<body');
+  } else {
+    html += BASE_HEAD + GLOBAL_TAIL;
+  }
   const script = PAGE_SCRIPTS[file];
   if (script) {
     const tags =
@@ -165,6 +214,25 @@ app.use((req, res) => {
   res.status(404).type('html').send(PLACEHOLDER('Página no encontrada', req.path));
 });
 
+// Errores del parser de cuerpo (F0-10): sin esto, un JSON de más de 1 MB o
+// malformado devolvía una página HTML de Express en vez de un JSON que el
+// frontend pueda leer. Mantiene el mismo contrato { error, code }.
+app.use((err, _req, res, next) => {
+  if (res.headersSent) return next(err);
+  if (err?.type === 'entity.too.large') {
+    return res.status(413).json({
+      ok: false,
+      error: 'El cuerpo de la petición es demasiado grande.',
+      code: 'PAYLOAD_TOO_LARGE',
+      limit: err.limit || null,
+    });
+  }
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    return res.status(400).json({ ok: false, error: 'JSON inválido.', code: 'INVALID_JSON' });
+  }
+  return next(err);
+});
+
 // -------------------------------------------------------------
 // Arranque
 // -------------------------------------------------------------
@@ -181,18 +249,31 @@ async function main() {
     process.exit(1);
   }
 
-  app.listen(config.port, () => {
+  // HTTPS opcional: WebXR y la cámara exigen contexto seguro. En localhost no
+  // hace falta; para abrir la tienda desde el móvil por la red, sí.
+  const usoHttps = Boolean(config.httpsCert && config.httpsKey);
+  const servidor = usoHttps
+    ? https.createServer(
+      { cert: fs.readFileSync(config.httpsCert), key: fs.readFileSync(config.httpsKey) },
+      app,
+    )
+    : app;
+  const esquema = usoHttps ? 'https' : 'http';
+
+  servidor.listen(config.port, () => {
     console.log('────────────────────────────────────────────────────────');
     console.log('  VivaModa API  ·  listo');
-    console.log(`  API REST     → http://localhost:${config.port}/api/health`);
-    console.log(`  Tienda       → http://localhost:${config.port}/catalogo-de-productos`);
-    console.log(`  Detalle      → http://localhost:${config.port}/detalle-de-producto`);
-    console.log(`  Hub IA       → http://localhost:${config.port}/hub-agente-ia`);
-    console.log(`  Tienda VR    → http://localhost:${config.port}/tienda-virtual-realidad`);
-    console.log(`  Asesora 3D   → http://localhost:${config.port}/asesor-de-prendas`);
-    console.log(`  POS          → http://localhost:${config.port}/pedidos-y-pos`);
-    console.log(`  Admin        → http://localhost:${config.port}/panel-de-almacen-y-ventas`);
-    console.log(`  Login        → http://localhost:${config.port}/iniciar-sesion`);
+    console.log(`  Protocolo    → ${esquema}${usoHttps ? ' (certificado propio: RA disponible en el móvil)' : ''}`);
+    console.log(`  API REST     → ${esquema}://localhost:${config.port}/api/health`);
+    console.log(`  Tienda       → ${esquema}://localhost:${config.port}/catalogo-de-productos`);
+    console.log(`  Detalle      → ${esquema}://localhost:${config.port}/detalle-de-producto`);
+    console.log(`  Hub IA       → ${esquema}://localhost:${config.port}/hub-agente-ia`);
+    console.log(`  Tienda VR    → ${esquema}://localhost:${config.port}/tienda-virtual-realidad`);
+    console.log(`  RA (AR)      → ${esquema}://localhost:${config.port}/api/vr/ar/VM-DAM-001`);
+    console.log(`  Asesora 3D   → ${esquema}://localhost:${config.port}/asesor-de-prendas`);
+    console.log(`  POS          → ${esquema}://localhost:${config.port}/pedidos-y-pos`);
+    console.log(`  Admin        → ${esquema}://localhost:${config.port}/panel-de-almacen-y-ventas`);
+    console.log(`  Login        → ${esquema}://localhost:${config.port}/iniciar-sesion`);
     console.log('────────────────────────────────────────────────────────');
   });
 }

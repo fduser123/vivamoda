@@ -19,21 +19,16 @@ import { responderEstilismo } from '../services/style-assistant.js';
 import {
   buscarPorImagen, estadoEmbeddings, coberturaEmbeddings, embedImage,
 } from '../services/vector-search.js';
+import { normalizeImageInput, normalizeImageBuffer, sendImageError } from '../services/image-input.js';
 
 const router = Router();
 
 // La búsqueda visual acepta imagen binaria en el cuerpo (multipart no hace
 // falta: la orden pide multipart, pero esto evita sumar multer y acepta
 // igualmente JSON con base64 y data URL).
-const crudo = express.raw({ type: ['image/*', 'application/octet-stream'], limit: '12mb' });
-
-function normalizarEntrada(input) {
-  if (!input) return null;
-  const s = String(input).trim();
-  // data URL → base64 pelado
-  const m = s.match(/^data:image\/[a-zA-Z+.-]+;base64,(.+)$/s);
-  return (m ? m[1] : s).replace(/\s/g, '');
-}
+// El tope real lo impone services/image-input.js (512 KB por defecto); este
+// límite solo evita leer cuerpos absurdos antes de validarlos.
+const crudo = express.raw({ type: ['image/*', 'application/octet-stream'], limit: '2mb' });
 
 /** POST /api/ai/style-chat — asistente de estilismo con RAG. */
 router.post('/style-chat', async (req, res) => {
@@ -71,17 +66,12 @@ router.post('/style-chat', async (req, res) => {
 /** POST /api/ai/visual-search — busca prendas parecidas a una foto. */
 router.post('/visual-search', crudo, async (req, res) => {
   try {
-    let b64 = null;
-    if (Buffer.isBuffer(req.body) && req.body.length) {
-      b64 = req.body.toString('base64');            // imagen binaria
-    } else if (req.body && req.body.image) {
-      b64 = normalizarEntrada(req.body.image);      // JSON: base64 o data URL
-    }
-    if (!b64) {
-      return res.status(400).json({
-        error: 'Falta la imagen. Envía JSON {"image":"<base64 o data URL>"} o el binario con Content-Type image/*',
-      });
-    }
+    // Un solo validador (413 si pesa demasiado, 422 si no es imagen) tanto
+    // para el binario como para el JSON con base64/data URL.
+    const photo = Buffer.isBuffer(req.body) && req.body.length
+      ? normalizeImageBuffer(req.body)
+      : normalizeImageInput(req.body?.image);
+    const b64 = photo.base64;
 
     const t0 = Date.now();
     const K = Math.max(1, Math.min(30, Number(req.query.k || req.body.k || 8)));
@@ -112,6 +102,7 @@ router.post('/visual-search', crudo, async (req, res) => {
       filters: filtros,
     });
   } catch (err) {
+    if (sendImageError(res, err)) return;
     console.error('[ai/visual-search]', err);
     res.status(500).json({ error: 'Error en la búsqueda visual: ' + err.message });
   }

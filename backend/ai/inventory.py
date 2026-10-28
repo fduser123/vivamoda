@@ -109,6 +109,11 @@ def main():
             "demanda_prev": float(g["pred"].mean()),
         }), include_groups=False).reset_index()
 
+    # Cobertura real del pronóstico: series SKU/tienda con forecast sobre el
+    # total. Antes se calculaba después de insertar el run y el informe la
+    # sustituía por un 100 % fijo; ahora viaja en las métricas del run.
+    cobertura = len(err) / max(df[["sku", "store_code"]].drop_duplicates().shape[0], 1) * 100
+
     # ── 6) POLÍTICA DE INVENTARIO Y SIMULACIÓN ───────────────────────
     filas, sim = [], []
     for _, r in err.iterrows():
@@ -230,6 +235,7 @@ def main():
                           "reduccion_inventario_pct": red_inv,
                           "faltantes_actual_pct": so_actual, "faltantes_nuevo_pct": so_nueva,
                           "reduccion_faltantes_pct": red_so,
+                          "cobertura_pct": cobertura,
                           "ms_scoring_13sem": ms_scoring,
                           "barrido_politica_plana": [{"factor": f, "inventario": iv, "faltantes_pct": so} for f, iv, so in barrido],
                           "igual_servicio_plana_inventario": igual_servicio[1],
@@ -238,7 +244,6 @@ def main():
               "Lead time supuesto (R3 no lo traía). Historial SINTÉTICO."))
         conn.commit()
 
-    cobertura = len(err) / max(df[["sku", "store_code"]].drop_duplicates().shape[0], 1) * 100
     print(f"\n[inv] cobertura de SKU/tienda con forecast: {cobertura:.1f} % (criterio ≥ 95 %)")
     print(f"[inv] run_id = {run_id} · total {(time.time()-t0)/60:.1f} min")
 

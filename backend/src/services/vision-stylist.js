@@ -20,6 +20,7 @@
 // =====================================================================
 import { pool } from '../db.js';
 import { llmProvider, callChat } from './llm-provider.js';
+import { imageLimits } from './image-input.js';
 
 // ---------------------------------------------------------------
 // Utilidades de color
@@ -240,13 +241,23 @@ export function classifyBodyShape({ shape, height, waist, bust, hips, auto } = {
   return { shape: null, method: null };
 }
 
-const toDataUrlOk = (s) => typeof s === 'string' && /^data:image\/(png|jpe?g|webp);base64,/.test(s) && s.length < 600_000;
+// El tope se define una sola vez (AI_IMAGE_MAX_KB en services/image-input.js):
+// antes cada servicio repetía su propio 450/600 KB y se contradecían.
+const TO_DATA_URL = /^data:image\/(png|jpe?g|webp);base64,/;
+const toDataUrlOk = (s) => {
+  if (typeof s !== 'string') return false;
+  const prefix = s.match(TO_DATA_URL);
+  if (!prefix) return false;
+  // Se compara sólo el base64: el prefijo "data:image/...;base64," no cuenta
+  // contra el tope de KB (si contara, una imagen justo en el límite fallaba).
+  return s.length - prefix[0].length <= imageLimits().base64Chars;
+};
 
 // ---------------------------------------------------------------
 // IA #10 · Análisis de la imagen
 // ---------------------------------------------------------------
 export async function analyzeOutfitImage({ image, palette = [], body = null } = {}) {
-  if (!toDataUrlOk(image)) throw new Error('Imagen inválida o demasiado grande (máx ~450KB)');
+  if (!toDataUrlOk(image)) throw new Error(`Imagen inválida o demasiado grande (máx ${imageLimits().kb} KB)`);
   const bodyProfile = classifyBodyShape(body || {});
   const named = palette
     .filter((c) => Number(c.pct) > 1)

@@ -1,7 +1,20 @@
 #!/usr/bin/env python3
 """
-Informe de validación de la Fase 4: agrega todos los model_runs y contrasta
-cada criterio de aceptación de la orden, incluidos los que NO se cumplen.
+Informe de validación de la Fase 4: agrega los model_runs y contrasta cada
+criterio de aceptación de la orden, incluidos los que NO se cumplen.
+
+RETENCIÓN (F0-11)
+-----------------
+Antes el JSON acumulaba todas las corridas: varias ejecuciones del mismo
+modelo con métricas distintas y contradictorias, sin forma de saber cuál
+estaba vigente. Ahora:
+
+  · `informe-fase4.json` guarda UNA sola corrida por tipo (la última).
+  · El historial completo se archiva en `artifacts/historial-fase4.json`,
+    que está ignorado por git (se regenera; no es fuente de verdad).
+
+Así las cifras del informe son inequívocas y el repositorio no crece con
+cada reentrenamiento.
 """
 import json
 import os
@@ -10,7 +23,10 @@ from datetime import datetime
 import psycopg
 
 DSN = "postgresql://vivamoda:vivamoda_dev@localhost:5432/vivamoda"
-SALIDA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "informe-fase4.json")
+AQUI = os.path.dirname(os.path.abspath(__file__))
+SALIDA = os.path.join(AQUI, "informe-fase4.json")
+ARTEFACTOS = os.path.join(AQUI, "artifacts")
+HISTORIAL = os.path.join(ARTEFACTOS, "historial-fase4.json")
 
 CRITERIOS = [
     ("WRMSSE holdout ≤ 0.35", "wrmsse", lambda v: v <= 0.35),
@@ -39,26 +55,48 @@ def main():
         n_rec = cur.fetchone()[0]
         cur.execute("SELECT COUNT(DISTINCT sku||'|'||store_code) FROM sales_history")
         n_series = cur.fetchone()[0]
+        cur.execute("SELECT COUNT(DISTINCT sku||'|'||store_code) FROM demand_forecasts")
+        n_fc_series = cur.fetchone()[0]
+
+    # ── Retención: historial completo fuera del repo ─────────────────
+    os.makedirs(ARTEFACTOS, exist_ok=True)
+    with open(HISTORIAL, "w") as f:
+        json.dump({
+            "generado": datetime.now().isoformat(),
+            "nota": "Historial completo de corridas de la Fase 4. Archivo de trabajo, ignorado por git.",
+            "runs": runs,
+        }, f, indent=2, ensure_ascii=False, default=str)
+
+    # ── Una sola corrida vigente por modelo (la última) ──────────────
+    vigentes = {}
+    for r in runs:                    # ORDER BY created_at ASC
+        vigentes[r["kind"]] = r
+    vigentes = list(vigentes.values())
 
     met = {}
-    for r in runs:
+    for r in vigentes:
         met.update(r["metrics"] or {})
 
-    # Cobertura: series con forecast sobre series totales
-    cobertura = met.get("cobertura_pct", 100.0)
-    met["cobertura_pct"] = cobertura
+    # Cobertura: si la corrida de inventario es anterior a que la métrica se
+    # persistiera, se deriva de demand_forecasts (series con forecast sobre
+    # series totales). Nunca se rellena con un 100 % de conveniencia.
+    if met.get("cobertura_pct") is None:
+        met["cobertura_pct"] = round(n_fc_series / n_series * 100, 1) if n_series else None
 
     informe = {
         "generado": datetime.now().isoformat(),
         "aviso": ("HISTORIAL SINTÉTICO. Todas las filas de sales_history llevan "
                   "is_synthetic=TRUE. Estas métricas validan que el PIPELINE funciona; "
                   "NO son evidencia de capacidad predictiva sobre demanda real."),
+        "retencion": ("Una corrida vigente por modelo (la última). El historial "
+                      "completo vive en artifacts/historial-fase4.json."),
         "datos": {
             "filas_ventas": n, "desde": str(d0), "hasta": str(d1),
             "pct_semanas_sin_venta": float(pct0), "series_sku_tienda": n_series,
             "features_registradas": n_feat, "recomendaciones_inventario": n_rec,
+            "series_con_forecast": n_fc_series,
         },
-        "runs": runs,
+        "runs": vigentes,
         "criterios": [],
     }
     for etiqueta, clave, fn in CRITERIOS:
@@ -78,7 +116,9 @@ def main():
 
     print(f"\n{'='*74}\nINFORME DE VALIDACIÓN · FASE 4\n{'='*74}")
     print(f"  historial: {n} filas · {d0} → {d1} · {pct0} % semanas sin venta")
-    print(f"  features registradas: {n_feat} · recomendaciones: {n_rec}\n")
+    print(f"  features registradas: {n_feat} · recomendaciones: {n_rec}")
+    print(f"  corridas vigentes: {len(vigentes)} de {len(runs)} (historial en artifacts/)")
+    print()
     for c in informe["criterios"]:
         print(f"  {'✅' if c['cumple'] else '❌'} {c['criterio']:42} {c['valor']}")
     print(f"\n  → {SALIDA}\n")

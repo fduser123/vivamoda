@@ -1,12 +1,24 @@
 import 'dotenv/config';
 
 const bool = (v, def = false) => (v === undefined ? def : String(v).toLowerCase() === 'true');
+const num = (v, def) => {
+  const n = Number(v);
+  return Number.isFinite(n) ? n : def;
+};
 
 export const config = {
   port: Number(process.env.PORT || 3000),
   databaseUrl: process.env.DATABASE_URL || 'postgres://vivamoda:vivamoda_dev@localhost:5432/vivamoda',
   jwtSecret: process.env.JWT_SECRET || 'vivamoda-dev-secret',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '12h',
+  // Detrás de un proxy inverso (Caddy, Render, Nginx) `req.ip` sería la IP del
+  // proxy, y el rate limit de IA acabaría compartido por todos los clientes a
+  // la vez. Se declara cuántos saltos de confianza hay: "1" con un proxy
+  // delante, sin definir en local. Acepta número o un valor de Express
+  // ('loopback', 'linklocal'…).
+  trustProxy: process.env.TRUST_PROXY === undefined
+    ? false
+    : (/^\d+$/.test(process.env.TRUST_PROXY) ? Number(process.env.TRUST_PROXY) : process.env.TRUST_PROXY),
   // --- IA Estilista ---
   // Proveedor LLM activo (ver services/llm-provider.js). Cualquiera de estos
   // habla la API compatible con OpenAI, así que cambiar de proveedor es solo
@@ -31,6 +43,15 @@ export const config = {
   deepseekModel: process.env.DEEPSEEK_MODEL || 'deepseek-flash',
   deepseekVisionModel: process.env.DEEPSEEK_VISION_MODEL || 'deepseek-flash',
   useLocalAi: bool(process.env.USE_LOCAL_AI, false), // true → fuerza el motor local de reglas
+  // --- Guardas de la IA (F0-03 / F0-10) ---
+  // Un único tope de imagen para /visual-search, /analyze-outfit y /tryon.
+  // El frontend reduce a JPEG antes de subir; 512 KB cubre una foto de 960 px.
+  aiImageMaxKb: num(process.env.AI_IMAGE_MAX_KB, 512),
+  // Peticiones por minuto y cliente. 0 desactiva la guarda.
+  aiRateLimitPerMin: num(process.env.AI_RATE_LIMIT_PER_MIN, 30),
+  aiImageRateLimitPerMin: num(process.env.AI_IMAGE_RATE_LIMIT_PER_MIN, 8),
+  // Presupuesto diario de LLM en USD. 0 desactiva el cost guard.
+  aiDailyBudgetUsd: num(process.env.AI_DAILY_BUDGET_USD, 2),
   // --- Fase 1: asesor de estilismo con RAG y búsqueda visual ---
   // Sidecar Python que sirve los embeddings de FashionCLIP (ai/embed_server.py).
   // FashionCLIP sólo existe en Python, así que el modelo vive ahí y Node sólo
@@ -40,4 +61,10 @@ export const config = {
   // --- IA #11 Probador Virtual (Cloudflare Workers AI · FLUX.1-schnell) ---
   cloudflareAccountId: process.env.CLOUDFLARE_ACCOUNT_ID || null,
   cloudflareApiToken: process.env.CLOUDFLARE_API_TOKEN || null,
+  // --- Realidad aumentada (ver docs/PLAN-REALIDAD-AUMENTADA.md) ---
+  // WebXR sólo funciona en contexto seguro. En localhost ya lo es; para probar
+  // desde el móvil por la red hace falta HTTPS: apunta estas dos variables a
+  // un par emitido con mkcert y el servidor arranca en https.
+  httpsCert: process.env.HTTPS_CERT || null,
+  httpsKey: process.env.HTTPS_KEY || null,
 };

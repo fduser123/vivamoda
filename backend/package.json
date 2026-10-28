@@ -14,6 +14,7 @@
     "models:3d:perfil": "node tools/modelos3d/exportar-productos.mjs",
     "models:3d": "node tools/modelos3d/exportar-productos.mjs && blender --background --factory-startup --python tools/modelos3d/generar_modelos.py",
     "models:3d:todos": "node tools/modelos3d/exportar-productos.mjs --todos && blender --background --factory-startup --python tools/modelos3d/generar_modelos.py",
+    "models:3d:usdz": "blender --background --factory-startup --python tools/modelos3d/generar_modelos.py -- --usdz",
     "ai:setup": "bash ai/setup.sh",
     "ai:embed": "ai/.venv/bin/python ai/embed_server.py",
     "ai:attrs": "ai/.venv/bin/python ai/extract_attrs.py",
