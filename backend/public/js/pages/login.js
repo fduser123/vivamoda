@@ -8,12 +8,13 @@
 
   function showError(form, msg) {
     toast(msg, 'error');
-    const err = form.querySelector('.vm-form-error');
+    let err = form.querySelector('.auth-error');
     if (!err) {
-      const e = document.createElement('p');
-      e.className = 'vm-form-error font-label-sm text-label-sm text-error';
-      form.insertBefore(e, form.querySelector('button[type="submit"]'));
-      err = e;
+      err = document.createElement('p');
+      err.className = 'auth-error';
+      err.setAttribute('role', 'alert');
+      err.setAttribute('aria-live', 'polite');
+      form.insertBefore(err, form.querySelector('button[type="submit"]'));
     }
     err.textContent = msg;
     setTimeout(() => { if (err && err.textContent === msg) err.textContent = ''; }, 5000);
@@ -28,15 +29,21 @@
     const tabRegister = $('tab-register-btn');
     const socialBlock = $('social-access-block');
     if (!loginForm || !registerForm) return;
-    loginForm.classList.toggle('hidden', mode !== 'login');
-    registerForm.classList.toggle('hidden', mode !== 'register');
-    tabLogin.classList.toggle('bg-primary', mode === 'login');
-    tabLogin.classList.toggle('text-on-primary', mode === 'login');
-    tabLogin.classList.toggle('shadow-sm', mode === 'login');
-    tabRegister.classList.toggle('bg-primary', mode === 'register');
-    tabRegister.classList.toggle('text-on-primary', mode === 'register');
-    tabRegister.classList.toggle('shadow-sm', mode === 'register');
+    loginForm.hidden = mode !== 'login';
+    registerForm.hidden = mode !== 'register';
+    tabLogin.classList.toggle('is-active', mode === 'login');
+    tabLogin.setAttribute('aria-selected', String(mode === 'login'));
+    tabRegister.classList.toggle('is-active', mode === 'register');
+    tabRegister.setAttribute('aria-selected', String(mode === 'register'));
     if (socialBlock) socialBlock.style.display = mode === 'login' && currentRole === 'client' ? 'block' : 'none';
+    document.title = mode === 'register' ? 'Crear cuenta · VivaModa' : 'Iniciar sesión · VivaModa';
+    const intro = document.querySelector('.auth-intro');
+    if (intro) {
+      intro.querySelector('h2').textContent = mode === 'login' ? 'Hola de nuevo' : 'Crea tu cuenta';
+      intro.querySelector('p').textContent = mode === 'login'
+        ? 'Entra a tu armario, pedidos y recomendaciones personalizadas.'
+        : 'Únete a VivaModa y estrena estilo con asesoría IA desde el primer día.';
+    }
     syncStaffField();
   };
 
@@ -48,32 +55,28 @@
     const socialBlock = $('social-access-block');
     ['client', 'staff', 'admin'].forEach((r) => {
       const btn = $('role-btn-' + r);
+      if (!btn) return;
       const active = r === role;
-      btn.classList.toggle('bg-surface-container', active);
-      btn.classList.toggle('text-on-surface', active);
-      btn.classList.toggle('shadow-sm', active);
-      btn.classList.toggle('bg-surface-container-low', !active);
-      btn.classList.toggle('text-on-surface-variant', !active);
-      const icon = btn.querySelector('.material-symbols-outlined');
-      if (icon) icon.classList.toggle('text-primary', active);
+      btn.classList.toggle('is-active', active);
+      btn.setAttribute('aria-pressed', String(active));
     });
     if (role === 'client') {
       badge.textContent = 'Portal Clientes';
-      badge.className = 'font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed';
+      badge.dataset.role = 'client';
       loginLabel.textContent = 'Correo Electrónico';
       loginInput.placeholder = 'tu.nombre@fashion.com';
       loginInput.type = 'email';
       if (socialBlock) socialBlock.style.display = currentMode === 'login' ? 'block' : 'none';
     } else if (role === 'staff') {
       badge.textContent = 'Terminal Empleados / Tienda';
-      badge.className = 'font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed';
+      badge.dataset.role = 'staff';
       loginLabel.textContent = 'ID de Empleado o Código de Tienda';
       loginInput.placeholder = 'STF-84920 o carlos.morales@vivamoda.com';
       loginInput.type = 'text';
       if (socialBlock) socialBlock.style.display = 'none';
     } else {
       badge.textContent = 'Consola Administrativa';
-      badge.className = 'font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed';
+      badge.dataset.role = 'admin';
       loginLabel.textContent = 'Credencial de Super Administrador';
       loginInput.placeholder = 'admin@vivamoda.internal';
       loginInput.type = 'email';
@@ -89,6 +92,8 @@
     const show = input.type === 'password';
     input.type = show ? 'text' : 'password';
     if (icon) icon.innerText = show ? 'visibility_off' : 'visibility';
+    triggerBtn.setAttribute('aria-pressed', String(show));
+    triggerBtn.setAttribute('aria-label', show ? 'Ocultar contraseña' : 'Mostrar contraseña');
   };
 
   window.checkPasswordStrength = (password) => {
@@ -102,14 +107,14 @@
     if (/[^A-Za-z0-9]/.test(password)) strength += 25;
     bar.style.width = (strength || 8) + '%';
     const cfg = [
-      { max: 25, cls: 'bg-error', txt: 'Débil', color: 'text-error' },
-      { max: 50, cls: 'bg-tertiary', txt: 'Aceptable', color: 'text-tertiary' },
-      { max: 75, cls: 'bg-secondary', txt: 'Buena', color: 'text-secondary' },
-      { max: 100, cls: 'bg-primary', txt: 'Muy Segura', color: 'text-primary font-bold' },
+      { max: 25, level: 1, txt: 'Débil', color: 'text-error' },
+      { max: 50, level: 2, txt: 'Aceptable', color: 'text-tertiary' },
+      { max: 75, level: 3, txt: 'Buena', color: 'text-secondary' },
+      { max: 100, level: 4, txt: 'Muy segura', color: 'text-primary font-bold' },
     ];
     const c = cfg.find((x) => strength <= x.max) || cfg[3];
-    bar.className = `h-full transition-all duration-300 ${c.cls}`;
-    label.className = `font-label-sm text-label-sm ${c.color}`;
+    bar.parentElement.dataset.level = String(c.level);
+    label.className = `auth-strength__text ${c.color}`;
     label.textContent = c.txt;
   };
 
@@ -120,19 +125,25 @@
       if (!wrap) {
         wrap = document.createElement('div');
         wrap.id = 'reg-store-wrap';
-        wrap.className = 'flex flex-col gap-1';
+        wrap.className = 'auth-field';
         wrap.innerHTML = `
-          <label class="font-label-md text-label-md text-on-surface" for="reg-store">Sucursal de trabajo</label>
-          <div class="relative flex items-center">
-            <span class="absolute left-3 text-outline material-symbols-outlined text-[18px]">storefront</span>
-            <select id="reg-store" class="w-full pl-10 pr-3 py-2 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:bg-surface-bright focus:outline-none appearance-none">
+          <label class="auth-label" for="reg-store">Sucursal de trabajo</label>
+          <div class="auth-control">
+            <span class="material-symbols-outlined auth-control__icon">storefront</span>
+            <select id="reg-store" class="auth-input" style="appearance:none;padding-right:2.5rem;cursor:pointer">
             </select>
+            <span class="material-symbols-outlined auth-control__chevron" aria-hidden="true">expand_more</span>
           </div>`;
-        const terms = $('register-form')?.querySelector('label input[type="checkbox"]')?.closest('label');
-        $('register-form').insertBefore(wrap, terms || null);
+        const form = $('register-form');
+        // El primer input[type=checkbox] del formulario está dentro de
+        // "Preferencia de moda" (otro label), así que insertar respecto a él
+        // lanzaba NotFoundError: el ancla debe ser el bloque de términos.
+        const anchor = form.querySelector('.auth-check') || form.querySelector('button[type="submit"]');
+        form.insertBefore(wrap, anchor);
         api('/stores').then(({ stores }) => {
           const sel = $('reg-store');
-          sel.innerHTML = stores.map((s) => `<option value="${esc(s.code)}">${esc(s.name)} (${esc(s.code)})</option>`).join('');
+          if (!sel) return;
+          sel.innerHTML = stores.map((s) => `<option value="${esc(s.code)}">${esc(s.name)}</option>`).join('');
         }).catch(() => {});
       }
       wrap.classList.remove('hidden');
@@ -201,19 +212,23 @@
     }, 900);
   }
 
-  window.simulateOAuth = (provider) => {
-    const btn = event.currentTarget;
+  window.simulateOAuth = (provider, btn) => {
+    if (!btn) return;
+    const original = btn.innerHTML;
+    btn.disabled = true;
     btn.innerHTML = `<span class="font-label-sm text-label-sm">Conectando ${provider}…</span>`;
     setTimeout(() => {
       toast('Demo: la conexión OAuth real requiere configuración de proveedor', 'info');
-      btn.innerHTML = btn.dataset.oauth || (btn.innerHTML = '<span>Conectar de nuevo</span>');
+      btn.innerHTML = original;
+      btn.disabled = false;
     }, 900);
   };
 
   // ---------- init ----------
   const params = new URLSearchParams(location.search);
-  if (params.get('mode') === 'register') switchAuthMode('register');
-  if (params.get('role')) selectRole(params.get('role'));
+  const esRegistro = location.pathname.replace(/\/$/, '') === '/registro';
+  if (params.get('mode') === 'register' || esRegistro) switchAuthMode('register');
+  if (['client', 'staff', 'admin'].includes(params.get('role'))) selectRole(params.get('role'));
   if (params.get('next')) {
     // permite redirigir tras autenticar
   }
@@ -226,7 +241,7 @@
   if (!$('vm-demo-hint')) {
     const hint = document.createElement('div');
     hint.id = 'vm-demo-hint';
-    hint.style.cssText = 'margin-top:14px;padding:10px 12px;border-radius:12px;background:#f6f2f5;font:600 11px/1.6 "Plus Jakarta Sans";color:#5c3f45';
+    hint.className = 'auth-demo';
     hint.innerHTML = 'Cuentas demo — Cliente: <b>elena.rossi@vivamoda.com</b> / Cliente123! · Staff: <b>STF-84920</b> / Staff123! · Admin: <b>admin@vivamoda.internal</b> / Admin123!';
     $('login-form').parentElement.appendChild(hint);
   }

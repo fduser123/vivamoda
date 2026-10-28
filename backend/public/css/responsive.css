@@ -62,10 +62,23 @@ header .overflow-x-auto::-webkit-scrollbar { display: none; }
   }
 }
 
+/* ---------- 7a. Hijos de grid que imponen su ancho mínimo ----------
+   Una rejilla de una columna crece hasta el min-content de su hijo (un canvas
+   o una tarjeta ancha), y desborda el viewport 20–30 px. Con min-width: 0 el
+   hijo puede encogerse al ancho disponible. */
+@media (max-width: 1023.98px) {
+  main .grid > * { min-width: 0 !important; }
+}
+
 /* ---------- 7b. Contenedores flex/grid con hijos anchos → permitir encoger ---------- */
 @media (max-width: 1023.98px) {
   .pl-64 main .flex.flex-col.w-full > * { min-width: 0 !important; max-width: 100% !important; }
-  .pl-64 main .flex.flex-col.w-full, .pl-64 main .w-full { min-width: 0 !important; overflow-x: clip; }
+  .pl-64 main .flex.flex-col.w-full { min-width: 0 !important; overflow-x: clip; }
+  /* Solo `min-width`, sin recortar: un `overflow-x: clip` en todos los
+     `.w-full` también caía sobre las tablas y cortaba las columnas de la
+     derecha (933 px de contenido en 310 px visibles) sin scroll posible. */
+  .pl-64 main .w-full { min-width: 0 !important; max-width: 100% !important; }
+  .pl-64 main table.w-full { overflow-x: auto !important; }
 }
 
 /* ---------- 8. Espados laterales más compactos en móvil ---------- */
@@ -92,15 +105,39 @@ header .overflow-x-auto::-webkit-scrollbar { display: none; }
     flex-direction: row !important;
     align-items: center;
     gap: .75rem;
+    flex: 1 1 auto;
+    min-width: 0;
   }
+  body > aside.fixed.left-0.top-0.h-full.w-64 > div:first-child > :first-child {
+    flex: 0 0 auto;
+  }
+  /* Los enlaces no se envuelven en varias filas: una sola tira con scroll
+     horizontal (en 390 px, cinco enlaces sumaban 236 px de alto y empujaban
+     todo el contenido del POS fuera de la primera pantalla). */
   body > aside.fixed.left-0.top-0.h-full.w-64 nav {
     flex-direction: row !important;
-    flex-wrap: wrap !important;
+    flex-wrap: nowrap !important;
+    flex: 1 1 auto;
+    min-width: 0;
     margin-top: 0 !important;
     padding: 0 !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+  }
+  body > aside.fixed.left-0.top-0.h-full.w-64 nav::-webkit-scrollbar { display: none; }
+  /* Difuminado en el borde: avisa de que hay más enlaces a la derecha
+     aunque la barra de scroll esté oculta. */
+  body > aside.fixed.left-0.top-0.h-full.w-64 nav {
+    mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent 100%);
   }
   body > aside.fixed.left-0.top-0.h-full.w-64 nav a {
     white-space: nowrap;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
     padding: .5rem .75rem !important;
   }
   body > aside.fixed.left-0.top-0.h-full.w-64 nav a span.mr-3 { margin-right: .35rem !important; }
@@ -110,12 +147,205 @@ header .overflow-x-auto::-webkit-scrollbar { display: none; }
   body > aside.fixed.left-0.top-0.h-full.w-64 .px-space-md.py-space-xs { display: none !important; }
   /* El contenedor que dejaba sitio al sidebar recupera el ancho completo */
   .pl-64 { padding-left: 0 !important; }
-  header.fixed.left-64 { left: 0 !important; padding-left: 1rem !important; padding-right: 1rem !important; }
+  /* El header deja de ser fijo superpuesto: el sidebar ahora es una barra
+     en el flujo, y un header `fixed` tapaba su logo y su primer enlace.
+     `sticky` lo mantiene visible al hacer scroll sin robarle sitio a nadie. */
+  header.fixed.left-64 {
+    position: sticky !important;
+    top: 0 !important;
+    left: 0 !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
   /* El buscador de 288px y la pill de tienda no caben: se ocultan los adornos */
   header.fixed.left-64 .relative.w-72 { display: none !important; }
-  main.px-space-xl { padding-left: 1rem !important; padding-right: 1rem !important; padding-top: 4.5rem !important; }
+  main.px-space-xl { padding-left: 1rem !important; padding-right: 1rem !important; padding-top: 1rem !important; }
   /* Tira horizontal de resumen de pedidos (POS) → scroll interno, sin empujar el layout */
   .flex.items-center.gap-space-xs:has(> .p-2.rounded-lg.bg-primary-fixed) { overflow-x: auto !important; }
   .p-2.rounded-lg.bg-primary-fixed { overflow-x: visible !important; justify-content: flex-start !important; }
   .p-2.rounded-lg.bg-primary-fixed > * { flex: 0 0 auto !important; }
+}
+
+/* ==========================================================================
+   10. CAPA POR DISPOSITIVO (la escribe /js/device.js en <html>)
+   --------------------------------------------------------------------------
+   Los cortes siguen los anchos de viewport reales más frecuentes:
+     phone   < 640 px   · 360–430 px (móviles)
+     tablet  640–1199   · 768–1180 px (iPad y Android grandes)
+     laptop  1200–1439  · 1280/1366 px (portátiles de 13–15")
+     desktop ≥ 1440     · 1440–1920 px
+   Las media queries siguen funcionando si JavaScript está desactivado;
+   los selectores data-vm-* añaden lo que depende del tipo de entrada.
+   ========================================================================== */
+
+/* ---------- 10.1 Táctil: objetivos cómodos y sin efectos de ratón ---------- */
+html[data-vm-device="phone"] {
+  --vm-tap: 44px;      /* mínimo recomendado por las guías de accesibilidad */
+}
+html[data-vm-device="tablet"] {
+  --vm-tap: 42px;
+}
+
+/* En iOS, un campo con letra < 16 px hace zoom al enfocarlo y descuadra
+   la página. Se sube solo el control, no el texto de alrededor. */
+html[data-vm-device="phone"] input:not([type="range"]):not([type="checkbox"]):not([type="radio"]),
+html[data-vm-device="phone"] select,
+html[data-vm-device="phone"] textarea {
+  font-size: 16px !important;
+}
+
+/* Botones de acción (los que ocupan todo el ancho) alcanzables con el pulgar */
+html[data-vm-device="phone"] button[class*="rounded-xl"],
+html[data-vm-device="phone"] a[class*="rounded-xl"][class*="py-"] {
+  min-height: var(--vm-tap);
+}
+
+/* Selector de tallas: 22 px de alto era un blanco demasiado fino para el
+   pulgar; se agranda sin cambiar la tipografía ni romper la fila. */
+html[data-vm-device="phone"] .size-chip {
+  min-height: 32px;
+  padding-top: .3rem !important;
+  padding-bottom: .3rem !important;
+}
+
+/* Pestañas y chips largos: se deslizan con imán en vez de cortarse */
+html[data-vm-device="phone"] nav[class*="overflow-x-auto"],
+html[data-vm-device="phone"] [class*="overflow-x-auto"] > nav {
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+html[data-vm-device="phone"] nav[class*="overflow-x-auto"] > a,
+html[data-vm-device="phone"] [class*="overflow-x-auto"] > nav > a {
+  scroll-snap-align: start;
+}
+
+/* Sin ratón no hay hover: se anulan los desplazamientos que dejan
+   elementos "flotando" después de tocarlos. */
+html[data-vm-input="touch"] [class*="hover:-translate-y"],
+html[data-vm-input="touch"] [class*="hover:scale-"] {
+  transform: none !important;
+}
+html[data-vm-input="touch"] * {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------- 10.2 Teléfono: densidad y navegación ---------- */
+@media (max-width: 639.98px), (orientation: landscape) and (max-height: 500px) {
+  /* El header del catálogo mide ~170 px en móvil (tres filas): el contenido
+     necesita empezar por debajo o la primera sección queda tapada. */
+  main.pt-36 { padding-top: 11rem !important; }
+
+  /* Secciones pensadas para pantalla completa no deben empujar el contenido
+     fuera del primer scroll en un móvil. */
+  [class*="min-h-[calc(100vh"] { min-height: auto !important; }
+
+  /* Títulos de sección con menos aire vertical */
+  [class*="py-space-4xl"] { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+  [class*="py-space-3xl"] { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+
+  /* Las tarjetas de producto ocupan el ancho y la imagen no se estira de más */
+  [class*="grid-cols-1"][class*="sm:grid-cols-2"] { gap: 0.875rem; }
+
+  /* El nav del header (asesor de estilo, guía de producto) no cabía junto al
+     logo y los botones: desbordaba 34 px y el último enlace quedaba cortado.
+     Se deja encoger y desplazar en horizontal en vez de empujar la página. */
+  header nav {
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  header nav::-webkit-scrollbar { display: none; }
+  header nav > a { flex: 0 0 auto; }
+}
+
+/* Móvil en horizontal: la barra superior no puede comerse la pantalla */
+@media (orientation: landscape) and (max-height: 500px) {
+  header.fixed.top-0 .h-20 { height: 3.5rem !important; }
+  header.fixed.top-0 .bg-inverse-surface { display: none !important; }
+  main.pt-36 { padding-top: 6.5rem !important; }
+}
+
+/* ---------- 10.3 Tablet: dos columnas reales y modales contenidos ---------- */
+@media (min-width: 640px) and (max-width: 1199.98px) {
+  /* La ficha de producto y el hub ya usan md:; aquí solo se evita que un
+     modal de escritorio se pegue a los bordes. */
+  .fixed.inset-0 [role="dialog"],
+  .fixed.inset-0 .max-w-3xl,
+  .fixed.inset-0 .max-w-4xl {
+    max-width: min(92vw, 46rem) !important;
+  }
+
+  /* En horizontal el panel lateral de POS/Admin ya se colapsa (regla 9);
+     se le da algo más de aire a las tarjetas de métricas. */
+  .pl-64 main [class*="grid-cols-2"] { gap: 0.875rem; }
+
+  /* La fila de categorías del catálogo desborda ~18 px a 820: se aprieta
+     el relleno de los enlaces para que quepa sin cortar «Tienda VR». */
+  header nav[class*="whitespace-nowrap"] > a { padding-left: .55rem !important; padding-right: .55rem !important; }
+  header nav[class*="whitespace-nowrap"] { gap: .15rem !important; }
+}
+
+/* ---------- 10.4 Laptop: 1280–1366 px de ancho y ~768 px de alto ---------- */
+@media (min-width: 1200px) and (max-width: 1439.98px) {
+  /* Con 768 px de alto, 144 px de header + hero dejaban el contenido
+     principal por debajo del pliegue. Se comprime el ritmo vertical. */
+  main.pt-36 { padding-top: 9.5rem !important; }
+  [class*="py-space-4xl"] { padding-top: 3.25rem !important; padding-bottom: 3.25rem !important; }
+  [class*="py-space-3xl"] { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+  [class*="max-h-[720px]"] { max-height: 70vh !important; }
+  [class*="min-h-[740px]"] { min-height: 0 !important; }
+}
+
+/* Portátiles bajos (1366×768, 1440×900 con barras): el hero no debe
+   ocupar más de dos tercios de la ventana. */
+@media (min-width: 1024px) and (max-height: 820px) {
+  [class*="min-h-[620px]"], [class*="min-h-[680px]"], [class*="min-h-[720px]"] {
+    min-height: 0 !important;
+  }
+  [class*="h-[520px]"] { height: min(58vh, 480px) !important; }
+}
+
+/* ---------- 10.5 Escritorio ancho: aprovechar el espacio ---------- */
+@media (min-width: 1440px) {
+  .max-w-container-max { max-width: 84rem !important; }
+}
+@media (min-width: 1600px) {
+  .max-w-container-max { max-width: 88rem !important; }
+  /* Cuarta tarjeta en la vitrina del catálogo (el resto de grids no se toca) */
+  main .grid[class*="grid-cols-1"][class*="xl:grid-cols-3"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
+/* ---------- 10.6 Menos movimiento si el sistema lo pide ---------- */
+html[data-vm-reduced="true"] *,
+html[data-vm-reduced="true"] *::before,
+html[data-vm-reduced="true"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* ==========================================================================
+   11. PORTAL DE ACCESO
+   Los estilos propios del split viven en /css/catalogo-secciones.css; aquí
+   solo se resuelve la altura en pantallas bajas y el móvil apaisado.
+   ========================================================================== */
+@media (max-width: 1023.98px) {
+  .auth-page { align-items: flex-start; }
+}
+
+/* Portátiles de 768 px de alto: el margen exterior se come la tarjeta y
+   obliga a hacer scroll en un formulario que debería caber de una vez. */
+@media (min-width: 1024px) and (max-height: 820px) {
+  .auth-page { padding: 1rem; }
+}
+
+/* Móvil en horizontal: sin panel editorial, el formulario necesita la altura */
+@media (orientation: landscape) and (max-height: 560px) {
+  .auth-visual { display: none; }
+  .auth-page { align-items: flex-start; }
+  .auth-panel { padding: 1rem 1.25rem 1.5rem; }
 }

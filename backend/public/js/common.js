@@ -393,12 +393,112 @@
     });
   }
 
+  // ---------- tema claro / oscuro (persistente) ----------
+  // La clave es la misma que lee el script anti-flash inyectado en el <head>.
+  const THEME_KEY = 'theme';
+  const html = document.documentElement;
+  const prefersDark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+  function savedTheme() {
+    try {
+      const t = localStorage.getItem(THEME_KEY);
+      return t === 'dark' || t === 'light' ? t : null;
+    } catch { return null; }
+  }
+
+  function activeTheme() {
+    return html.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  }
+
+  function syncThemeToggle(btn) {
+    const dark = activeTheme() === 'dark';
+    btn.setAttribute('aria-pressed', String(dark));
+    btn.setAttribute('aria-label', dark ? 'Activar tema claro' : 'Activar tema oscuro');
+    btn.title = dark ? 'Tema claro' : 'Tema oscuro';
+  }
+
+  /** Aplica el tema al <html>; por defecto también lo persiste. */
+  function applyTheme(theme, persist = true) {
+    const next = theme === 'dark' ? 'dark' : 'light';
+    html.setAttribute('data-theme', next);
+    html.style.colorScheme = next;
+    if (persist) {
+      try { localStorage.setItem(THEME_KEY, next); } catch { /* modo privado */ }
+    }
+
+    // Barra del navegador móvil a juego con la superficie
+    let meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.name = 'theme-color';
+      document.head.appendChild(meta);
+    }
+    meta.content = next === 'dark' ? '#121013' : '#fcf8fb';
+
+    document.querySelectorAll('[data-theme-toggle]').forEach(syncThemeToggle);
+    window.dispatchEvent(new CustomEvent('vm:theme', { detail: { theme: next } }));
+  }
+
+  /** Alterna claro/oscuro y recuerda la elección en localStorage. */
+  function toggleTheme() {
+    applyTheme(activeTheme() === 'dark' ? 'light' : 'dark');
+  }
+
+  function mountThemeToggle() {
+    if (!document.body || document.querySelector('[data-theme-toggle]')) return;
+    // La tienda VR es una experiencia inmersiva con su propia barra inferior:
+    // un botón flotante ahí taparía los controles.
+    if (location.pathname === '/tienda-virtual-realidad') return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'theme-toggle';
+    // POS y almacén tienen un rail fijo a la izquierda: aparta el botón.
+    if (document.querySelector('body > aside.fixed.left-0')) btn.classList.add('theme-toggle--rail');
+    btn.setAttribute('data-theme-toggle', '');
+    btn.innerHTML = `
+      <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2"/>
+        <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"/>
+      </svg>
+      <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20.6 14.3A8.4 8.4 0 0 1 9.7 3.4a8.5 8.5 0 1 0 10.9 10.9Z"/>
+      </svg>`;
+    btn.addEventListener('click', toggleTheme);
+    document.body.appendChild(btn);
+    syncThemeToggle(btn);
+  }
+
+  // Preferencia guardada > data-theme del bootstrap anti-flash > sistema
+  const initialTheme = savedTheme()
+    || (html.getAttribute('data-theme') ? activeTheme() : (prefersDark && prefersDark.matches ? 'dark' : 'light'));
+  applyTheme(initialTheme, false);
+  mountThemeToggle();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mountThemeToggle, { once: true });
+  }
+
+  // Si el usuario no ha elegido, seguir al sistema; sincronizar entre pestañas.
+  if (prefersDark) {
+    const onScheme = (e) => { if (!savedTheme()) applyTheme(e.matches ? 'dark' : 'light', false); };
+    if (prefersDark.addEventListener) prefersDark.addEventListener('change', onScheme);
+    else if (prefersDark.addListener) prefersDark.addListener(onScheme);
+  }
+  window.addEventListener('storage', (e) => {
+    if (e.key !== THEME_KEY) return;
+    if (e.newValue === 'dark' || e.newValue === 'light') applyTheme(e.newValue, false);
+    else applyTheme(prefersDark && prefersDark.matches ? 'dark' : 'light', false);
+  });
+
+  // Acceso directo para botones con onclick="toggleTheme()"
+  window.toggleTheme = toggleTheme;
+
   window.VM = {
     api, refreshMe, getUser, getToken, setSession, clearSession, requireRole, homeForRole, ROUTES, fixLinks,
     fmtUSD, fmtCOP, fmtQty, esc, initials, timeAgo, qs, toast, addToCart, updateCartBadge, refreshCartBadge,
     modelShortName, modelChipHtml,
     aiChat, aiSessionKey, aiSessionReset, aiFeedback, aiExtrasHtml, aiTypingHtml,
     paintUserChip, guestCart, elFromText, closestByTag, plural,
+    toggleTheme, applyTheme, theme: { current: activeTheme, apply: applyTheme, toggle: toggleTheme },
   };
 
   // Al cargar: rutas, identidad y badge

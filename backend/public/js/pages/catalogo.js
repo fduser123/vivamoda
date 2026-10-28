@@ -26,6 +26,108 @@
     view: 'grid',
   };
 
+  // ---------- identidad por sección ----------
+  // Cada colección tiene su paleta (ver /css/catalogo-secciones.css) y su
+  // propio relato de portada. La ruta manda: /catalogo-caballeros y
+  // /catalogo-ninos sirven la misma página pero no deben parecer «Damas».
+  const SECCIONES = {
+    damas: {
+      kicker: 'Nueva Temporada · Damas',
+      titulo: 'Texturas que celebran tu <span class="hero-highlight">estilo audaz</span>.',
+      lead: 'Vestidos, sastrería suave y punto de temporada en una paleta magenta. Piezas pensadas para mezclar capas y durar más allá de la tendencia.',
+      ctas: [
+        { label: 'Explorar Damas', href: '#catalogo' },
+        { label: 'Colección Caballeros', href: '/catalogo-caballeros' },
+        { label: 'Moda Infantil', href: '/catalogo-ninos' },
+      ],
+    },
+    caballeros: {
+      kicker: 'Nueva Temporada · Caballeros',
+      titulo: 'Sastrería precisa, <span class="hero-highlight">actitud contemporánea</span>.',
+      lead: 'Trajes ligeros, camisas oxford y básicos de algodón en azul profundo y tonos arena. Cortes limpios para la oficina, el fin de semana y el viaje.',
+      ctas: [
+        { label: 'Explorar Caballeros', href: '#catalogo' },
+        { label: 'Ver Damas', href: '/catalogo-de-productos' },
+        { label: 'Moda Infantil', href: '/catalogo-ninos' },
+      ],
+    },
+    ninos: {
+      kicker: 'Nueva Temporada · Niños',
+      titulo: 'Comodidad que acompaña <span class="hero-highlight">cada aventura</span>.',
+      lead: 'Conjuntos suaves, denim elástico y calzado escolar en naranja cálido y verde menta. Tejidos que aguantan juego, lavado y crecimiento.',
+      ctas: [
+        { label: 'Explorar Niños', href: '#catalogo' },
+        { label: 'Ver Damas', href: '/catalogo-de-productos' },
+        { label: 'Ver Caballeros', href: '/catalogo-caballeros' },
+      ],
+    },
+  };
+  const SECCION_ACTUAL = location.pathname === '/catalogo-caballeros' ? 'caballeros'
+    : location.pathname === '/catalogo-ninos' ? 'ninos'
+    : location.pathname === '/catalogo-de-productos' ? 'damas' : null;
+
+  // La portada cambia de protagonista: modelo para Damas, modelo para
+  // Caballeros y niño para Niños. Las tres fuentes se guardan antes de
+  // intercambiarlas para que el cambio se pueda repetir sin perder ninguna.
+  const HERO_FOTOS = {
+    mujer: { src: (document.getElementById('heroSlotA') || {}).src, alt: 'Modelo con abrigo fucsia oversized en una editorial urbana.' },
+    hombre: { src: (document.getElementById('heroSlotB') || {}).src, alt: 'Modelo con blazer azul cobalto y sastrería ligera.' },
+    nino: { src: (document.getElementById('heroSlotC') || {}).src, alt: 'Niño con chaqueta estampada en una calle de la ciudad.' },
+  };
+  const HERO_ORDEN = {
+    damas: ['mujer', 'hombre', 'nino'],
+    caballeros: ['hombre', 'mujer', 'nino'],
+    ninos: ['nino', 'mujer', 'hombre'],
+  };
+
+  function aplicarIdentidadSeccion() {
+    if (!SECCION_ACTUAL) return;
+    const s = SECCIONES[SECCION_ACTUAL];
+    document.documentElement.dataset.catalogo = SECCION_ACTUAL;
+    const setText = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+    setText('heroKicker', s.kicker);
+    const title = document.getElementById('heroTitle');
+    if (title) title.innerHTML = s.titulo;
+    setText('heroLead', s.lead);
+    s.ctas.forEach((cta, i) => {
+      const link = document.querySelector(`[data-hero-cta="${i + 1}"]`);
+      const label = document.getElementById(`heroCta${i + 1}Label`);
+      if (label) label.textContent = cta.label;
+      if (link) link.setAttribute('href', cta.href);
+    });
+    const orden = HERO_ORDEN[SECCION_ACTUAL];
+    if (orden) {
+      ['heroSlotA', 'heroSlotB', 'heroSlotC'].forEach((id, i) => {
+        const img = document.getElementById(id);
+        const foto = HERO_FOTOS[orden[i]];
+        if (img && foto && foto.src) {
+          img.src = foto.src;
+          img.alt = foto.alt;
+        }
+      });
+    }
+    let tarjetaActiva = null;
+    document.querySelectorAll('.cat-switch-card').forEach((card) => {
+      const activa = card.dataset.cat === SECCION_ACTUAL;
+      card.classList.toggle('is-active', activa);
+      if (activa) {
+        card.setAttribute('aria-current', 'page');
+        tarjetaActiva = card;
+      } else {
+        card.removeAttribute('aria-current');
+      }
+    });
+    // En teléfono el selector es una tira horizontal: si la sección activa es
+    // la tercera tarjeta, hay que llevarla a la vista sin mover la página.
+    const tira = document.querySelector('.cat-switch');
+    if (tarjetaActiva && tira && tira.scrollWidth > tira.clientWidth + 2) {
+      requestAnimationFrame(() => {
+        tira.scrollLeft = tarjetaActiva.offsetLeft - tira.clientWidth / 2 + tarjetaActiva.clientWidth / 2;
+      });
+    }
+  }
+  aplicarIdentidadSeccion();
+
   const $ = (id) => document.getElementById(id);
   const grid = $('catalogGrid');
   const counter = $('productCounter');
@@ -268,6 +370,7 @@
     'catalogo-de-productos': '/catalogo-de-productos', 'catalogo-caballeros': '/catalogo-caballeros',
     'catalogo-ninos': '/catalogo-ninos', 'novedades': '/novedades', 'ofertas-flash': '/ofertas-flash',
     'detalle-de-producto': '/detalle-de-producto?sku=VM-DAM-ATELIER', 'hub-agente-ia': '/hub-agente-ia',
+    'tienda-virtual-realidad': '/tienda-virtual-realidad',
     'pedidos-y-pos': '/pedidos-y-pos', 'panel-de-almacen-y-ventas': '/panel-de-almacen-y-ventas',
     'iniciar-sesion': '/iniciar-sesion', 'lista-de-deseos': '/lista-de-deseos', 'carrito-de-compras': '/carrito-de-compras',
     'perfil-de-usuario': '/perfil-de-usuario', 'seguimiento-de-pedidos': '/seguimiento-de-pedidos',
@@ -285,6 +388,7 @@
     : location.pathname === '/ofertas-flash' ? '/ofertas-flash' : '/catalogo-de-productos';
   navLinks.forEach((a) => {
     const matches = new URL(a.href, location.origin).pathname === activePath && !/ateli/i.test(a.href);
+    a.classList.toggle('nav-activa', matches);
     a.classList.toggle('bg-primary', matches);
     a.classList.toggle('text-on-primary', matches);
     a.classList.toggle('rounded-lg', matches);
